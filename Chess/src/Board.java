@@ -18,5 +18,8 @@ public class Board {
         return board[x][y];
     }
 
-    
+    private void setupTiles(){
+
+    }
+
 }
