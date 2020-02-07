@@ -1,8 +1,8 @@
 package pieces;
 
-public class Rook extends Piece {
+public class King extends Piece {
 
-    public Rook(int posX, int posY, Color color){
+    public King(int posX, int posY, Color color){
         super(posX, posY, color);
     }
 
@@ -10,7 +10,8 @@ public class Rook extends Piece {
     public boolean canMove(int desX, int desY) {
         //Can't move over own pieces. So has to stop tile before own piece.
         //Can move to enemy piece(Eat) but not over it.
-        //Can move only one way forwards, backwards, left and right.
+        //Can't move to under enemy fire.
+        //Can only move one tile at the time and direction
 
         return true;
     }
