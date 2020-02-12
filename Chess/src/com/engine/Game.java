@@ -18,6 +18,8 @@ public class Game {
         //System.out.println("---");
         //board.getTile(new int[]{3,2}).getPiece().getAvailableMoves(board);
         System.out.println("---");
+        board.getTile(new int[]{0,3}).getPiece().getAvailableMoves(board);
+        System.out.println("---");
         board.getTile(new int[]{1,3}).getPiece().getAvailableMoves(board);
         System.out.println("---");
         board.getTile(new int[]{6,5}).getPiece().getAvailableMoves(board);
