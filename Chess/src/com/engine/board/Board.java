@@ -22,6 +22,45 @@ public class Board {
                 setup[x][y] = new Tile(new int[]{x, y});
             }
         }
+
+        /**
+         * TESTS
+         */
+
+        /**
+         * PAWN
+         */
+        //setup[2][3] = new Tile(new int[]{2,3}, new Pawn(Alliance.WHITE,new int[]{2,3}));
+        //setup[3][2] = new Tile(new int[]{3,2}, new Knight(Alliance.BLACK,new int[]{3,2}));
+        //setup[4][5] = new Tile(new int[]{4,5}, new Pawn(Alliance.WHITE,new int[]{4,5}));
+
+        /**
+         * ROOK
+         */
+        setup[2][3] = new Tile(new int[]{2,3}, new Rook(Alliance.WHITE,new int[]{2,3}));
+        //setup[3][2] = new Tile(new int[]{3,2}, new Rook(Alliance.BLACK,new int[]{3,2}));
+        //setup[4][5] = new Tile(new int[]{4,5}, new Rook(Alliance.WHITE,new int[]{4,5}));
+        //setup[3][5] = new Tile(new int[]{3,5}, new Rook(Alliance.WHITE,new int[]{3,5}));
+
+        /**
+         * BISHOP
+         */
+        //setup[3][0] = new Tile(new int[]{3, 0}, new Bishop(Alliance.BLACK, new int[]{3,0}));
+        //setup[4][4] = new Tile(new int[]{4, 4}, new Bishop(Alliance.BLACK, new int[]{4,4}));
+        //setup[5][5] = new Tile(new int[]{5, 5}, new Bishop(Alliance.WHITE, new int[]{5,5}));
+        //setup[4][6] = new Tile(new int[]{4, 6}, new Bishop(Alliance.WHITE, new int[]{4,6}));
+
+        /**
+         * KNIGHT
+         */
+        //setup[3][0] = new Tile(new int[]{3, 0}, new Knight(Alliance.BLACK, new int[]{3,0}));
+        //setup[4][4] = new Tile(new int[]{4, 4}, new Knight(Alliance.BLACK, new int[]{4,4}));
+        //setup[5][5] = new Tile(new int[]{5, 5}, new Knight(Alliance.WHITE, new int[]{5,5}));
+        //setup[4][6] = new Tile(new int[]{4, 6}, new Knight(Alliance.WHITE, new int[]{4,6}));
+        //setup[4][7] = new Tile(new int[]{4, 7}, new Knight(Alliance.WHITE, new int[]{4,7}));
+
+
+
         /**
          * BLACK
          */
@@ -42,15 +81,9 @@ public class Board {
         setup[1][6] = new Tile(new int[]{1,6}, new Pawn(Alliance.BLACK,new int[]{1,6}));
         setup[1][7] = new Tile(new int[]{1,7}, new Pawn(Alliance.BLACK,new int[]{1,7}));
 
-
-        setup[2][3] = new Tile(new int[]{2,3}, new Pawn(Alliance.BLACK,new int[]{2,3}));
-        setup[3][2] = new Tile(new int[]{3,2}, new Knight(Alliance.BLACK,new int[]{3,2}));
-
         /**
          * WHITE
          */
-        setup[4][5] = new Tile(new int[]{4,5}, new Pawn(Alliance.WHITE,new int[]{4,5}));
-
 
         setup[6][0] = new Tile(new int[]{6,0}, new Pawn(Alliance.WHITE,new int[]{6,0}));
         setup[6][1] = new Tile(new int[]{6,1}, new Pawn(Alliance.WHITE,new int[]{6,1}));

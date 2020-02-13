@@ -25,7 +25,6 @@ public class Knight extends Piece {
         int x = Math.abs(this.getPosition()[0] - destinationCoords[0]);
         int y = Math.abs(this.getPosition()[1] - destinationCoords[1]);
 
-
         return x*y == 2;
     }
 }

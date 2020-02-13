@@ -31,10 +31,10 @@ public abstract class Piece {
                     availableMoves.add(new Move(board, this, new int[]{x, y}));
                     String attack = board.getTile(new int[]{x, y}).getPiece() == null ? "" : " ? "+board.getTile(new int[]{x, y}).getPiece().toString();
                     System.out.println(Arrays.toString(this.getPosition())+" -> "+Arrays.toString(new int[]{x, y})+""+attack);
+                    System.out.println();
                 }
             }
         }
-
         return availableMoves;
     }
 

@@ -7,6 +7,8 @@ import com.engine.PieceType;
 import com.engine.board.Board;
 import com.engine.board.Tile;
 
+import java.util.Arrays;
+
 public class Pawn extends Piece {
 
     private boolean firstMove;
@@ -15,9 +17,7 @@ public class Pawn extends Piece {
         super(alliance, piecePosition, PieceType.PAWN);
         firstMove = true;
     }
-
-    //TODO:
-    //Check moving path. Can't jump over pieces.
+    // PUUTTUU -> https://en.wikipedia.org/wiki/En_passant
     @Override
     public boolean canMove(Board board, int[] destinationCoords) {
         if(!GameUtils.coordsInGameBoard(destinationCoords))
@@ -25,25 +25,21 @@ public class Pawn extends Piece {
 
         Tile destinationTile = board.getTile((destinationCoords));
 
-        if(destinationTile.getPiece() != null && destinationTile.getPiece().getAlliance() == this.getAlliance())
-            return false;
-
         int x = Math.abs(this.getPosition()[0] - destinationCoords[0]);
         int y = Math.abs(this.getPosition()[1] - destinationCoords[1]);
 
-        /*
-        for(int i = x; i < 0; i--){
-            for(int j = y; j <= 0; j--){
-                System.out.println((destinationCoords[0]-i)+" : "+(destinationCoords[1]-j));
-                if(board.getTile(new int[]{destinationCoords[0]-i, destinationCoords[1]-j}).getPiece() != null){
-                    return false;
-                }
-            }
-        }*/
-
-        if(x+y == 2 && destinationTile.getPiece() != null && destinationTile.getPiece().getAlliance() != this.getAlliance())
+        if(x == 1 && y == 1 && destinationTile.getPiece() != null && destinationTile.getPiece().getAlliance() != this.getAlliance())
             return true;
 
-        return firstMove ? (x == 2 || x == 1) && y == 0: x == 1 && y == 0;
+        if(destinationTile.getPiece() != null)
+            return false;
+
+        for(int i = 1; i < x; i++){
+            int[] tempPos = new int[] {this.getPosition()[0]+i, this.getPosition()[1]};
+            if(GameUtils.coordsInGameBoard(tempPos) && board.getTile(tempPos).getPiece() != null)
+                return false;
+        }
+
+        return firstMove ? (x == 2 || x == 1) && y == 0 : x == 1 && y == 0;
     }
 }
