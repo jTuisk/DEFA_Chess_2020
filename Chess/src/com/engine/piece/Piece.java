@@ -21,9 +21,12 @@ public abstract class Piece {
         this.pieceType = pieceType;
     }
 
-    public boolean canMove(List<Move> moves, Move destinationMove){
+    //EI ANNA TRUE ARVOA!
+    //Override equals @ class Move
+    public static boolean canMove(List<Move> moves, Move destinationMove){
         for(Move move : moves){
-            if(move == destinationMove)
+            System.out.println(move+" = "+destinationMove+" == "+move.equals(destinationMove));
+            if(move.equals(destinationMove))
                 return true;
         }
         return false;
@@ -48,7 +51,7 @@ public abstract class Piece {
         return pieceType.toString();
     }
 
-    public class Move {
+    public static class Move {
 
         final Board board;
         final Piece piece;
@@ -60,6 +63,14 @@ public abstract class Piece {
             this.piece = piece;
             this.destCoords = destCoords;
             this.attackedPiece = board.getTile(destCoords).getPiece();
+        }
+
+        @Override
+        public boolean equals(Object o){
+            if(!(o instanceof  Move))
+                return false;
+            Move move = (Move) o;
+            return this.destCoords[0] == ((Move) o).destCoords[0] && this.destCoords[1] == ((Move) o).destCoords[1];
         }
 
         @Override
