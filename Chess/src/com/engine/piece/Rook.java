@@ -75,21 +75,8 @@ public class Rook extends Piece{
                     }
                 }else
                     moves.add(new Move(board, this, new int[]{x,y}));
-                /*for(int i = 0; (i < x || i < y); i++){
-
-                    int[] tempCoords = x != 0 ? new int[] {piece_x+i, piece_y} : new int[] {piece_x, piece_y+i};
-
-                    if(GameUtils.coordsInGameBoard(tempCoords))
-                        continue;
-
-                    pieceOnDestinationTile = board.getTile(tempCoords).getPiece();
-                    if(GameUtils.coordsInGameBoard(pieceOnDestinationTile.getPosition()) && pieceOnDestinationTile != null)
-                        continue;
-
-                }*/
             }
         }
-
         return moves;
     }
 }
