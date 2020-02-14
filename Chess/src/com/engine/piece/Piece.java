@@ -21,8 +21,6 @@ public abstract class Piece {
         this.pieceType = pieceType;
     }
 
-    //EI ANNA TRUE ARVOA!
-    //Override equals @ class Move
     public static boolean canMove(List<Move> moves, Move destinationMove){
         for(Move move : moves){
             System.out.println(move+" = "+destinationMove+" == "+move.equals(destinationMove));
@@ -55,8 +53,8 @@ public abstract class Piece {
 
         final Board board;
         final Piece piece;
-        final Piece attackedPiece;
         final int[] destCoords;
+        final Piece attackedPiece;
 
         public Move(Board board, Piece piece, int[] destCoords){
             this.board = board;

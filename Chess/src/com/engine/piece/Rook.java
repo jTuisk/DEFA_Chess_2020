@@ -12,8 +12,12 @@ import java.util.List;
 
 public class Rook extends Piece{
 
+    //Castling - https://simple.wikipedia.org/wiki/Castling
+    private final int[] startPos;
+
     public Rook(Alliance alliance, int[] piecePosition) {
         super(alliance, piecePosition, PieceType.ROOK);
+        this.startPos = piecePosition;
     }
 
     @Override
@@ -37,13 +41,9 @@ public class Rook extends Piece{
                     boolean reachAble = true;
                     for(int i = 1; (i < piece_x) || (i < piece_y); i++){
                         int[] tempCoords = x != 0 ? new int[] {x-i, y} : new int[] {x, y-i};
-                        //System.out.println("in gameboard: "+GameUtils.coordsInGameBoard(tempCoords)+" coords: "+ Arrays.toString(tempCoords)+" hasPiece: "+(board.getTile(tempCoords).getPiece() != null));
                         if(GameUtils.coordsInGameBoard(tempCoords) && board.getTile(tempCoords).getPiece() != null)
                             reachAble = false;
                     }
-                    //System.out.println(Math.abs(this.getPosition()[0] - pieceOnDestinationTile.getPosition()[0])+"="+piece_x+ "x");
-                    //System.out.println(Math.abs(this.getPosition()[1] - pieceOnDestinationTile.getPosition()[1])+"="+piece_y+ "y");
-                    //System.out.println(reachAble);
                     if(reachAble){
                         moves.add(new Move(board, this, pieceOnDestinationTile.getPosition()));
                         continue;

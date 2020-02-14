@@ -37,7 +37,7 @@ public class Board {
         /**
          * ROOK
          */
-        setup[2][3] = new Tile(new int[]{2,3}, new Rook(Alliance.WHITE,new int[]{2,3}));
+        //setup[2][3] = new Tile(new int[]{2,3}, new Rook(Alliance.WHITE,new int[]{2,3}));
         //setup[3][2] = new Tile(new int[]{3,2}, new Rook(Alliance.BLACK,new int[]{3,2}));
         //setup[4][5] = new Tile(new int[]{4,5}, new Rook(Alliance.WHITE,new int[]{4,5}));
         //setup[3][5] = new Tile(new int[]{3,5}, new Rook(Alliance.WHITE,new int[]{3,5}));
@@ -46,9 +46,21 @@ public class Board {
          * BISHOP
          */
         //setup[3][0] = new Tile(new int[]{3, 0}, new Bishop(Alliance.BLACK, new int[]{3,0}));
+        //setup[5][2] = new Tile(new int[]{5, 2}, new Bishop(Alliance.BLACK, new int[]{5,2}));
         //setup[4][4] = new Tile(new int[]{4, 4}, new Bishop(Alliance.BLACK, new int[]{4,4}));
         //setup[5][5] = new Tile(new int[]{5, 5}, new Bishop(Alliance.WHITE, new int[]{5,5}));
         //setup[4][6] = new Tile(new int[]{4, 6}, new Bishop(Alliance.WHITE, new int[]{4,6}));
+
+        /**
+         * Queen
+         */
+        setup[4][7] = new Tile(new int[]{4, 7}, new Queen(Alliance.BLACK, new int[]{4,7}));
+        setup[5][5] = new Tile(new int[]{5, 5}, new Queen(Alliance.WHITE, new int[]{5,5}));
+        setup[4][4] = new Tile(new int[]{4, 4}, new Queen(Alliance.WHITE, new int[]{4,4}));
+        setup[3][3] = new Tile(new int[]{3, 3}, new Queen(Alliance.BLACK, new int[]{3,3}));
+        setup[2][6] = new Tile(new int[]{2, 6}, new Queen(Alliance.WHITE, new int[]{2,6}));
+
+
 
         /**
          * KNIGHT

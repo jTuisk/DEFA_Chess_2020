@@ -4,6 +4,11 @@ import com.engine.board.Board;
 import com.engine.piece.Piece;
 import com.engine.player.Player;
 
+/**
+ * https://www.youtube.com/watch?v=QDFI19lj4OM UNIT TEST
+ * DRAW FUNCTION
+ */
+
 public class Game {
 
     public static void main(String[] args){
@@ -17,11 +22,11 @@ public class Game {
         /**
          * ROOK TEST
          */
-        System.out.println("---");
-        System.out.println(board.getTile(new int[]{2,3}).getPiece().getAllAvailableMoves(board));//
-        System.out.println(Piece.canMove(board.getTile(new int[]{2,3}).getPiece().getAllAvailableMoves(board), new Piece.Move(board, board.getTile(new int[]{2,3}).getPiece(), new int[]{0,3})));
-        System.out.println(Piece.canMove(board.getTile(new int[]{2,3}).getPiece().getAllAvailableMoves(board), new Piece.Move(board, board.getTile(new int[]{2,3}).getPiece(), new int[]{1,3})));
-        System.out.println(Piece.canMove(board.getTile(new int[]{2,3}).getPiece().getAllAvailableMoves(board), new Piece.Move(board, board.getTile(new int[]{2,3}).getPiece(), new int[]{2,2})));
+        //System.out.println("---");
+        //System.out.println(board.getTile(new int[]{2,3}).getPiece().getAllAvailableMoves(board));//
+        //System.out.println(Piece.canMove(board.getTile(new int[]{2,3}).getPiece().getAllAvailableMoves(board), new Piece.Move(board, board.getTile(new int[]{2,3}).getPiece(), new int[]{0,3})));
+        //System.out.println(Piece.canMove(board.getTile(new int[]{2,3}).getPiece().getAllAvailableMoves(board), new Piece.Move(board, board.getTile(new int[]{2,3}).getPiece(), new int[]{1,3})));
+        //System.out.println(Piece.canMove(board.getTile(new int[]{2,3}).getPiece().getAllAvailableMoves(board), new Piece.Move(board, board.getTile(new int[]{2,3}).getPiece(), new int[]{2,2})));
         //System.out.println(board.getTile(new int[]{2,3}).getPiece().canMove(board, new int[]{0,3}));
         //System.out.println(board.getTile(new int[]{2,3}).getPiece().canMove(board, new int[]{1,3}));
         //System.out.println(board.getTile(new int[]{2,3}).getPiece().canMove(board, new int[]{2,3}));
@@ -67,7 +72,7 @@ public class Game {
          * BISHOP TEST
          */
         //System.out.println("---");
-        //board.getTile(new int[]{3,0}).getPiece().getAvailableMoves(board);
+        //System.out.println(board.getTile(new int[]{3,0}).getPiece().getAllAvailableMoves(board));
         //System.out.println("---");
         //board.getTile(new int[]{4,4}).getPiece().getAvailableMoves(board);
         //System.out.println("---");
@@ -79,7 +84,7 @@ public class Game {
          * KNIGHT
          */
         //System.out.println("---");
-        //board.getTile(new int[]{3,0}).getPiece().getAvailableMoves(board);
+        //board.getTile(new int[]{3,0}).getPiece().getAllAvailableMoves(board);
         //System.out.println("---");
         //board.getTile(new int[]{4,4}).getPiece().getAvailableMoves(board);
         //System.out.println("---");
@@ -89,5 +94,22 @@ public class Game {
         //System.out.println("---");
         //board.getTile(new int[]{5,5}).getPiece().getAvailableMoves(board);
 
+        /**
+         * QUEEN
+         */
+
+        System.out.println("---");
+        System.out.println(board.getTile(new int[]{3,3}).getPiece().getAllAvailableMoves(board));
+        System.out.println(board.getTile(new int[]{5,5}).getPiece().getAllAvailableMoves(board));
     }
 }
+
+/*
+
+
+        setup[4][7] = new Tile(new int[]{4, 7}, new Queen(Alliance.BLACK, new int[]{4,7}));
+        setup[5][5] = new Tile(new int[]{5, 5}, new Queen(Alliance.WHITE, new int[]{5,5}));
+        setup[4][4] = new Tile(new int[]{4, 4}, new Queen(Alliance.WHITE, new int[]{4,4}));
+        setup[3][3] = new Tile(new int[]{3, 3}, new Queen(Alliance.BLACK, new int[]{3,3}));
+        setup[2][6] = new Tile(new int[]{2, 6}, new Queen(Alliance.WHITE, new int[]{2,6}));
+ */
