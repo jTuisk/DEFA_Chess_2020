@@ -18,7 +18,7 @@ public class Game {
          * ROOK TEST
          */
         System.out.println("---");
-        System.out.println(board.getTile(new int[]{2,3}).getPiece().getAllAvailableMoves(board));
+        System.out.println(board.getTile(new int[]{2,3}).getPiece().getAllAvailableMoves(board));//
         System.out.println(Piece.canMove(board.getTile(new int[]{2,3}).getPiece().getAllAvailableMoves(board), new Piece.Move(board, board.getTile(new int[]{2,3}).getPiece(), new int[]{0,3})));
         System.out.println(Piece.canMove(board.getTile(new int[]{2,3}).getPiece().getAllAvailableMoves(board), new Piece.Move(board, board.getTile(new int[]{2,3}).getPiece(), new int[]{1,3})));
         System.out.println(Piece.canMove(board.getTile(new int[]{2,3}).getPiece().getAllAvailableMoves(board), new Piece.Move(board, board.getTile(new int[]{2,3}).getPiece(), new int[]{2,2})));
