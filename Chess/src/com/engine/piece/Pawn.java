@@ -8,6 +8,7 @@ import com.engine.board.Board;
 import com.engine.board.Tile;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class Pawn extends Piece {
 
@@ -17,6 +18,7 @@ public class Pawn extends Piece {
         super(alliance, piecePosition, PieceType.PAWN);
         firstMove = true;
     }
+    /*
     // PUUTTUU -> https://en.wikipedia.org/wiki/En_passant
     @Override
     public boolean canMove(Board board, int[] destinationCoords) {
@@ -41,5 +43,10 @@ public class Pawn extends Piece {
         }
 
         return firstMove ? (x == 2 || x == 1) && y == 0 : x == 1 && y == 0;
+    }*/
+
+    @Override
+    public List<Move> getAllAvailableMoves(Board board) {
+        return null;
     }
 }

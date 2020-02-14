@@ -17,16 +17,16 @@ public class Game {
          * ROOK TEST
          */
         System.out.println("---");
-        //board.getTile(new int[]{2,3}).getPiece().getAvailableMoves(board);
-        System.out.println(board.getTile(new int[]{2,3}).getPiece().canMove(board, new int[]{0,3}));
-        System.out.println(board.getTile(new int[]{2,3}).getPiece().canMove(board, new int[]{1,3}));
-        System.out.println(board.getTile(new int[]{2,3}).getPiece().canMove(board, new int[]{2,3}));
-        System.out.println(board.getTile(new int[]{2,3}).getPiece().canMove(board, new int[]{3,3}));
-        System.out.println(board.getTile(new int[]{2,3}).getPiece().canMove(board, new int[]{4,3}));
-        System.out.println(board.getTile(new int[]{2,3}).getPiece().canMove(board, new int[]{5,3}));
-        System.out.println(board.getTile(new int[]{2,3}).getPiece().canMove(board, new int[]{6,3}));
-        System.out.println(board.getTile(new int[]{2,3}).getPiece().canMove(board, new int[]{7,3}));
-        System.out.println("---");
+        System.out.println(board.getTile(new int[]{2,3}).getPiece().getAllAvailableMoves(board));
+        //System.out.println(board.getTile(new int[]{2,3}).getPiece().canMove(board, new int[]{0,3}));
+        //System.out.println(board.getTile(new int[]{2,3}).getPiece().canMove(board, new int[]{1,3}));
+        //System.out.println(board.getTile(new int[]{2,3}).getPiece().canMove(board, new int[]{2,3}));
+        //System.out.println(board.getTile(new int[]{2,3}).getPiece().canMove(board, new int[]{3,3}));
+        //System.out.println(board.getTile(new int[]{2,3}).getPiece().canMove(board, new int[]{4,3}));
+        //System.out.println(board.getTile(new int[]{2,3}).getPiece().canMove(board, new int[]{5,3}));
+        //System.out.println(board.getTile(new int[]{2,3}).getPiece().canMove(board, new int[]{6,3}));
+        //System.out.println(board.getTile(new int[]{2,3}).getPiece().canMove(board, new int[]{7,3}));
+        //System.out.println("---");
         /*board.getTile(new int[]{3,2}).getPiece().getAvailableMoves(board);
         System.out.println("---");
         board.getTile(new int[]{4,5}).getPiece().getAvailableMoves(board);

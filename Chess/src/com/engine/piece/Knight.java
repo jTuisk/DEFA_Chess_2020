@@ -13,7 +13,7 @@ public class Knight extends Piece {
         super(alliance, piecePosition, PieceType.KNIGHT);
     }
 
-
+/*
     @Override
     public boolean canMove(Board board, int[] destinationCoords) {
         if(!GameUtils.coordsInGameBoard(destinationCoords))
@@ -26,5 +26,10 @@ public class Knight extends Piece {
         int y = Math.abs(this.getPosition()[1] - destinationCoords[1]);
 
         return x*y == 2;
+    }*/
+
+    @Override
+    public List<Move> getAllAvailableMoves(Board board) {
+        return null;
     }
 }

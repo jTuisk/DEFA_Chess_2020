@@ -21,22 +21,15 @@ public abstract class Piece {
         this.pieceType = pieceType;
     }
 
-    public abstract boolean canMove(Board board, int[] destinationCoords);
-
-    public List<Move> getAvailableMoves(Board board){
-        List<Move> availableMoves = new ArrayList<>();
-        for(int x = 0; x < GameUtils.GAME_BOARD_SIZE_HEIGHT; x++){
-            for(int y = 0; y < GameUtils.GAME_BOARD_SIZE_WIDTH; y++){
-                if(canMove(board, new int[]{x,y})){
-                    availableMoves.add(new Move(board, this, new int[]{x, y}));
-                    String attack = board.getTile(new int[]{x, y}).getPiece() == null ? "" : " ? "+board.getTile(new int[]{x, y}).getPiece().toString();
-                    System.out.println(Arrays.toString(this.getPosition())+" -> "+Arrays.toString(new int[]{x, y})+""+attack);
-                    System.out.println();
-                }
-            }
+    public boolean canMove(List<Move> moves, Move destinationMove){
+        for(Move move : moves){
+            if(move == destinationMove)
+                return true;
         }
-        return availableMoves;
+        return false;
     }
+
+    public abstract List<Move> getAllAvailableMoves(Board board);
 
     public int[] getPosition(){
         return this.piecePosition;

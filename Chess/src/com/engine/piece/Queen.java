@@ -14,7 +14,7 @@ public class Queen extends Piece {
 
     //TODO:
     //Check moving path. Can't jump over pieces.
-    @Override
+   /* @Override
     public boolean canMove(Board board, int[] destinationCoords) {
         if(board.getTile(destinationCoords).getPiece() != null && board.getTile(destinationCoords).getPiece().getAlliance() == this.getAlliance())
             return false;
@@ -23,5 +23,10 @@ public class Queen extends Piece {
         int y = Math.abs(this.getPosition()[1] - destinationCoords[1]);
 
         return x==y;
+    }*/
+
+    @Override
+    public List<Move> getAllAvailableMoves(Board board) {
+        return null;
     }
 }

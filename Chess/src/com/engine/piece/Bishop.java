@@ -5,12 +5,15 @@ import com.engine.GameUtils;
 import com.engine.PieceType;
 import com.engine.board.Board;
 
+import java.util.List;
+
 public class Bishop extends Piece{
 
     public Bishop(Alliance alliance, int[] piecePosition) {
         super(alliance, piecePosition, PieceType.BISHOP);
     }
 
+    /*
     @Override
     public boolean canMove(Board board, int[] destinationCoords) {
         if(board.getTile(destinationCoords).getPiece() != null && board.getTile(destinationCoords).getPiece().getAlliance() == this.getAlliance())
@@ -25,5 +28,10 @@ public class Bishop extends Piece{
                 return false;
         }
         return x==y;
+    }*/
+
+    @Override
+    public List<Move> getAllAvailableMoves(Board board) {
+        return null;
     }
 }
