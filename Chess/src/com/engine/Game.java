@@ -19,7 +19,7 @@ public class Game {
         Board board = new Board();
         System.out.println(board.toString());
 
-        UserInterface ui = new UserInterface();
+        UserInterface ui = new UserInterface(board);
 
 
         /**
