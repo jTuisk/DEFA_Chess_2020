@@ -21,13 +21,15 @@ public class GameBoard {
     }
 
     public static JPanel setupGameBoard(){
-        JPanel board = new JPanel();
-        board.setSize(GameUtils.BOARD_FRAME_SIZE);
-        board.setLocation(0,0);
-        board.setBackground(Color.BLACK);
+        JPanel mainBoard = new JPanel(); // have numbers and charachers.
+        JPanel chessBoard = new JPanel(); // chess board (tiles 8x8)
+        JPanel data = new JPanel(); // have timer, who's turn, lost pieces ect..
+        mainBoard.setSize(GameUtils.BOARD_FRAME_SIZE);
+        mainBoard.setLocation(0,0);
+        mainBoard.setBackground(Color.BLACK);
         //board.setLayout(new GridLayout(8,8));
 
 
-        return board;
+        return mainBoard;
     }
 }
