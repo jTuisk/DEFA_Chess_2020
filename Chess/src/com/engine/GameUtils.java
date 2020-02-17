@@ -27,7 +27,7 @@ public class GameUtils {
      */
     public static final Dimension GUI_FRAME_SIZE = new Dimension(800, 600);
     public static final Dimension BOARD_FRAME_SIZE = new Dimension(600,600);
-    public static final Dimension SINGLE_TILE_SIZE = new Dimension(75,75);
+    public static final Dimension SINGLE_TILE_SIZE = new Dimension(65,65);
     public static final Color DARK_TILE_COLOR = new Color(125, 135, 150);
     public static final Color LIGHT_TILE_COLOR = new Color(232, 235, 239);
     public static final Point GUI_FRAME_POSITION = new Point((Toolkit.getDefaultToolkit().getScreenSize().width/2) - (GUI_FRAME_SIZE.width/2),
