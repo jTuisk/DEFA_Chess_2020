@@ -1,5 +1,7 @@
 package com.engine;
 
+import java.awt.*;
+
 public class GameUtils {
 
     /**
@@ -20,4 +22,8 @@ public class GameUtils {
         return (coords[0] >= 0 && coords[0] < GAME_BOARD_SIZE_HEIGHT && coords[1] >= 0 && coords[1] < GAME_BOARD_SIZE_WIDTH);
     }
 
+    /**
+     * GAME GUI
+     */
+    public static final Dimension GUI_FRAME_SIZE = new Dimension(800, 600);
 }

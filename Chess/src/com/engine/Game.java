@@ -3,6 +3,7 @@ package com.engine;
 import com.engine.board.Board;
 import com.engine.piece.Piece;
 import com.engine.player.Player;
+import com.engine.ui.UserInterface;
 
 /**
  * https://www.youtube.com/watch?v=QDFI19lj4OM UNIT TEST
@@ -17,6 +18,8 @@ public class Game {
 
         Board board = new Board();
         System.out.println(board.toString());
+
+        UserInterface ui = new UserInterface();
 
 
         /**
@@ -98,18 +101,8 @@ public class Game {
          * QUEEN
          */
 
-        System.out.println("---");
-        System.out.println(board.getTile(new int[]{3,3}).getPiece().getAllAvailableMoves(board));
-        System.out.println(board.getTile(new int[]{5,5}).getPiece().getAllAvailableMoves(board));
+        //System.out.println("---");
+        //System.out.println(board.getTile(new int[]{3,3}).getPiece().getAllAvailableMoves(board));
+        //System.out.println(board.getTile(new int[]{5,5}).getPiece().getAllAvailableMoves(board));
     }
 }
-
-/*
-
-
-        setup[4][7] = new Tile(new int[]{4, 7}, new Queen(Alliance.BLACK, new int[]{4,7}));
-        setup[5][5] = new Tile(new int[]{5, 5}, new Queen(Alliance.WHITE, new int[]{5,5}));
-        setup[4][4] = new Tile(new int[]{4, 4}, new Queen(Alliance.WHITE, new int[]{4,4}));
-        setup[3][3] = new Tile(new int[]{3, 3}, new Queen(Alliance.BLACK, new int[]{3,3}));
-        setup[2][6] = new Tile(new int[]{2, 6}, new Queen(Alliance.WHITE, new int[]{2,6}));
- */

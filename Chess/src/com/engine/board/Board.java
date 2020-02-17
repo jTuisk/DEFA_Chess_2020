@@ -54,11 +54,11 @@ public class Board {
         /**
          * Queen
          */
-        setup[4][7] = new Tile(new int[]{4, 7}, new Queen(Alliance.BLACK, new int[]{4,7}));
-        setup[5][5] = new Tile(new int[]{5, 5}, new Queen(Alliance.WHITE, new int[]{5,5}));
-        setup[4][4] = new Tile(new int[]{4, 4}, new Queen(Alliance.WHITE, new int[]{4,4}));
-        setup[3][3] = new Tile(new int[]{3, 3}, new Queen(Alliance.BLACK, new int[]{3,3}));
-        setup[2][6] = new Tile(new int[]{2, 6}, new Queen(Alliance.WHITE, new int[]{2,6}));
+        //setup[4][7] = new Tile(new int[]{4, 7}, new Queen(Alliance.BLACK, new int[]{4,7}));
+        //setup[5][5] = new Tile(new int[]{5, 5}, new Queen(Alliance.WHITE, new int[]{5,5}));
+        //setup[4][4] = new Tile(new int[]{4, 4}, new Queen(Alliance.WHITE, new int[]{4,4}));
+        //setup[3][3] = new Tile(new int[]{3, 3}, new Queen(Alliance.BLACK, new int[]{3,3}));
+        //setup[2][6] = new Tile(new int[]{2, 6}, new Queen(Alliance.WHITE, new int[]{2,6}));
 
 
 
