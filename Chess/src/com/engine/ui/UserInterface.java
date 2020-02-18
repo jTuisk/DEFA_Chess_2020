@@ -18,27 +18,20 @@ public class UserInterface extends JFrame {
         /*MENUBAR*/
         super.setJMenuBar(createFileMenuBar());
 
-        /*BOARD PANEL*/
-
-
-        /*board = new GameBoard();
-        super.add(board);
-
-        JPanel test = new JPanel();
-        test.setBackground(Color.RED);
-        test.setSize(500, 500);
-        super.add(test);*/
-
+        /*GAME BOARD PANEL*/
         super.add(GameBoard.setupGameBoard());
+        /*DATA PANEL*/
+        super.add(GameBoard.setupDataPanel());
+
 
         super.setBackground(Color.WHITE);
         super.setLocation(GameUtils.GUI_FRAME_POSITION);
-        super.setResizable(false);
-        super.setSize(GameUtils.GUI_FRAME_SIZE);
         super.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        super.setLocationRelativeTo(null);
+        super.setSize(GameUtils.GUI_FRAME_SIZE);
+        super.setLayout(null);
+        super.setResizable(false);
         super.setVisible(true);
-        super.pack();
+        //super.pack();
     }
 
 
