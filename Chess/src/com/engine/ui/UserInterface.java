@@ -19,7 +19,8 @@ public class UserInterface extends JFrame {
         super.setJMenuBar(createFileMenuBar());
 
         /*GAME BOARD PANEL*/
-        super.add(GameBoard.setupGameBoard());
+        super.add(GameBoard.setupGameBoard(board));
+
         /*DATA PANEL*/
         super.add(GameBoard.setupDataPanel());
 
