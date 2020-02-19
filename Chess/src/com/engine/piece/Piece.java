@@ -14,11 +14,13 @@ public abstract class Piece {
     protected final Alliance alliance;
     protected final PieceType pieceType;
     protected int[] piecePosition;
+    protected boolean firstMove;
 
     Piece(Alliance alliance, int[] piecePosition, PieceType pieceType){
         this.alliance = alliance;
         this.pieceType = pieceType;
         this.piecePosition = piecePosition;
+        firstMove = true;
     }
 
     public static boolean canMove(List<Move> moves, Move destinationMove){

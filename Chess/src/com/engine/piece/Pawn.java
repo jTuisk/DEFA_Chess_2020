@@ -13,12 +13,10 @@ import java.util.List;
 
 public class Pawn extends Piece {
 
-    private boolean firstMove;
-
     public Pawn(Alliance alliance, int[] piecePosition) {
         super(alliance, piecePosition, PieceType.PAWN);
-        firstMove = true;
     }
+
     @Override
     public List<Move> getAllAvailableMoves(Board board) {
         ArrayList<Move> moves = new ArrayList<>();
@@ -29,7 +27,6 @@ public class Pawn extends Piece {
                 int piece_y  = Math.abs(this.getPosition()[1] - y);
 
                 Piece pieceOnDestinationTile = board.getTile(new int[] {x,y}).getPiece();
-
 
                 if(piece_x == 1 && piece_y == 1){
                     if(pieceOnDestinationTile != null && pieceOnDestinationTile.getAlliance() == this.alliance)
@@ -43,7 +40,6 @@ public class Pawn extends Piece {
                     continue;
 
                 moves.add(new Move(board, this, new int[]{x,y}));
-                firstMove = false;
             }
         }
         return moves;
