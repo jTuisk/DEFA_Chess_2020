@@ -67,6 +67,10 @@ public abstract class Piece {
             this.attackedPiece = board.getTile(destCoords).getPiece();
         }
 
+        public int[] getDestCoords(){
+            return this.destCoords;
+        }
+
         @Override
         public boolean equals(Object o){
             if(!(o instanceof  Move))

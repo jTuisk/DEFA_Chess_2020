@@ -18,6 +18,12 @@ import java.util.Arrays;
 
 public class GameBoard {
 
+    JPanel[][] tiles;
+
+    public GameBoard(){
+        tiles = new JPanel[GameUtils.GAME_BOARD_SIZE_WIDTH][GameUtils.GAME_BOARD_SIZE_HEIGHT];
+    }
+
     public static JPanel setupDataPanel(){
         JPanel dataPanel = new JPanel();
         dataPanel.setBounds(GameUtils.BOARD_FRAME_SIZE.width, 0, GameUtils.DATA_FRAME_SIZE.width, GameUtils.DATA_FRAME_SIZE.height);
@@ -25,7 +31,7 @@ public class GameBoard {
         return dataPanel;
     }
 
-    public static JPanel setupGameBoard(Board board) {
+    public JPanel setupGameBoard(Board board) {
         JPanel gameBoard = new JPanel();
         gameBoard.setBackground(GameUtils.BOARD_FRAME_COLOR);
         gameBoard.setBounds(0,0, GameUtils.BOARD_FRAME_SIZE.width, GameUtils.BOARD_FRAME_SIZE.height);
@@ -35,7 +41,7 @@ public class GameBoard {
 
         for(int x = 0; x < GameUtils.GAME_BOARD_SIZE_HEIGHT; x++){
             for(int y = 0; y < GameUtils.GAME_BOARD_SIZE_WIDTH; y++){
-                new BoardTile(gameBoard, board, new int[] {x, y});
+                this.tiles[x][y] = createNewTile(gameBoard, board, new int[]{x,y});
             }
         }
 
@@ -62,25 +68,22 @@ public class GameBoard {
         }
     }
 
-    private static class BoardTile {
-
-        private JPanel jPanelTile;
-
-         BoardTile(JPanel gameBoard, Board board, int[] pos){
-            this.jPanelTile = new JPanel();
-            int xPos = (GameUtils.SINGLE_TILE_SIZE.width*pos[0]) + (GameUtils.SINGLE_TILE_SIZE.width/2);
-            int yPos = (GameUtils.SINGLE_TILE_SIZE.height*pos[1]) + (GameUtils.SINGLE_TILE_SIZE.height/2);
-            this.jPanelTile.setBounds(xPos, yPos, GameUtils.SINGLE_TILE_SIZE.width, GameUtils.SINGLE_TILE_SIZE.height);
-            this.jPanelTile.setBackground(getTileBackgroundColor(pos));
-            assignTilePieceIcon(board, pos);
-
-            this.jPanelTile.addMouseListener(new MouseListener() {
-                @Override
-                public void mouseClicked(MouseEvent mouseEvent) {
-                    if(SwingUtilities.isLeftMouseButton(mouseEvent)){
-                        Game.selectedPiece = board.getTile(pos).getPiece();
-                        if(Game.selectedPiece != null)
-                            System.out.println(Game.selectedPiece+": "+Game.selectedPiece.getAlliance()+" : "+Arrays.toString(Game.selectedPiece.getPosition())+" -> "+Game.selectedPiece.getAllAvailableMoves(board));
+    public JPanel createNewTile(JPanel gameBoard, Board board, int[] pos){
+        JPanel tile = new JPanel();
+        int xPos = (GameUtils.SINGLE_TILE_SIZE.width*pos[0]) + (GameUtils.SINGLE_TILE_SIZE.width/2);
+        int yPos = (GameUtils.SINGLE_TILE_SIZE.height*pos[1]) + (GameUtils.SINGLE_TILE_SIZE.height/2);
+        tile.setBounds(xPos, yPos, GameUtils.SINGLE_TILE_SIZE.width, GameUtils.SINGLE_TILE_SIZE.height);
+        tile.setBackground(getTileBackgroundColor(pos));
+        assignTilePieceIcon(tile, board, pos);
+        tile.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                if(SwingUtilities.isLeftMouseButton(mouseEvent)){
+                    Game.selectedPiece = board.getTile(pos).getPiece();
+                    if(Game.selectedPiece != null){
+                        System.out.println(Game.selectedPiece+": "+Game.selectedPiece.getAlliance()+" : "+Arrays.toString(Game.selectedPiece.getPosition())+" -> "+Game.selectedPiece.getAllAvailableMoves(board));
+                        assignTileShadow(tile, board);
+                    }
                         /*if(Game.selectedPiece == null){
                             Game.selectedPiece = board.getTile(pos).getPiece();
                             //System.out.println(Game.selectedPiece);
@@ -108,30 +111,47 @@ public class GameBoard {
                 @Override
                 public void mouseExited(MouseEvent mouseEvent) { }
             });
-            gameBoard.add(this.jPanelTile);
+            gameBoard.add(tile);
+        return tile;
+    }
+
+    private void assignTilePieceIcon(JPanel tile, Board board, int[] pos){
+        tile.removeAll();
+        Piece piece = board.getTile(pos).getPiece();
+        if(piece != null){
+            String imgPath = "img/";
+            imgPath += piece.getAlliance().isWhite() ? "WHITE_" : "BLACK_";
+            try {
+                BufferedImage image = ImageIO.read(new File(imgPath + piece.getPieceType().getImgFileString()));
+                tile.add(new JLabel(new ImageIcon(image)));
+            }catch (Exception e){
+                System.out.println("IMG NOT FOUND!");
+            }
         }
+    }
 
-
-
-        private static Color getTileBackgroundColor(int[] pos){
-            if((pos[0] + pos[1]) % 2 == 0)
-                return GameUtils.DARK_TILE_COLOR;
-            return GameUtils.LIGHT_TILE_COLOR;
+    private void resetTileShadows(){
+        for(int x = 0; x < GameUtils.GAME_BOARD_SIZE_HEIGHT; x++){
+            for(int y = 0; y < GameUtils.GAME_BOARD_SIZE_WIDTH; y++){
+                this.tiles[x][y].setBackground(getTileBackgroundColor(new int[] {x,y}));
+            }
         }
+    }
 
-        private void assignTilePieceIcon(Board board, int[] pos){
-             this.jPanelTile.removeAll();
-             Piece piece = board.getTile(pos).getPiece();
-             if(piece != null){
-                 String imgPath = "img/";
-                    imgPath += piece.getAlliance().isWhite() ? "WHITE_" : "BLACK_";
-                 try {
-                     BufferedImage image = ImageIO.read(new File(imgPath + piece.getPieceType().getImgFileString()));
-                     this.jPanelTile.add(new JLabel(new ImageIcon(image)));
-                 }catch (Exception e){
-                    System.out.println("IMG NOT FOUND!");
-                 }
-             }
+    private void assignTileShadow(JPanel tile, Board board){
+        tile.removeAll();
+        resetTileShadows();
+        Piece piece = Game.selectedPiece;
+        if(piece != null){
+            for(Piece.Move move : Game.selectedPiece.getAllAvailableMoves(board)){
+                this.tiles[move.getDestCoords()[0]][move.getDestCoords()[1]].setBackground(Color.GREEN);
+            }
         }
+    }
+
+    private Color getTileBackgroundColor(int[] pos){
+        if((pos[0] + pos[1]) % 2 == 0)
+            return GameUtils.DARK_TILE_COLOR;
+        return GameUtils.LIGHT_TILE_COLOR;
     }
 }
