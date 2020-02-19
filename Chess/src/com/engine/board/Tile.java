@@ -6,7 +6,7 @@ public class Tile {
 
     protected final int[] tileCoords;
 
-    private final Piece piece;
+    private Piece piece;
 
     public Tile(int[] tileCoords){
         this.tileCoords = tileCoords;
@@ -15,6 +15,11 @@ public class Tile {
 
     public Tile(int[] tileCoords, Piece piece){
         this.tileCoords = tileCoords;
+        this.piece = piece;
+    }
+
+
+    public void setPiece(Piece piece){
         this.piece = piece;
     }
 

@@ -12,13 +12,13 @@ import java.util.List;
 public abstract class Piece {
 
     protected final Alliance alliance;
-    protected final int[] piecePosition;
     protected final PieceType pieceType;
+    protected int[] piecePosition;
 
     Piece(Alliance alliance, int[] piecePosition, PieceType pieceType){
         this.alliance = alliance;
-        this.piecePosition = piecePosition;
         this.pieceType = pieceType;
+        this.piecePosition = piecePosition;
     }
 
     public static boolean canMove(List<Move> moves, Move destinationMove){
@@ -31,6 +31,10 @@ public abstract class Piece {
     }
 
     public abstract List<Move> getAllAvailableMoves(Board board);
+
+    public void setPiecePosition(int[] piecePosition){
+        this.piecePosition = piecePosition;
+    }
 
     public int[] getPosition(){
         return this.piecePosition;
