@@ -1,9 +1,7 @@
 package com.engine.ui;
 
-import com.engine.Game;
 import com.engine.GameUtils;
 import com.engine.board.Board;
-import com.engine.board.Tile;
 import com.engine.piece.Piece;
 
 import javax.imageio.ImageIO;
@@ -13,12 +11,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.Arrays;
 
 
 public class GameBoard {
 
-    JPanel[][] tiles;
+    static JPanel[][] tiles;
 
     public GameBoard(){
         tiles = new JPanel[GameUtils.GAME_BOARD_SIZE_WIDTH][GameUtils.GAME_BOARD_SIZE_HEIGHT];
@@ -36,7 +33,6 @@ public class GameBoard {
         gameBoard.setBackground(GameUtils.BOARD_FRAME_COLOR);
         gameBoard.setBounds(0,0, GameUtils.BOARD_FRAME_SIZE.width, GameUtils.BOARD_FRAME_SIZE.height);
         gameBoard.setLayout(null);
-
         setupBoardCoordinateLabels(gameBoard);
 
         for(int x = 0; x < GameUtils.GAME_BOARD_SIZE_HEIGHT; x++){
@@ -79,43 +75,64 @@ public class GameBoard {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                 if(SwingUtilities.isLeftMouseButton(mouseEvent)){
-                    Game.selectedPiece = board.getTile(pos).getPiece();
-                    if(Game.selectedPiece != null){
-                        System.out.println(Game.selectedPiece+": "+Game.selectedPiece.getAlliance()+" : "+Arrays.toString(Game.selectedPiece.getPosition())+" -> "+Game.selectedPiece.getAllAvailableMoves(board));
-                        assignTileShadow(tile, board);
-                    }
-                        /*if(Game.selectedPiece == null){
-                            Game.selectedPiece = board.getTile(pos).getPiece();
-                            //System.out.println(Game.selectedPiece);
-                        }else{
-                            if(Piece.canMove(Game.selectedPiece.getAllAvailableMoves(board), new Piece.Move(board, Game.selectedPiece, pos))){
-                                Game.selectedPiece.setPiecePosition(pos);
-                                board.getTile(pos).setPiece(Game.selectedPiece);
-                                gameBoard.removeAll();
-                                gameBoard.revalidate();
-                                gameBoard.repaint();
-                                System.out.println("Move done!");
-                            }
-                        }*/
+                    if(GameUtils.SELECTED_PIECE == null){
+                        selectPiece(tile, board, pos);
                     }else{
-                        Game.selectedPiece = null;
+                        if(Piece.canMove(GameUtils.SELECTED_PIECE.getAllAvailableMoves(board), new Piece.Move(board, GameUtils.SELECTED_PIECE, pos))){
+                            board.getTile(pos).setPiece(GameUtils.SELECTED_PIECE);
+                            board.getTile(GameUtils.SELECTED_PIECE.getPosition()).setPiece(null);
+                            GameUtils.SELECTED_PIECE.setPiecePosition(pos);
+                            refreshTiles(board);
+                            deselectPiece(tile, board);
+                        }else{
+                            if(board.getTile(pos).isEmpty()){
+                                deselectPiece(tile, board);
+                            }else{
+                                selectPiece(tile, board, pos);
+                            }
+                        }
                     }
+                    }else{
+                        deselectPiece(tile, board);
+                    }
+                    refreshTiles(board);
                 }
 
                 @Override
-                public void mousePressed(MouseEvent mouseEvent) { }
+                public void mousePressed(MouseEvent mouseEvent){}
                 @Override
-                public void mouseReleased(MouseEvent mouseEvent) {  }
+                public void mouseReleased(MouseEvent mouseEvent){}
                 @Override
-                public void mouseEntered(MouseEvent mouseEvent) {  }
+                public void mouseEntered(MouseEvent mouseEvent){}
                 @Override
-                public void mouseExited(MouseEvent mouseEvent) { }
+                public void mouseExited(MouseEvent mouseEvent){}
             });
             gameBoard.add(tile);
         return tile;
     }
 
-    private void assignTilePieceIcon(JPanel tile, Board board, int[] pos){
+    private void deselectPiece(JPanel tile, Board board){
+        GameUtils.SELECTED_PIECE = null;
+        resetTileShadows(board);
+    }
+
+    private void selectPiece(JPanel tile, Board board, int[] pos){
+        GameUtils.SELECTED_PIECE = board.getTile(pos).getPiece();
+        assignTileShadow(tile, board);
+    }
+
+    public static void refreshTiles(Board board){
+        resetTileShadows(board);
+        for(int x = 0; x < tiles.length; x++){
+            for(int y = 0; y < tiles[x].length; y++){
+                assignTilePieceIcon(tiles[x][y], board, new int[] {x,y});
+                tiles[x][y].revalidate();
+                tiles[x][y].repaint();
+            }
+        }
+    }
+
+    private static void assignTilePieceIcon(JPanel tile, Board board, int[] pos){
         tile.removeAll();
         Piece piece = board.getTile(pos).getPiece();
         if(piece != null){
@@ -127,24 +144,25 @@ public class GameBoard {
             }catch (Exception e){
                 System.out.println("IMG NOT FOUND!");
             }
-        }
+        }else
+            tile.removeAll();
     }
 
-    private void resetTileShadows(){
+    private static void resetTileShadows(Board board){
         for(int x = 0; x < GameUtils.GAME_BOARD_SIZE_HEIGHT; x++){
             for(int y = 0; y < GameUtils.GAME_BOARD_SIZE_WIDTH; y++){
-                this.tiles[x][y].setBackground(getTileBackgroundColor(new int[] {x,y}));
+                GameBoard.tiles[x][y].setBorder(null);
             }
         }
+        if(GameUtils.SELECTED_PIECE != null)
+            assignTileShadow(GameBoard.tiles[GameUtils.SELECTED_PIECE.getPosition()[0]][GameUtils.SELECTED_PIECE.getPosition()[1]], board);
     }
 
-    private void assignTileShadow(JPanel tile, Board board){
-        tile.removeAll();
-        resetTileShadows();
-        Piece piece = Game.selectedPiece;
+    private static void assignTileShadow(JPanel tile, Board board){
+        Piece piece = GameUtils.SELECTED_PIECE;
         if(piece != null){
-            for(Piece.Move move : Game.selectedPiece.getAllAvailableMoves(board)){
-                this.tiles[move.getDestCoords()[0]][move.getDestCoords()[1]].setBackground(Color.GREEN);
+            for(Piece.Move move : GameUtils.SELECTED_PIECE.getAllAvailableMoves(board)){
+                GameBoard.tiles[move.getDestCoords()[0]][move.getDestCoords()[1]].setBorder(BorderFactory.createMatteBorder(3,3,3,3,GameUtils.TILE_BORDER_COLOR));
             }
         }
     }

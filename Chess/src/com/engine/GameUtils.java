@@ -1,8 +1,17 @@
 package com.engine;
 
+import com.engine.piece.Piece;
+
 import java.awt.*;
 
 public class GameUtils {
+
+    /**
+     * GAME
+     */
+    public static Alliance PLAYER_TURN = Alliance.WHITE;
+    public static Piece SELECTED_PIECE  = null;
+
 
     /**
      *  PLAYER
@@ -32,6 +41,7 @@ public class GameUtils {
     public static final Color BOARD_FRAME_COLOR = new Color(232, 232, 232);
     public static final Color DARK_TILE_COLOR = new Color(125, 135, 150);
     public static final Color LIGHT_TILE_COLOR = new Color(232, 235, 239);
+    public static final Color TILE_BORDER_COLOR = new Color(22, 204, 71);
     public static final Point GUI_FRAME_POSITION = new Point((Toolkit.getDefaultToolkit().getScreenSize().width/2) - (GUI_FRAME_SIZE.width/2),
                                                                     (Toolkit.getDefaultToolkit().getScreenSize().height/2) - (GUI_FRAME_SIZE.height/2));
 

@@ -2,6 +2,8 @@ package com.engine.board;
 
 import com.engine.piece.Piece;
 
+import java.util.Arrays;
+
 public class Tile {
 
     protected final int[] tileCoords;
@@ -27,7 +29,7 @@ public class Tile {
         return this.tileCoords;
     }
 
-    public boolean isTileEmpty(){
+    public boolean isEmpty(){
         return this.piece == null;
     }
 
