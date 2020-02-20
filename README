@@ -1,14 +1,15 @@
 TODO:
-- Castling -> https://simple.wikipedia.org/wiki/Castling
-- EN passant -> https://en.wikipedia.org/wiki/En_passant
+- Checkmate
 
 - King
-    - Castling
+    - Castling -> https://simple.wikipedia.org/wiki/Castling
     - Under fire
 
 - Pawn
-    - En Passant
+    - En Passant -> https://en.wikipedia.org/wiki/En_passant
     - Promotion
 
 
-- UI
+- GUI
+    - Data GUI
+    - Promotion GUI

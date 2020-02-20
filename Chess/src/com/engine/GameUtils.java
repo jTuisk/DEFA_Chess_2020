@@ -1,16 +1,22 @@
 package com.engine;
 
+import com.engine.board.Board;
 import com.engine.piece.Piece;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class GameUtils {
 
     /**
      * GAME
      */
-    public static Alliance PLAYER_TURN = Alliance.WHITE;
-    public static void CHANGE_PLAYER_TURN(){ PLAYER_TURN = PLAYER_TURN.isWhite() ? Alliance.BLACK : Alliance.WHITE; }
+    public static Alliance PLAYER_TURN;
+    public static void CHANGE_PLAYER_TURN(){
+        PLAYER_TURN = PLAYER_TURN.isWhite() ? Alliance.BLACK : Alliance.WHITE;
+
+    }
 
     public static Piece SELECTED_PIECE  = null;
     public static void selectPiece(Piece piece){
@@ -22,7 +28,24 @@ public class GameUtils {
      *  PLAYER
      */
     public static final Time SPEED_CHESS_TIME = new Time(5,0,0);
+    public static ArrayList<Piece> PIECES_ONBOARD = new ArrayList<>();
 
+    /**
+     * Piece
+     */
+    public static ArrayList<Piece.Move> GetAllEnemyMoves(Board board, Alliance alliance){
+        ArrayList<Piece.Move> moves = new ArrayList<>();
+
+        for(Piece piece : PIECES_ONBOARD){
+            if(piece.getAlliance() == alliance)
+                continue;
+            for(Piece.Move move : piece.getAllAvailableMoves(board)){
+                moves.add(move);
+            }
+        }
+        System.out.println(moves.toString());
+        return moves;
+    }
 
     /**
      * GAME BOARD
@@ -46,8 +69,10 @@ public class GameUtils {
     public static final Color BOARD_FRAME_COLOR = new Color(232, 232, 232);
     public static final Color DARK_TILE_COLOR = new Color(125, 135, 150);
     public static final Color LIGHT_TILE_COLOR = new Color(232, 235, 239);
-    public static final Color TILE_BORDER_COLOR = new Color(22, 204, 71);
+    public static final Color MOVABLE_TILE_BORDER_COLOR = new Color(22, 204, 71);
     public static final Color SELECTED_TILE_COLOR = new Color(62, 208, 247);
+    public static final Color TILE_UNDER_ATTACK_COLOR = new Color(252, 169, 3);
+    public static final Color KING_UNDER_ATTACK_COLOR = new Color(201, 27, 4);
     public static final Point GUI_FRAME_POSITION = new Point((Toolkit.getDefaultToolkit().getScreenSize().width/2) - (GUI_FRAME_SIZE.width/2),
                                                                     (Toolkit.getDefaultToolkit().getScreenSize().height/2) - (GUI_FRAME_SIZE.height/2));
 

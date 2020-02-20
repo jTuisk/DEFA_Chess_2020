@@ -1,6 +1,7 @@
 package com.engine.ui;
 
 import com.engine.GameUtils;
+import com.engine.PieceType;
 import com.engine.board.Board;
 import com.engine.piece.Piece;
 
@@ -160,7 +161,17 @@ public class GameBoard {
         if(piece != null){
             GameBoard.tiles[piece.getPosition()[0]][piece.getPosition()[1]].setBorder(BorderFactory.createMatteBorder(3,3,3,3,GameUtils.SELECTED_TILE_COLOR));
             for(Piece.Move move : GameUtils.SELECTED_PIECE.getAllAvailableMoves(board)){
-                GameBoard.tiles[move.getDestCoords()[0]][move.getDestCoords()[1]].setBorder(BorderFactory.createMatteBorder(3,3,3,3,GameUtils.TILE_BORDER_COLOR));
+                int x = move.getDestCoords()[0];
+                int y = move.getDestCoords()[1];
+                Color assignColor = GameUtils.MOVABLE_TILE_BORDER_COLOR;
+                Piece pieceAtDestination = board.getTile(move.getDestCoords()).getPiece();
+                if(pieceAtDestination != null){
+                    if(pieceAtDestination.getAlliance() != GameUtils.PLAYER_TURN)
+                        assignColor = GameUtils.TILE_UNDER_ATTACK_COLOR;
+                    if(pieceAtDestination.getPieceType() == PieceType.KING)
+                        assignColor = GameUtils.KING_UNDER_ATTACK_COLOR;
+                }
+                GameBoard.tiles[x][y].setBorder(BorderFactory.createMatteBorder(3,3,3,3,assignColor));
             }
         }
     }

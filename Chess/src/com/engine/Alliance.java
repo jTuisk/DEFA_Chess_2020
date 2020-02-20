@@ -10,4 +10,5 @@ public enum Alliance {
     public boolean isBlack(){
         return this == Alliance.BLACK;
     }
+
 }

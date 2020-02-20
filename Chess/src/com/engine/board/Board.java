@@ -41,12 +41,10 @@ public class Board {
         setup[1][5] = new Tile(new int[]{1,5}, new Pawn(Alliance.WHITE,new int[]{1,5}));
         setup[1][6] = new Tile(new int[]{1,6}, new Pawn(Alliance.WHITE,new int[]{1,6}));
         setup[1][7] = new Tile(new int[]{1,7}, new Pawn(Alliance.WHITE,new int[]{1,7}));
-        setup[4][4] = new Tile(new int[]{4,4}, new Rook(Alliance.WHITE,new int[]{4,4}));
 
         /**
          * BLACK
          */
-
         setup[6][0] = new Tile(new int[]{6,0}, new Pawn(Alliance.BLACK,new int[]{6,0}));
         setup[6][1] = new Tile(new int[]{6,1}, new Pawn(Alliance.BLACK,new int[]{6,1}));
         setup[6][2] = new Tile(new int[]{6,2}, new Pawn(Alliance.BLACK,new int[]{6,2}));

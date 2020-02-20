@@ -15,6 +15,11 @@ public class Pawn extends Piece {
         super(alliance, piecePosition, PieceType.PAWN);
     }
 
+
+    public void promotePawn(Board board, Piece toPiece){
+        board.getTile(this.getPosition()).setPiece(toPiece);
+    }
+
     @Override
     protected List<Move> getHorizontalMovesRight(Board board, int maxTiles){
         ArrayList<Move> moves = new ArrayList<>();
@@ -61,7 +66,7 @@ public class Pawn extends Piece {
         int[] destinationPosition = new int[]{this.piecePosition[0]+1, this.piecePosition[1]+1};
 
 
-        if (!GameUtils.coordsInGameBoard(destinationPosition) || moves.size() >= maxTiles)
+        if (!GameUtils.coordsInGameBoard(destinationPosition))
             return moves;
 
         Piece pieceAtDestination = board.getTile(destinationPosition).getPiece();
@@ -76,7 +81,7 @@ public class Pawn extends Piece {
         ArrayList<Move> moves = new ArrayList<>();
         int[] destinationPosition = new int[]{this.piecePosition[0]-1, this.piecePosition[1]-1};
 
-        if (!GameUtils.coordsInGameBoard(destinationPosition) || moves.size() >= maxTiles)
+        if (!GameUtils.coordsInGameBoard(destinationPosition))
             return moves;
 
         Piece pieceAtDestination = board.getTile(destinationPosition).getPiece();
@@ -91,7 +96,7 @@ public class Pawn extends Piece {
         ArrayList<Move> moves = new ArrayList<>();
         int[] destinationPosition = new int[]{this.piecePosition[0] + 1, this.piecePosition[1] - 1};
 
-        if (!GameUtils.coordsInGameBoard(destinationPosition) || moves.size() >= maxTiles)
+        if (!GameUtils.coordsInGameBoard(destinationPosition))
             return moves;
 
         Piece pieceAtDestination = board.getTile(destinationPosition).getPiece();
@@ -107,7 +112,7 @@ public class Pawn extends Piece {
 
         int[] destinationPosition = new int[]{this.piecePosition[0] - 1, this.piecePosition[1] + 1};
 
-        if (!GameUtils.coordsInGameBoard(destinationPosition) || moves.size() >= maxTiles)
+        if (!GameUtils.coordsInGameBoard(destinationPosition))
             return moves;
 
         Piece pieceAtDestination = board.getTile(destinationPosition).getPiece();
@@ -157,6 +162,8 @@ public class Pawn extends Piece {
         if(this.getAlliance().isWhite()){
             for(int x = 0; x < GameUtils.GAME_BOARD_SIZE_HEIGHT; x++){
                 if(this.getPosition()[0] == 7 && this.getPosition()[1] == x){
+                    this.promotePawn(board, new Queen(this.getAlliance(), this.piecePosition));
+                    //POPUP GUI TO CHOOSE PIECE
                     System.out.println("replace white piece with!...");
                     break;
                 }
@@ -165,6 +172,8 @@ public class Pawn extends Piece {
         if(this.getAlliance().isBlack()){
             for(int x = 0; x < GameUtils.GAME_BOARD_SIZE_HEIGHT; x++){
                 if(this.getPosition()[0] == 0 && this.getPosition()[1] == x){
+                    this.promotePawn(board, new Knight(this.getAlliance(), this.piecePosition));
+                    //POPUP GUI TO CHOOSE PIECE
                     System.out.println("replace black piece with!...");
                     break;
                 }

@@ -21,6 +21,7 @@ public abstract class Piece {
         this.pieceType = pieceType;
         this.piecePosition = piecePosition;
         firstMove = true;
+        GameUtils.PIECES_ONBOARD.add(this);
     }
 
     public static boolean canMove(List<Move> moves, Move destinationMove){
@@ -232,6 +233,7 @@ public abstract class Piece {
     }
 
     public void finishMove(Board board, int[] destCoords){
+        GameUtils.PIECES_ONBOARD.remove(board.getTile(destCoords).getPiece());
         board.getTile(destCoords).setPiece(GameUtils.SELECTED_PIECE);
         board.getTile(GameUtils.SELECTED_PIECE.getPosition()).setPiece(null);
         GameUtils.SELECTED_PIECE.setPiecePosition(destCoords);
