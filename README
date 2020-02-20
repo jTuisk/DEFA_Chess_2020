@@ -1,13 +1,14 @@
 TODO:
 - Castling -> https://simple.wikipedia.org/wiki/Castling
 - EN passant -> https://en.wikipedia.org/wiki/En_passant
-- kingUnderFire @ Piece
-- getAllAvailableMoves @ Queen || VIRHEELLINEN
-- getAllAvailableMoves @ Pawn
+
+- King
+    - Castling
+    - Under fire
+
+- Pawn
+    - En Passant
+    - Promotion
+
+
 - UI
-
-
-
-GITHUB:
-https://learngitbranching.js.org/
-https://gitbasics.xyz/

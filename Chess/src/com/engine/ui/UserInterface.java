@@ -8,8 +8,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-//https://docs.oracle.com/javase/tutorial/uiswing/layout/none.html
-
 public class UserInterface extends JFrame {
 
     public UserInterface(Board board){
@@ -32,7 +30,6 @@ public class UserInterface extends JFrame {
         super.setLayout(null);
         super.setResizable(false);
         super.setVisible(true);
-        //super.pack();
     }
 
 

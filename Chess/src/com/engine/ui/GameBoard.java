@@ -79,10 +79,7 @@ public class GameBoard {
                         selectPiece(tile, board, pos);
                     }else{
                         if(Piece.canMove(GameUtils.SELECTED_PIECE.getAllAvailableMoves(board), new Piece.Move(board, GameUtils.SELECTED_PIECE, pos))){
-                            board.getTile(pos).setPiece(GameUtils.SELECTED_PIECE);
-                            board.getTile(GameUtils.SELECTED_PIECE.getPosition()).setPiece(null);
-                            GameUtils.SELECTED_PIECE.setPiecePosition(pos);
-                            refreshTiles(board);
+                            GameUtils.SELECTED_PIECE.finishMove(board, pos);
                             deselectPiece(tile, board);
                         }else{
                             if(board.getTile(pos).isEmpty()){
@@ -117,7 +114,7 @@ public class GameBoard {
     }
 
     private void selectPiece(JPanel tile, Board board, int[] pos){
-        GameUtils.SELECTED_PIECE = board.getTile(pos).getPiece();
+        GameUtils.selectPiece(board.getTile(pos).getPiece());
         assignTileShadow(tile, board);
     }
 
@@ -161,6 +158,7 @@ public class GameBoard {
     private static void assignTileShadow(JPanel tile, Board board){
         Piece piece = GameUtils.SELECTED_PIECE;
         if(piece != null){
+            GameBoard.tiles[piece.getPosition()[0]][piece.getPosition()[1]].setBorder(BorderFactory.createMatteBorder(3,3,3,3,GameUtils.SELECTED_TILE_COLOR));
             for(Piece.Move move : GameUtils.SELECTED_PIECE.getAllAvailableMoves(board)){
                 GameBoard.tiles[move.getDestCoords()[0]][move.getDestCoords()[1]].setBorder(BorderFactory.createMatteBorder(3,3,3,3,GameUtils.TILE_BORDER_COLOR));
             }

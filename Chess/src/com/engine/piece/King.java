@@ -11,32 +11,38 @@ import java.util.List;
 public class King extends Piece {
 
     //Castling - https://simple.wikipedia.org/wiki/Castling
-    private final int[] startPos;
 
     public King(Alliance alliance, int[] piecePosition) {
         super(alliance, piecePosition, PieceType.KING);
-        this.startPos = piecePosition;
     }
 
-    public List<Move> getAllAvailableMoves(Board board) {
+    @Override
+    public List<Move> getAllAvailableMoves(Board board){
         ArrayList<Move> moves = new ArrayList<>();
 
-        for(int x = 0; x < GameUtils.GAME_BOARD_SIZE_HEIGHT; x++){
-            for(int y = 0; y < GameUtils.GAME_BOARD_SIZE_WIDTH; y++){
-                int piece_x = Math.abs(this.getPosition()[0] - x);
-                int piece_y  = Math.abs(this.getPosition()[1] - y);
-
-                //Can't move to under enemy fire.
-                if(piece_x*piece_y != 1)
-                    continue;
-
-                Piece pieceOnDestinationTile = board.getTile(new int[] {x,y}).getPiece();
-
-                if(pieceOnDestinationTile != null && pieceOnDestinationTile.getAlliance() == this.alliance)
-                    continue;
-
-                 moves.add(new Move(board, this, new int[]{x,y}));
-            }
+        for(Move move : this.getDiagonalMovesRightDown(board, 1)){
+            moves.add(move);
+        }
+        for(Move move : this.getDiagonalMovesLeftDown(board, 1)){
+            moves.add(move);
+        }
+        for(Move move : this.getDiagonalMovesLeftUp(board, 1)){
+            moves.add(move);
+        }
+        for(Move move : this.getDiagonalMovesRightUp(board, 1)){
+            moves.add(move);
+        }
+        for(Move move : this.getVerticalMovesUp(board, 1)){
+            moves.add(move);
+        }
+        for(Move move : this.getVerticalMovesDown(board, 1)){
+            moves.add(move);
+        }
+        for(Move move : this.getHorizontalMovesLeft(board, 1)){
+            moves.add(move);
+        }
+        for(Move move : this.getHorizontalMovesRight(board, 1)){
+            moves.add(move);
         }
         return moves;
     }

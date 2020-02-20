@@ -50,6 +50,195 @@ public abstract class Piece {
         return this.pieceType;
     }
 
+    protected List<Move> getVerticalMovesDown(Board board, int maxTiles){
+        ArrayList<Move> moves = new ArrayList<>();
+
+        for(int x = 1; ((this.piecePosition[1]+x)-GameUtils.GAME_BOARD_SIZE_HEIGHT) < 0; x++){
+            int[] destinationPosition = new int[]{this.piecePosition[0], this.piecePosition[1]+x};
+
+            if(!GameUtils.coordsInGameBoard(destinationPosition) || moves.size() >= maxTiles)
+                break;
+
+            Piece pieceAtDestination = board.getTile(destinationPosition).getPiece();
+
+            if(pieceAtDestination != null){
+                if(pieceAtDestination.getAlliance() == this.getAlliance()){
+                    break;
+                }
+                moves.add(new Move(board, this, pieceAtDestination.getPosition()));
+                break;
+            }
+            moves.add(new Move(board, this, destinationPosition));
+        }
+        return moves;
+    }
+
+    protected List<Move> getVerticalMovesUp(Board board, int maxTiles){
+        ArrayList<Move> moves = new ArrayList<>();
+
+        for(int x = 1; (this.piecePosition[1]-x) > -1; x++){
+            int[] destinationPosition = new int[]{this.piecePosition[0], this.piecePosition[1]-x};
+
+            if(!GameUtils.coordsInGameBoard(destinationPosition) || moves.size() >= maxTiles)
+                break;
+
+            Piece pieceAtDestination = board.getTile(destinationPosition).getPiece();
+            if(pieceAtDestination != null){
+                if(pieceAtDestination.getAlliance() == this.getAlliance()){
+                    break;
+                }
+                moves.add(new Move(board, this, pieceAtDestination.getPosition()));
+                break;
+            }
+            moves.add(new Move(board, this, destinationPosition));
+        }
+        return moves;
+    }
+
+    protected List<Move> getHorizontalMovesRight(Board board, int maxTiles){
+        ArrayList<Move> moves = new ArrayList<>();
+
+        for(int x = 1; ((this.piecePosition[0]+x)-GameUtils.GAME_BOARD_SIZE_WIDTH) < 0; x++){
+            int[] destinationPosition = new int[]{this.piecePosition[0]+x, this.piecePosition[1]};
+
+            if(!GameUtils.coordsInGameBoard(destinationPosition) || moves.size() >= maxTiles)
+                break;
+
+            Piece pieceAtDestination = board.getTile(destinationPosition).getPiece();
+
+            if(pieceAtDestination != null){
+                if(pieceAtDestination.getAlliance() == this.getAlliance()){
+                    break;
+                }
+                moves.add(new Move(board, this, pieceAtDestination.getPosition()));
+                break;
+            }
+            moves.add(new Move(board, this, destinationPosition));
+        }
+        return moves;
+    }
+
+    protected List<Move> getHorizontalMovesLeft(Board board, int maxTiles){
+        ArrayList<Move> moves = new ArrayList<>();
+
+        for(int x = 1; (this.piecePosition[0]-x) > -1; x++){
+            int[] destinationPosition = new int[]{this.piecePosition[0]-x, this.piecePosition[1]};
+
+            if(!GameUtils.coordsInGameBoard(destinationPosition) || moves.size() >= maxTiles)
+                break;
+
+            Piece pieceAtDestination = board.getTile(destinationPosition).getPiece();
+
+            if(pieceAtDestination != null){
+                if(pieceAtDestination.getAlliance() == this.getAlliance()){
+                    break;
+                }
+                moves.add(new Move(board, this, pieceAtDestination.getPosition()));
+                break;
+            }
+            moves.add(new Move(board, this, destinationPosition));
+        }
+        return moves;
+    }
+
+    protected List<Move> getDiagonalMovesRightDown(Board board, int maxTiles){
+        ArrayList<Move> moves = new ArrayList<>();
+
+        for(int x = 1; ((this.piecePosition[1]+x)-GameUtils.GAME_BOARD_SIZE_HEIGHT) < 0; x++){
+            int[] destinationPosition = new int[]{this.piecePosition[0]+x, this.piecePosition[1]+x};
+
+            if(!GameUtils.coordsInGameBoard(destinationPosition) || moves.size() >= maxTiles)
+                break;
+
+            Piece pieceAtDestination = board.getTile(destinationPosition).getPiece();
+
+            if(pieceAtDestination != null){
+                if(pieceAtDestination.getAlliance() == this.getAlliance()){
+                    break;
+                }
+                moves.add(new Move(board, this, pieceAtDestination.getPosition()));
+                break;
+            }
+            moves.add(new Move(board, this, destinationPosition));
+        }
+        return moves;
+    }
+
+    protected List<Move> getDiagonalMovesLeftUp(Board board, int maxTiles){
+        ArrayList<Move> moves = new ArrayList<>();
+
+        for(int x = 1; (this.piecePosition[1]-x) > -1; x++){
+            int[] destinationPosition = new int[]{this.piecePosition[0]-x, this.piecePosition[1]-x};
+
+            if(!GameUtils.coordsInGameBoard(destinationPosition) || moves.size() >= maxTiles)
+                break;
+
+            Piece pieceAtDestination = board.getTile(destinationPosition).getPiece();
+            if(pieceAtDestination != null){
+                if(pieceAtDestination.getAlliance() == this.getAlliance()){
+                    break;
+                }
+                moves.add(new Move(board, this, pieceAtDestination.getPosition()));
+                break;
+            }
+            moves.add(new Move(board, this, destinationPosition));
+        }
+        return moves;
+    }
+
+    protected List<Move> getDiagonalMovesRightUp(Board board, int maxTiles){
+        ArrayList<Move> moves = new ArrayList<>();
+
+        for(int x = 1; (this.piecePosition[1]-x) > -1; x++){
+            int[] destinationPosition = new int[]{this.piecePosition[0]+x, this.piecePosition[1]-x};
+
+            if(!GameUtils.coordsInGameBoard(destinationPosition) || moves.size() >= maxTiles)
+                break;
+
+            Piece pieceAtDestination = board.getTile(destinationPosition).getPiece();
+            if(pieceAtDestination != null){
+                if(pieceAtDestination.getAlliance() == this.getAlliance()){
+                    break;
+                }
+                moves.add(new Move(board, this, pieceAtDestination.getPosition()));
+                break;
+            }
+            moves.add(new Move(board, this, destinationPosition));
+        }
+        return moves;
+    }
+
+    protected List<Move> getDiagonalMovesLeftDown(Board board, int maxTiles){
+        ArrayList<Move> moves = new ArrayList<>();
+
+        for(int x = 1; ((this.piecePosition[1]+x)-GameUtils.GAME_BOARD_SIZE_HEIGHT) < 0; x++){
+            int[] destinationPosition = new int[]{this.piecePosition[0]-x, this.piecePosition[1]+x};
+
+            if(!GameUtils.coordsInGameBoard(destinationPosition) || moves.size() >= maxTiles)
+                break;
+
+            Piece pieceAtDestination = board.getTile(destinationPosition).getPiece();
+
+            if(pieceAtDestination != null){
+                if(pieceAtDestination.getAlliance() == this.getAlliance()){
+                    break;
+                }
+                moves.add(new Move(board, this, pieceAtDestination.getPosition()));
+                break;
+            }
+            moves.add(new Move(board, this, destinationPosition));
+        }
+        return moves;
+    }
+
+    public void finishMove(Board board, int[] destCoords){
+        board.getTile(destCoords).setPiece(GameUtils.SELECTED_PIECE);
+        board.getTile(GameUtils.SELECTED_PIECE.getPosition()).setPiece(null);
+        GameUtils.SELECTED_PIECE.setPiecePosition(destCoords);
+        this.firstMove = false;
+        GameUtils.CHANGE_PLAYER_TURN();
+    }
+
     @Override
     public String toString(){
         return pieceType.toString();
