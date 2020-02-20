@@ -25,8 +25,43 @@ public class GameBoard {
     public static JPanel setupDataPanel(){
         JPanel dataPanel = new JPanel();
         dataPanel.setBounds(GameUtils.BOARD_FRAME_SIZE.width, 0, GameUtils.DATA_FRAME_SIZE.width, GameUtils.DATA_FRAME_SIZE.height);
-        dataPanel.setBackground(Color.WHITE);
+        dataPanel.setBackground(GameUtils.BOARD_FRAME_COLOR);
+        dataPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, GameUtils.SELECTED_TILE_COLOR));
+
+        JPanel playerTurnPanel = new JPanel();
+        playerTurnPanel.setBounds(GameUtils.DATA_FRAME_SIZE.width/10, GameUtils.DATA_FRAME_SIZE.width/10, (GameUtils.DATA_FRAME_SIZE.width/4*3), GameUtils.DATA_FRAME_SIZE.height/10);
+        playerTurnPanel.setBorder(BorderFactory.createMatteBorder(1,1,1,1, GameUtils.SELECTED_TILE_COLOR));
+        playerTurnPanel.setBackground(GameUtils.BOARD_FRAME_COLOR);
+
+        JPanel whitePlayerData = playerData(100, "Player: White");
+        JPanel blackPlayerData = playerData(320, "Player: Black");
+
+        dataPanel.setLayout(null);
+        dataPanel.add(playerTurnPanel);
+        dataPanel.add(whitePlayerData);
+        dataPanel.add(blackPlayerData);
         return dataPanel;
+    }
+
+    private static JPanel playerData(int posY, String headerText){
+        JPanel playerData = new JPanel();
+        playerData.setBounds(GameUtils.DATA_FRAME_SIZE.width/10, posY, 150, 200);
+        playerData.setBorder(BorderFactory.createMatteBorder(1,1,1,1, GameUtils.SELECTED_TILE_COLOR));
+        playerData.setBackground(GameUtils.BOARD_FRAME_COLOR);
+
+        JLabel header = new JLabel(headerText);
+        header.setBounds(10, 10, (GameUtils.DATA_FRAME_SIZE.width/4*2), 10);
+
+        JPanel lostPieces = new JPanel();
+        lostPieces.setBounds(10, 10, 130, 100);
+        lostPieces.setBorder(BorderFactory.createMatteBorder(1,1,1,1, GameUtils.SELECTED_TILE_COLOR));
+        lostPieces.setBackground(GameUtils.BOARD_FRAME_COLOR);
+
+
+        playerData.add(lostPieces);
+        playerData.add(header);
+        playerData.setLayout(null);
+        return playerData;
     }
 
     public JPanel setupGameBoard(Board board) {
