@@ -29,7 +29,6 @@ public abstract class Piece {
 
     public static boolean canMove(List<Move> moves, Move destinationMove){
         for(Move move : moves){
-            System.out.println(move+" = "+destinationMove+" == "+move.equals(destinationMove));
             if(move.equals(destinationMove))
                 return true;
         }

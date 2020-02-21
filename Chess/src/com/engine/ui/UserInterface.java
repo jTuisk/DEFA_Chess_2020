@@ -12,21 +12,21 @@ import java.awt.event.ActionListener;
 
 public class UserInterface extends JFrame {
 
-    JPanel gameBoardPanel;
-    JPanel dataPanel;
+    GameBoardPanel gameBoardPanel;
+    DataPanel dataPanel;
 
     public UserInterface(Board board, Player p1, Player p2){
         super("DEFA Chess 2020, Made by Janek Tuisk");
+        this.dataPanel = new DataPanel(board, p1, p2);
+        this.gameBoardPanel = new GameBoardPanel(board, dataPanel);
 
         /*MENUBAR*/
         super.setJMenuBar(createFileMenuBar());
 
         /*GAME BOARD PANEL*/
-        this.gameBoardPanel = new GameBoardPanel(board);
         super.add(this.gameBoardPanel);
 
         /*DATA PANEL*/
-        this.dataPanel = new DataPanel(board, p1, p2);
         super.add(this.dataPanel);
 
 

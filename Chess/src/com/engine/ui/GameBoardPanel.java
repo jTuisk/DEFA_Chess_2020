@@ -19,11 +19,14 @@ public class GameBoardPanel extends  JPanel{
 
     static JPanel[][] tiles;
     private Board board;
+    private DataPanel dataPanel;
 
-    public GameBoardPanel(Board board){
+
+    public GameBoardPanel(Board board, DataPanel dataPanel){
         super();
         this.tiles = new JPanel[GameUtils.GAME_BOARD_SIZE_WIDTH][GameUtils.GAME_BOARD_SIZE_HEIGHT];
         this.board = board;
+        this.dataPanel = dataPanel;
         super.setBackground(GameUtils.BOARD_FRAME_COLOR);
         super.setBounds(0,0, GameUtils.BOARD_FRAME_SIZE.width, GameUtils.BOARD_FRAME_SIZE.height);
         super.setLayout(null);
@@ -36,6 +39,9 @@ public class GameBoardPanel extends  JPanel{
         }
     }
 
+    private void refreshDataPanel(){
+        this.dataPanel.refreshDataPanelPieceList();
+    }
 
     private void setupBoardCoordinateLabels(){
         for(int i = 0; i < GameUtils.GAME_BOARD_VERTICAL_TILE_COORDINATES.length ; i++){
@@ -74,6 +80,7 @@ public class GameBoardPanel extends  JPanel{
                         if(Piece.canMove(GameUtils.SELECTED_PIECE.getAllAvailableMoves(board), new Piece.Move(board, GameUtils.SELECTED_PIECE, pos))){
                             GameUtils.SELECTED_PIECE.finishMove(board, pos);
                             deselectPiece(tile, board);
+                            refreshDataPanel();
                         }else{
                             if(board.getTile(pos).isEmpty()){
                                 deselectPiece(tile, board);
