@@ -4,6 +4,7 @@ import com.engine.Alliance;
 import com.engine.GameUtils;
 import com.engine.PieceType;
 import com.engine.board.Board;
+import com.engine.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +13,8 @@ public class King extends Piece {
 
     //Castling - https://simple.wikipedia.org/wiki/Castling
 
-    public King(Alliance alliance, int[] piecePosition) {
-        super(alliance, piecePosition, PieceType.KING);
+    public King(Alliance alliance, Player player, int[] piecePosition) {
+        super(alliance, player, piecePosition, PieceType.KING);
     }
     protected List<Move> getVerticalMovesDown(Board board, int maxTiles){
         ArrayList<Move> moves = new ArrayList<>();

@@ -4,6 +4,7 @@ import com.engine.Alliance;
 import com.engine.GameUtils;
 import com.engine.PieceType;
 import com.engine.board.Board;
+import com.engine.player.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,12 +12,14 @@ import java.util.List;
 
 public abstract class Piece {
 
+    protected final Player player;
     protected final Alliance alliance;
     protected final PieceType pieceType;
     protected int[] piecePosition;
     protected boolean firstMove;
 
-    Piece(Alliance alliance, int[] piecePosition, PieceType pieceType){
+    Piece(Alliance alliance, Player player, int[] piecePosition, PieceType pieceType){
+        this.player = player;
         this.alliance = alliance;
         this.pieceType = pieceType;
         this.piecePosition = piecePosition;
@@ -232,7 +235,15 @@ public abstract class Piece {
         return moves;
     }
 
+    public Player getPlayer(){
+        return this.player;
+    }
+
     public void finishMove(Board board, int[] destCoords){
+        if(board.getTile(destCoords).getPiece() != null){
+            Player enemy = board.getTile(destCoords).getPiece().getPlayer();
+            GameUtils.removePieceFromList(board, enemy, destCoords);
+        }
         GameUtils.PIECES_ONBOARD.remove(board.getTile(destCoords).getPiece());
         board.getTile(destCoords).setPiece(GameUtils.SELECTED_PIECE);
         board.getTile(GameUtils.SELECTED_PIECE.getPosition()).setPiece(null);

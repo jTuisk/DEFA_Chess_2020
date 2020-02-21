@@ -4,14 +4,15 @@ import com.engine.Alliance;
 import com.engine.GameUtils;
 import com.engine.PieceType;
 import com.engine.board.Board;
+import com.engine.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Knight extends Piece {
 
-    public Knight(Alliance alliance, int[] piecePosition) {
-        super(alliance, piecePosition, PieceType.KNIGHT);
+    public Knight(Alliance alliance, Player player, int[] piecePosition) {
+        super(alliance, player, piecePosition, PieceType.KNIGHT);
     }
 
     @Override

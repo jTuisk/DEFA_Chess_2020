@@ -2,6 +2,7 @@ package com.engine;
 
 import com.engine.board.Board;
 import com.engine.piece.Piece;
+import com.engine.player.Player;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ public class GameUtils {
     /**
      * GAME
      */
-    public static Alliance PLAYER_TURN;
+    public static Alliance PLAYER_TURN = Alliance.WHITE;
     public static void CHANGE_PLAYER_TURN(){
         PLAYER_TURN = PLAYER_TURN.isWhite() ? Alliance.BLACK : Alliance.WHITE;
 
@@ -28,11 +29,16 @@ public class GameUtils {
      *  PLAYER
      */
     public static final Time SPEED_CHESS_TIME = new Time(5,0,0);
-    public static ArrayList<Piece> PIECES_ONBOARD = new ArrayList<>();
-
     /**
      * Piece
      */
+    public static ArrayList<Piece> PIECES_ONBOARD = new ArrayList<>();
+
+    public static void removePieceFromList(Board board, Player player, int[] destPos){
+        player.addLostPiece(board.getTile(destPos).getPiece());
+        GameUtils.PIECES_ONBOARD.remove(board.getTile(destPos).getPiece());
+        System.out.println(player.getLostPieces());
+    }
     public static ArrayList<Piece.Move> GetAllEnemyMoves(Board board, Alliance alliance){
         ArrayList<Piece.Move> moves = new ArrayList<>();
 

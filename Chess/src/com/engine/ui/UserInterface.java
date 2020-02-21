@@ -2,25 +2,32 @@ package com.engine.ui;
 
 import com.engine.GameUtils;
 import com.engine.board.Board;
+import com.engine.player.Player;
 
 import javax.swing.*;
+import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class UserInterface extends JFrame {
 
-    public UserInterface(Board board){
+    JPanel gameBoardPanel;
+    JPanel dataPanel;
+
+    public UserInterface(Board board, Player p1, Player p2){
         super("DEFA Chess 2020, Made by Janek Tuisk");
 
         /*MENUBAR*/
         super.setJMenuBar(createFileMenuBar());
 
         /*GAME BOARD PANEL*/
-        super.add(new GameBoard().setupGameBoard(board));
+        this.gameBoardPanel = new GameBoardPanel(board);
+        super.add(this.gameBoardPanel);
 
         /*DATA PANEL*/
-        super.add(GameBoard.setupDataPanel());
+        this.dataPanel = new DataPanel(board, p1, p2);
+        super.add(this.dataPanel);
 
 
         super.setBackground(Color.WHITE);

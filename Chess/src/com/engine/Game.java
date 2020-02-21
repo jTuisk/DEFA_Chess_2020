@@ -16,9 +16,8 @@ public class Game {
     public static void main(String[] args){
         Player p1 = new Player(Alliance.WHITE, GameUtils.SPEED_CHESS_TIME);
         Player p2 = new Player(Alliance.BLACK, GameUtils.SPEED_CHESS_TIME);
-
-        Board board = new Board();
+        Board board = new Board(p1, p2);
         System.out.println(board.toString());
-        UserInterface ui = new UserInterface(board);
+        UserInterface ui = new UserInterface(board, p1, p2);
     }
 }

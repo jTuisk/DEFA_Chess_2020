@@ -4,6 +4,7 @@ import com.engine.Alliance;
 import com.engine.GameUtils;
 import com.engine.PieceType;
 import com.engine.board.Board;
+import com.engine.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +14,8 @@ public class Rook extends Piece{
 
     //Castling - https://simple.wikipedia.org/wiki/Castling
 
-    public Rook(Alliance alliance, int[] piecePosition) {
-        super(alliance, piecePosition, PieceType.ROOK);
+    public Rook(Alliance alliance, Player player, int[] piecePosition) {
+        super(alliance, player, piecePosition, PieceType.ROOK);
     }
 
     @Override

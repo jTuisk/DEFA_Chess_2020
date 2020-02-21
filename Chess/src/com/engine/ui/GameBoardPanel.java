@@ -4,6 +4,7 @@ import com.engine.GameUtils;
 import com.engine.PieceType;
 import com.engine.board.Board;
 import com.engine.piece.Piece;
+import com.engine.player.Player;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -14,80 +15,36 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 
-public class GameBoard {
+public class GameBoardPanel extends  JPanel{
 
     static JPanel[][] tiles;
+    private Board board;
 
-    public GameBoard(){
-        tiles = new JPanel[GameUtils.GAME_BOARD_SIZE_WIDTH][GameUtils.GAME_BOARD_SIZE_HEIGHT];
-    }
-
-    public static JPanel setupDataPanel(){
-        JPanel dataPanel = new JPanel();
-        dataPanel.setBounds(GameUtils.BOARD_FRAME_SIZE.width, 0, GameUtils.DATA_FRAME_SIZE.width, GameUtils.DATA_FRAME_SIZE.height);
-        dataPanel.setBackground(GameUtils.BOARD_FRAME_COLOR);
-        dataPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, GameUtils.SELECTED_TILE_COLOR));
-
-        JPanel playerTurnPanel = new JPanel();
-        playerTurnPanel.setBounds(GameUtils.DATA_FRAME_SIZE.width/10, GameUtils.DATA_FRAME_SIZE.width/10, (GameUtils.DATA_FRAME_SIZE.width/4*3), GameUtils.DATA_FRAME_SIZE.height/10);
-        playerTurnPanel.setBorder(BorderFactory.createMatteBorder(1,1,1,1, GameUtils.SELECTED_TILE_COLOR));
-        playerTurnPanel.setBackground(GameUtils.BOARD_FRAME_COLOR);
-
-        JPanel whitePlayerData = playerData(100, "Player: White");
-        JPanel blackPlayerData = playerData(320, "Player: Black");
-
-        dataPanel.setLayout(null);
-        dataPanel.add(playerTurnPanel);
-        dataPanel.add(whitePlayerData);
-        dataPanel.add(blackPlayerData);
-        return dataPanel;
-    }
-
-    private static JPanel playerData(int posY, String headerText){
-        JPanel playerData = new JPanel();
-        playerData.setBounds(GameUtils.DATA_FRAME_SIZE.width/10, posY, 150, 200);
-        playerData.setBorder(BorderFactory.createMatteBorder(1,1,1,1, GameUtils.SELECTED_TILE_COLOR));
-        playerData.setBackground(GameUtils.BOARD_FRAME_COLOR);
-
-        JLabel header = new JLabel(headerText);
-        header.setBounds(10, 10, (GameUtils.DATA_FRAME_SIZE.width/4*2), 10);
-
-        JPanel lostPieces = new JPanel();
-        lostPieces.setBounds(10, 10, 130, 100);
-        lostPieces.setBorder(BorderFactory.createMatteBorder(1,1,1,1, GameUtils.SELECTED_TILE_COLOR));
-        lostPieces.setBackground(GameUtils.BOARD_FRAME_COLOR);
-
-
-        playerData.add(lostPieces);
-        playerData.add(header);
-        playerData.setLayout(null);
-        return playerData;
-    }
-
-    public JPanel setupGameBoard(Board board) {
-        JPanel gameBoard = new JPanel();
-        gameBoard.setBackground(GameUtils.BOARD_FRAME_COLOR);
-        gameBoard.setBounds(0,0, GameUtils.BOARD_FRAME_SIZE.width, GameUtils.BOARD_FRAME_SIZE.height);
-        gameBoard.setLayout(null);
-        setupBoardCoordinateLabels(gameBoard);
+    public GameBoardPanel(Board board){
+        super();
+        this.tiles = new JPanel[GameUtils.GAME_BOARD_SIZE_WIDTH][GameUtils.GAME_BOARD_SIZE_HEIGHT];
+        this.board = board;
+        super.setBackground(GameUtils.BOARD_FRAME_COLOR);
+        super.setBounds(0,0, GameUtils.BOARD_FRAME_SIZE.width, GameUtils.BOARD_FRAME_SIZE.height);
+        super.setLayout(null);
+        setupBoardCoordinateLabels();
 
         for(int x = 0; x < GameUtils.GAME_BOARD_SIZE_HEIGHT; x++){
             for(int y = 0; y < GameUtils.GAME_BOARD_SIZE_WIDTH; y++){
-                this.tiles[x][y] = createNewTile(gameBoard, board, new int[]{x,y});
+                this.tiles[x][y] = createNewTile(board, new int[]{x,y});
             }
         }
-
-        return gameBoard;
     }
 
-    private static void setupBoardCoordinateLabels(JPanel gameBoard){
+
+    private void setupBoardCoordinateLabels(){
         for(int i = 0; i < GameUtils.GAME_BOARD_VERTICAL_TILE_COORDINATES.length ; i++){
             JLabel temp = new JLabel(GameUtils.GAME_BOARD_VERTICAL_TILE_COORDINATES[i]);
             int xPos = (GameUtils.SINGLE_TILE_SIZE.width*i) + (GameUtils.SINGLE_TILE_SIZE.width);
             int yPos = (GameUtils.SINGLE_TILE_SIZE.height/4)*-1;
             temp.setBounds(xPos, yPos, GameUtils.SINGLE_TILE_SIZE.width, GameUtils.SINGLE_TILE_SIZE.height);
             temp.setForeground(Color.BLACK);
-            gameBoard.add(temp);
+            super.add(temp);
         }
 
         for(int i = 0; i < GameUtils.GAME_BOARD_HORIZONTAL_TILE_COORDINATES.length; i++){
@@ -96,11 +53,11 @@ public class GameBoard {
             int yPos = (GameUtils.SINGLE_TILE_SIZE.height*i) + (GameUtils.SINGLE_TILE_SIZE.height)/2;
             temp.setBounds(xPos, yPos, GameUtils.SINGLE_TILE_SIZE.width, GameUtils.SINGLE_TILE_SIZE.height);
             temp.setForeground(Color.BLACK);
-            gameBoard.add(temp);
+            super.add(temp);
         }
     }
 
-    public JPanel createNewTile(JPanel gameBoard, Board board, int[] pos){
+    public JPanel createNewTile(Board board, int[] pos){
         JPanel tile = new JPanel();
         int xPos = (GameUtils.SINGLE_TILE_SIZE.width*pos[0]) + (GameUtils.SINGLE_TILE_SIZE.width/2);
         int yPos = (GameUtils.SINGLE_TILE_SIZE.height*pos[1]) + (GameUtils.SINGLE_TILE_SIZE.height/2);
@@ -140,7 +97,7 @@ public class GameBoard {
                 @Override
                 public void mouseExited(MouseEvent mouseEvent){}
             });
-            gameBoard.add(tile);
+            super.add(tile);
         return tile;
     }
 
@@ -154,7 +111,7 @@ public class GameBoard {
         assignTileShadow(tile, board);
     }
 
-    public static void refreshTiles(Board board){
+    public void refreshTiles(Board board){
         resetTileShadows(board);
         for(int x = 0; x < tiles.length; x++){
             for(int y = 0; y < tiles[x].length; y++){
@@ -181,20 +138,20 @@ public class GameBoard {
             tile.removeAll();
     }
 
-    private static void resetTileShadows(Board board){
+    private void resetTileShadows(Board board){
         for(int x = 0; x < GameUtils.GAME_BOARD_SIZE_HEIGHT; x++){
             for(int y = 0; y < GameUtils.GAME_BOARD_SIZE_WIDTH; y++){
-                GameBoard.tiles[x][y].setBorder(null);
+                this.tiles[x][y].setBorder(null);
             }
         }
         if(GameUtils.SELECTED_PIECE != null)
-            assignTileShadow(GameBoard.tiles[GameUtils.SELECTED_PIECE.getPosition()[0]][GameUtils.SELECTED_PIECE.getPosition()[1]], board);
+            assignTileShadow(this.tiles[GameUtils.SELECTED_PIECE.getPosition()[0]][GameUtils.SELECTED_PIECE.getPosition()[1]], board);
     }
 
-    private static void assignTileShadow(JPanel tile, Board board){
+    private void assignTileShadow(JPanel tile, Board board){
         Piece piece = GameUtils.SELECTED_PIECE;
         if(piece != null){
-            GameBoard.tiles[piece.getPosition()[0]][piece.getPosition()[1]].setBorder(BorderFactory.createMatteBorder(3,3,3,3,GameUtils.SELECTED_TILE_COLOR));
+            this.tiles[piece.getPosition()[0]][piece.getPosition()[1]].setBorder(BorderFactory.createMatteBorder(3,3,3,3,GameUtils.SELECTED_TILE_COLOR));
             for(Piece.Move move : GameUtils.SELECTED_PIECE.getAllAvailableMoves(board)){
                 int x = move.getDestCoords()[0];
                 int y = move.getDestCoords()[1];
@@ -206,7 +163,7 @@ public class GameBoard {
                     if(pieceAtDestination.getPieceType() == PieceType.KING)
                         assignColor = GameUtils.KING_UNDER_ATTACK_COLOR;
                 }
-                GameBoard.tiles[x][y].setBorder(BorderFactory.createMatteBorder(3,3,3,3,assignColor));
+                this.tiles[x][y].setBorder(BorderFactory.createMatteBorder(3,3,3,3,assignColor));
             }
         }
     }

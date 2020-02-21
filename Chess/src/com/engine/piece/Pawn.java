@@ -5,14 +5,15 @@ import com.engine.Alliance;
 import com.engine.GameUtils;
 import com.engine.PieceType;
 import com.engine.board.Board;
+import com.engine.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Pawn extends Piece {
 
-    public Pawn(Alliance alliance, int[] piecePosition) {
-        super(alliance, piecePosition, PieceType.PAWN);
+    public Pawn(Alliance alliance, Player player, int[] piecePosition) {
+        super(alliance, player, piecePosition, PieceType.PAWN);
     }
 
 
@@ -155,6 +156,11 @@ public class Pawn extends Piece {
 
     @Override
     public void finishMove(Board board, int[] destCoords){
+        if(board.getTile(destCoords).getPiece() != null){
+            Player enemy = board.getTile(destCoords).getPiece().getPlayer();
+            GameUtils.removePieceFromList(board, enemy, destCoords);
+        }
+        GameUtils.PIECES_ONBOARD.remove(board.getTile(destCoords).getPiece());
         board.getTile(destCoords).setPiece(GameUtils.SELECTED_PIECE);
         board.getTile(GameUtils.SELECTED_PIECE.getPosition()).setPiece(null);
         GameUtils.SELECTED_PIECE.setPiecePosition(destCoords);
@@ -162,7 +168,7 @@ public class Pawn extends Piece {
         if(this.getAlliance().isWhite()){
             for(int x = 0; x < GameUtils.GAME_BOARD_SIZE_HEIGHT; x++){
                 if(this.getPosition()[0] == 7 && this.getPosition()[1] == x){
-                    this.promotePawn(board, new Queen(this.getAlliance(), this.piecePosition));
+                    this.promotePawn(board, new Queen(this.getAlliance(), this.player, this.piecePosition));
                     //POPUP GUI TO CHOOSE PIECE
                     System.out.println("replace white piece with!...");
                     break;
@@ -172,7 +178,7 @@ public class Pawn extends Piece {
         if(this.getAlliance().isBlack()){
             for(int x = 0; x < GameUtils.GAME_BOARD_SIZE_HEIGHT; x++){
                 if(this.getPosition()[0] == 0 && this.getPosition()[1] == x){
-                    this.promotePawn(board, new Knight(this.getAlliance(), this.piecePosition));
+                    this.promotePawn(board, new Knight(this.getAlliance(), this.player, this.piecePosition));
                     //POPUP GUI TO CHOOSE PIECE
                     System.out.println("replace black piece with!...");
                     break;
