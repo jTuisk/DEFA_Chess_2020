@@ -1,6 +1,5 @@
 package com.engine.ui;
 
-import com.engine.Alliance;
 import com.engine.GameUtils;
 import com.engine.board.Board;
 import com.engine.piece.Piece;
@@ -8,10 +7,10 @@ import com.engine.player.Player;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 public class DataPanel extends JPanel{
 
@@ -19,20 +18,11 @@ public class DataPanel extends JPanel{
     private Player p1;
     private Player p2;
 
-    private ArrayList<JPanel> lostPiecesWhite;
-    private ArrayList<JPanel> lostPiecesBlack;
-    private JPanel lostPiecesWhitePanel;
-    private JPanel lostPiecesBlackPanel;
-
 
     public DataPanel(Board board, Player p1, Player p2){
         super();
         this.p1 = p1;
         this.p2 = p2;
-        this.lostPiecesWhite = setupLostPiecesList(p1);
-        this.lostPiecesBlack = setupLostPiecesList(p2);
-        this.lostPiecesWhitePanel = lostPiecesPanel(this.lostPiecesWhite);
-        this.lostPiecesBlackPanel = lostPiecesPanel(this.lostPiecesBlack);
         this.board = board;
         setupDataPanel();
     }
@@ -67,10 +57,8 @@ public class DataPanel extends JPanel{
         header.setBounds(5, 10, (GameUtils.DATA_FRAME_SIZE.width/4*2), 10);
 
 
-        //playerPanel.add(lostPiecesPanel(setupLostPiecesList(p1)));
-        playerPanel.add(this.lostPiecesWhitePanel);
-        //playerPanel.add(lostPiecesPanel(setupLostPiecesList(p2)));
-        playerPanel.add(this.lostPiecesBlackPanel);
+        playerPanel.add(lostPiecesPanel(setupLostPiecesList(player)));
+        playerPanel.add(lostPiecesPanel(setupLostPiecesList(player)));
         playerPanel.add(header);
         playerPanel.setLayout(null);
         return playerPanel;
@@ -82,27 +70,30 @@ public class DataPanel extends JPanel{
         lostPiecesPanel.setBorder(BorderFactory.createMatteBorder(1,1,1,1, GameUtils.SELECTED_TILE_COLOR));
         lostPiecesPanel.setBackground(GameUtils.BOARD_FRAME_COLOR);
 
-        for(JPanel p : lostPieces){
-            lostPieces.add(p);
+        for(int i = 0; i < lostPieces.size(); i++){
+            int columnsInRow = 5;
+            int iconPosX = 8+((i % columnsInRow) *20);
+            int iconPosY = 8+(20*(i/5));
+            lostPieces.get(i).setBounds(iconPosX, iconPosY, 25, 25);
+            lostPiecesPanel.add(lostPieces.get(i));
         }
 
         lostPiecesPanel.setLayout(null);
         return lostPiecesPanel;
     }
 
-    /*REWRITE*/
     private ArrayList<JPanel> setupLostPiecesList(Player player){
         ArrayList<JPanel> listOfPieces = new ArrayList<>();
+        System.out.println("Player("+player.getAlliance()+": "+player.getLostPieces().toString());
         for(Piece piece : player.getLostPieces()) {
-            if (piece != null) {
+            if (piece != null && piece.getAlliance() == player.getAlliance()) {
                 JPanel temp = new JPanel();
-                temp.setLayout(null);
-                temp.setBounds(5, 5, 15, 15);
                 String imgPath = "img/";
-                imgPath += piece.getAlliance().isWhite() ? "WHITE_" : "BLACK_";
+                temp.setBackground(GameUtils.BOARD_FRAME_COLOR);
+                imgPath += piece.getAlliance()+"_";
                 try {
                     BufferedImage image = ImageIO.read(new File(imgPath + piece.getPieceType().getImgFileString()));
-                    temp.add(new JLabel(new ImageIcon(image)));
+                    temp.add(new JLabel(new ImageIcon(image.getScaledInstance(20, 20, Image.SCALE_SMOOTH))));
                     listOfPieces.add(temp);
                 } catch (Exception e) {
                     System.out.println("IMG NOT FOUND!");
@@ -112,15 +103,11 @@ public class DataPanel extends JPanel{
         return listOfPieces;
     }
 
-    public void refreshDataPanelPieceList(){
-        this.lostPiecesWhite = setupLostPiecesList(p1);
-        this.lostPiecesBlack = setupLostPiecesList(p2);
-        this.lostPiecesWhitePanel.removeAll();
-        this.lostPiecesWhitePanel.revalidate();
-        this.lostPiecesWhitePanel.repaint();
-        this.lostPiecesBlackPanel.removeAll();
-        this.lostPiecesBlackPanel.revalidate();
-        this.lostPiecesBlackPanel.repaint();
+
+
+    public void refreshDataPanel(){
+        super.removeAll();
+        setupDataPanel();
         System.out.println("Refreshing dataPanel piece list!");
     }
 }

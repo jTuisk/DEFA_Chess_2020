@@ -1,5 +1,6 @@
 TODO:
 - Checkmate
+- Check
 
 - King
     - Castling -> https://simple.wikipedia.org/wiki/Castling
@@ -13,4 +14,9 @@ TODO:
 - GUI
     - Data GUI - REWRITE setupLostPiecesList
     - Promotion GUI
-    
+
+
+NEXT TASK!
+    - Promotion
+    - Save file
+    - Load file

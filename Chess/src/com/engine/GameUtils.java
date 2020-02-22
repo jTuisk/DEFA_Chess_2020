@@ -14,8 +14,10 @@ public class GameUtils {
      * GAME
      */
     public static Alliance PLAYER_TURN = Alliance.WHITE;
+    //public static Alliance PLAYER_TURN = Alliance.BLACK;
     public static void CHANGE_PLAYER_TURN(){
         PLAYER_TURN = PLAYER_TURN.isWhite() ? Alliance.BLACK : Alliance.WHITE;
+        //PLAYER_TURN = Alliance.BLACK;
 
     }
 

@@ -278,7 +278,6 @@ public abstract class Piece {
         public boolean equals(Object o){
             if(!(o instanceof  Move))
                 return false;
-            Move move = (Move) o;
             return this.destCoords[0] == ((Move) o).destCoords[0] && this.destCoords[1] == ((Move) o).destCoords[1];
         }
 

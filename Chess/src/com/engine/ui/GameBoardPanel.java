@@ -40,7 +40,7 @@ public class GameBoardPanel extends  JPanel{
     }
 
     private void refreshDataPanel(){
-        this.dataPanel.refreshDataPanelPieceList();
+        this.dataPanel.refreshDataPanel();
     }
 
     private void setupBoardCoordinateLabels(){
@@ -79,18 +79,18 @@ public class GameBoardPanel extends  JPanel{
                     }else{
                         if(Piece.canMove(GameUtils.SELECTED_PIECE.getAllAvailableMoves(board), new Piece.Move(board, GameUtils.SELECTED_PIECE, pos))){
                             GameUtils.SELECTED_PIECE.finishMove(board, pos);
-                            deselectPiece(tile, board);
+                            deselectPiece(board);
                             refreshDataPanel();
                         }else{
                             if(board.getTile(pos).isEmpty()){
-                                deselectPiece(tile, board);
+                                deselectPiece(board);
                             }else{
                                 selectPiece(tile, board, pos);
                             }
                         }
                     }
                     }else{
-                        deselectPiece(tile, board);
+                        deselectPiece(board);
                     }
                     refreshTiles(board);
                 }
@@ -108,14 +108,14 @@ public class GameBoardPanel extends  JPanel{
         return tile;
     }
 
-    private void deselectPiece(JPanel tile, Board board){
+    private void deselectPiece(Board board){
         GameUtils.SELECTED_PIECE = null;
         resetTileShadows(board);
     }
 
     private void selectPiece(JPanel tile, Board board, int[] pos){
         GameUtils.selectPiece(board.getTile(pos).getPiece());
-        assignTileShadow(tile, board);
+        assignTileShadow(board);
     }
 
     public void refreshTiles(Board board){
@@ -152,10 +152,10 @@ public class GameBoardPanel extends  JPanel{
             }
         }
         if(GameUtils.SELECTED_PIECE != null)
-            assignTileShadow(this.tiles[GameUtils.SELECTED_PIECE.getPosition()[0]][GameUtils.SELECTED_PIECE.getPosition()[1]], board);
+            assignTileShadow(board);
     }
 
-    private void assignTileShadow(JPanel tile, Board board){
+    private void assignTileShadow(Board board){
         Piece piece = GameUtils.SELECTED_PIECE;
         if(piece != null){
             this.tiles[piece.getPosition()[0]][piece.getPosition()[1]].setBorder(BorderFactory.createMatteBorder(3,3,3,3,GameUtils.SELECTED_TILE_COLOR));
