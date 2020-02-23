@@ -41,9 +41,18 @@ public class DataPanel extends JPanel{
     private JPanel playerTurnPanel(){
         JPanel playerTurnPanel = new JPanel();
         playerTurnPanel.setBounds(GameUtils.DATA_FRAME_SIZE.width/10, GameUtils.DATA_FRAME_SIZE.width/10, 150, 50);
-        playerTurnPanel.setBorder(BorderFactory.createMatteBorder(1,1,1,1, GameUtils.SELECTED_TILE_COLOR));
+        //playerTurnPanel.setBorder(BorderFactory.createMatteBorder(0,1,1,1, GameUtils.SELECTED_TILE_COLOR));
         playerTurnPanel.setBackground(GameUtils.BOARD_FRAME_COLOR);
 
+        JLabel text = new JLabel("PLAYER TURN");
+        text.setBounds(35, 0, 100, 20);
+
+        JPanel colorBox = new JPanel();
+        colorBox.setBounds(45, 25, 60, 40);
+        colorBox.setBackground(GameUtils.PLAYER_TURN.isWhite()? Color.WHITE : Color.BLACK);
+
+        playerTurnPanel.add(text);
+        playerTurnPanel.add(colorBox);
         playerTurnPanel.setLayout(null);
         return playerTurnPanel;
     }
@@ -51,7 +60,7 @@ public class DataPanel extends JPanel{
     private JPanel playerPanel(int posY, Player player, String headerText){
         JPanel playerPanel = new JPanel();
         playerPanel.setBounds(GameUtils.DATA_FRAME_SIZE.width/10, posY, 150, 200);
-        playerPanel.setBorder(BorderFactory.createMatteBorder(1,1,1,1, GameUtils.SELECTED_TILE_COLOR));
+        //playerPanel.setBorder(BorderFactory.createMatteBorder(1,1,1,1, GameUtils.SELECTED_TILE_COLOR));
         playerPanel.setBackground(GameUtils.BOARD_FRAME_COLOR);
         JLabel header = new JLabel(headerText);
         header.setBounds(5, 10, (GameUtils.DATA_FRAME_SIZE.width/4*2), 10);
@@ -67,8 +76,12 @@ public class DataPanel extends JPanel{
     private JPanel lostPiecesPanel(ArrayList<JPanel> lostPieces){
         JPanel lostPiecesPanel = new JPanel();
         lostPiecesPanel.setBounds(10, 25, 130, 100);
-        lostPiecesPanel.setBorder(BorderFactory.createMatteBorder(1,1,1,1, GameUtils.SELECTED_TILE_COLOR));
+        //lostPiecesPanel.setBorder(BorderFactory.createMatteBorder(1,1,1,1, GameUtils.SELECTED_TILE_COLOR));
         lostPiecesPanel.setBackground(GameUtils.BOARD_FRAME_COLOR);
+
+        JLabel text = new JLabel("Lost pieces:");
+        text.setBounds(8, 0, 100, 20);
+        lostPiecesPanel.add(text);
 
         for(int i = 0; i < lostPieces.size(); i++){
             int columnsInRow = 5;
