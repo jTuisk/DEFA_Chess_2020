@@ -1,10 +1,9 @@
 TODO:
-- Checkmate
-- Check
 
 - King
     - Castling -> https://simple.wikipedia.org/wiki/Castling
-    - Under fire
+    - Checkmate
+    - Check
 
 - Pawn
     - En Passant -> https://en.wikipedia.org/wiki/En_passant
@@ -12,11 +11,10 @@ TODO:
 
 
 - GUI
-    - Data GUI - REWRITE setupLostPiecesList
-    - Promotion GUI
+    - Promotion GUI popup
+    - ErrorMsg GUI popup
 
 
-NEXT TASK!
-    - Promotion
-    - Save file
-    - Load file
+- Promotion
+- Save file
+- Load file

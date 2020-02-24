@@ -4,7 +4,6 @@ import com.engine.GameUtils;
 import com.engine.PieceType;
 import com.engine.board.Board;
 import com.engine.piece.Piece;
-import com.engine.player.Player;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -20,6 +19,7 @@ public class GameBoardPanel extends  JPanel{
     static JPanel[][] tiles;
     private Board board;
     private DataPanel dataPanel;
+    private Panel pawnPromotionPanel;
 
 
     public GameBoardPanel(Board board, DataPanel dataPanel){
@@ -38,6 +38,7 @@ public class GameBoardPanel extends  JPanel{
             }
         }
     }
+
 
     private void refreshDataPanel(){
         this.dataPanel.refreshDataPanel();

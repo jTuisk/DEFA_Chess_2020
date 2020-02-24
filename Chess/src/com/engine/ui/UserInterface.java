@@ -2,6 +2,7 @@ package com.engine.ui;
 
 import com.engine.GameUtils;
 import com.engine.board.Board;
+import com.engine.piece.Piece;
 import com.engine.player.Player;
 
 import javax.swing.*;
@@ -9,19 +10,27 @@ import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class UserInterface extends JFrame {
 
     GameBoardPanel gameBoardPanel;
     DataPanel dataPanel;
+    PawnPromotionPanel pawnPromotionPanel;
 
     public UserInterface(Board board, Player p1, Player p2){
         super("DEFA Chess 2020, Made by Janek Tuisk");
         this.dataPanel = new DataPanel(board, p1, p2);
         this.gameBoardPanel = new GameBoardPanel(board, dataPanel);
+        this.pawnPromotionPanel = new PawnPromotionPanel(board);
 
         /*MENUBAR*/
         super.setJMenuBar(createFileMenuBar());
+
+        /*PROMOTION*/
+        super.add(this.pawnPromotionPanel);
+
 
         /*GAME BOARD PANEL*/
         super.add(this.gameBoardPanel);
@@ -76,5 +85,4 @@ public class UserInterface extends JFrame {
 
         return fileMenuBar;
     }
-
 }

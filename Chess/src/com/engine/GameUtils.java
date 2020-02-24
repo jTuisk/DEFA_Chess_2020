@@ -14,10 +14,8 @@ public class GameUtils {
      * GAME
      */
     public static Alliance PLAYER_TURN = Alliance.WHITE;
-    //public static Alliance PLAYER_TURN = Alliance.BLACK;
     public static void CHANGE_PLAYER_TURN(){
         PLAYER_TURN = PLAYER_TURN.isWhite() ? Alliance.BLACK : Alliance.WHITE;
-        //PLAYER_TURN = Alliance.BLACK;
 
     }
 
@@ -73,6 +71,7 @@ public class GameUtils {
     public static final Dimension GUI_FRAME_SIZE = new Dimension(800, 650);
     public static final Dimension BOARD_FRAME_SIZE = new Dimension(600,650);
     public static final Dimension DATA_FRAME_SIZE = new Dimension(200,650);
+    public static final Dimension PAWN_PROMOTION_LABEL_SIZE = new Dimension(400, 200);
     public static final Dimension SINGLE_TILE_SIZE = new Dimension(65,65);
     public static final Color BOARD_FRAME_COLOR = new Color(232, 232, 232);
     public static final Color DARK_TILE_COLOR = new Color(125, 135, 150);
