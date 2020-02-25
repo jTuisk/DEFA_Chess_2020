@@ -19,5 +19,6 @@ public class Game {
         Board board = new Board(p1, p2);
         System.out.println(board.toString());
         UserInterface ui = new UserInterface(board, p1, p2);
+
     }
 }
