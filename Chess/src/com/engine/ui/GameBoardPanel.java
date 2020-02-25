@@ -19,7 +19,6 @@ public class GameBoardPanel extends  JPanel{
     static JPanel[][] tiles;
     private Board board;
     private DataPanel dataPanel;
-    private Panel pawnPromotionPanel;
 
 
     public GameBoardPanel(Board board, DataPanel dataPanel){
@@ -38,7 +37,6 @@ public class GameBoardPanel extends  JPanel{
             }
         }
     }
-
 
     private void refreshDataPanel(){
         this.dataPanel.refreshDataPanel();
@@ -90,22 +88,22 @@ public class GameBoardPanel extends  JPanel{
                             }
                         }
                     }
-                    }else{
-                        deselectPiece(board);
-                    }
-                    refreshTiles(board);
+                }else{
+                    deselectPiece(board);
                 }
+                refreshTiles(board);
+            }
 
-                @Override
-                public void mousePressed(MouseEvent mouseEvent){}
-                @Override
-                public void mouseReleased(MouseEvent mouseEvent){}
-                @Override
-                public void mouseEntered(MouseEvent mouseEvent){}
-                @Override
-                public void mouseExited(MouseEvent mouseEvent){}
-            });
-            super.add(tile);
+            @Override
+            public void mousePressed(MouseEvent mouseEvent){}
+            @Override
+            public void mouseReleased(MouseEvent mouseEvent){}
+            @Override
+            public void mouseEntered(MouseEvent mouseEvent){}
+            @Override
+            public void mouseExited(MouseEvent mouseEvent){}
+        });
+        super.add(tile);
         return tile;
     }
 

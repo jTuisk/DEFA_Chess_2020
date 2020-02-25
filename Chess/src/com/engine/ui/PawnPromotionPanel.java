@@ -1,9 +1,10 @@
 package com.engine.ui;
 
+import com.engine.Alliance;
 import com.engine.GameUtils;
 import com.engine.board.Board;
 import com.engine.board.Tile;
-import com.engine.piece.Piece;
+import com.engine.piece.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -15,21 +16,18 @@ import java.io.File;
 
 public class PawnPromotionPanel extends JPanel {
 
-    private boolean visible;
+    Board board;
+    GameBoardPanel gameBoardPanel;
 
-    public PawnPromotionPanel(Board board){
+
+    public PawnPromotionPanel(Board board, GameBoardPanel gameBoardPanel){
         super();
-        this.visible = true;
-        pawnPromotionPanelSetup();
-
+        this.board = board;
+        this.gameBoardPanel = gameBoardPanel;
     }
 
-    private void pawnPromotionPanelSetup(){
+    public void pawnPromotionPanelSetup(Piece piece){
         super.removeAll();
-
-        if(!visible)
-            return;
-
         super.setBounds(100,175, GameUtils.PAWN_PROMOTION_LABEL_SIZE.width,GameUtils.PAWN_PROMOTION_LABEL_SIZE.height);
         super.setBackground(GameUtils.BOARD_FRAME_COLOR);
         super.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, GameUtils.DARK_TILE_COLOR));
@@ -48,9 +46,23 @@ public class PawnPromotionPanel extends JPanel {
                 @Override
                 public void mouseClicked(MouseEvent mouseEvent) {
                     System.out.println(name);
-
-                    visible = false;
-                    removeAll();
+                    Piece toPiece;
+                    switch(name){
+                        case "BISHOP":
+                            toPiece = new Bishop(piece.getAlliance(), piece.getPlayer(), piece.getPosition());
+                                break;
+                        case "KNIGHT":
+                            toPiece = new Knight(piece.getAlliance(), piece.getPlayer(), piece.getPosition());
+                            break;
+                        case "ROOK":
+                            toPiece = new Rook(piece.getAlliance(), piece.getPlayer(), piece.getPosition());
+                            break;
+                        default: // case "QUEEN":
+                            toPiece = new Queen(piece.getAlliance(), piece.getPlayer(), piece.getPosition());
+                            break;
+                    }
+                    board.getTile(piece.getPosition()).setPiece(toPiece);
+                    gameBoardPanel.refreshTiles(board);
                 }
 
                 @Override

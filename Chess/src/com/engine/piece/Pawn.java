@@ -6,6 +6,7 @@ import com.engine.GameUtils;
 import com.engine.PieceType;
 import com.engine.board.Board;
 import com.engine.player.Player;
+import com.engine.ui.UserInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -168,9 +169,7 @@ public class Pawn extends Piece {
         if(this.getAlliance().isWhite()){
             for(int x = 0; x < GameUtils.GAME_BOARD_SIZE_HEIGHT; x++){
                 if(this.getPosition()[0] == 7 && this.getPosition()[1] == x){
-                    this.promotePawn(board, new Queen(this.getAlliance(), this.player, this.piecePosition));
-                    //POPUP GUI TO CHOOSE PIECE
-                    System.out.println("replace white piece with!...");
+                    UserInterface.showPromotionPanel(this);
                     break;
                 }
             }
@@ -178,9 +177,7 @@ public class Pawn extends Piece {
         if(this.getAlliance().isBlack()){
             for(int x = 0; x < GameUtils.GAME_BOARD_SIZE_HEIGHT; x++){
                 if(this.getPosition()[0] == 0 && this.getPosition()[1] == x){
-                    this.promotePawn(board, new Knight(this.getAlliance(), this.player, this.piecePosition));
-                    //POPUP GUI TO CHOOSE PIECE
-                    System.out.println("replace black piece with!...");
+                    UserInterface.showPromotionPanel(this);
                     break;
                 }
             }

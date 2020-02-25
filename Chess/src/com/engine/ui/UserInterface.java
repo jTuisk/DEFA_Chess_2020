@@ -17,13 +17,17 @@ public class UserInterface extends JFrame {
 
     GameBoardPanel gameBoardPanel;
     DataPanel dataPanel;
-    PawnPromotionPanel pawnPromotionPanel;
+    static PawnPromotionPanel pawnPromotionPanel;
+
+    public static void showPromotionPanel(Piece piece){
+        pawnPromotionPanel.pawnPromotionPanelSetup(piece);
+    }
 
     public UserInterface(Board board, Player p1, Player p2){
         super("DEFA Chess 2020, Made by Janek Tuisk");
         this.dataPanel = new DataPanel(board, p1, p2);
         this.gameBoardPanel = new GameBoardPanel(board, dataPanel);
-        this.pawnPromotionPanel = new PawnPromotionPanel(board);
+        this.pawnPromotionPanel = new PawnPromotionPanel(board, this.gameBoardPanel);
 
         /*MENUBAR*/
         super.setJMenuBar(createFileMenuBar());
@@ -31,13 +35,11 @@ public class UserInterface extends JFrame {
         /*PROMOTION*/
         super.add(this.pawnPromotionPanel);
 
-
         /*GAME BOARD PANEL*/
         super.add(this.gameBoardPanel);
 
         /*DATA PANEL*/
         super.add(this.dataPanel);
-
 
         super.setBackground(Color.WHITE);
         super.setLocation(GameUtils.GUI_FRAME_POSITION);
