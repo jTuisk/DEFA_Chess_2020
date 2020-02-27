@@ -1,5 +1,6 @@
 package com.engine.ui;
 
+import com.engine.FileManager;
 import com.engine.GameUtils;
 import com.engine.board.Board;
 import com.engine.piece.Piece;
@@ -18,6 +19,9 @@ public class UserInterface extends JFrame {
     GameBoardPanel gameBoardPanel;
     DataPanel dataPanel;
     static PawnPromotionPanel pawnPromotionPanel;
+    Board board;
+    Player p1;
+    Player p2;
 
     public static void showPromotionPanel(Piece piece){
         pawnPromotionPanel.pawnPromotionPanelSetup(piece);
@@ -25,6 +29,9 @@ public class UserInterface extends JFrame {
 
     public UserInterface(Board board, Player p1, Player p2){
         super("DEFA Chess 2020, Made by Janek Tuisk");
+        this.board = board;
+        this.p1 = p1;
+        this.p2 = p2;
         this.dataPanel = new DataPanel(board, p1, p2);
         this.gameBoardPanel = new GameBoardPanel(board, dataPanel);
         this.pawnPromotionPanel = new PawnPromotionPanel(board, this.gameBoardPanel);
@@ -50,18 +57,31 @@ public class UserInterface extends JFrame {
         super.setVisible(true);
     }
 
-
     private JMenuBar createFileMenuBar(){
         JMenuBar fileMenuBar = new JMenuBar();
         JMenu mainMenu = new JMenu("File");
+        JMenuItem newGame = new JMenuItem("New game");
         JMenuItem save = new JMenuItem("Save game");
         JMenuItem load = new JMenuItem("Load game");
         JMenuItem exit = new JMenuItem("Exit");
+
+        newGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                p1.clearLostPieces();
+                p2.clearLostPieces();
+                board.restartGame();
+                gameBoardPanel.refreshTiles(board);
+                dataPanel.refreshDataPanel();
+                System.out.println("Starting new game!");
+            }
+        });
 
         save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 System.out.println("Saving game!");
+                FileManager.saveGame(board, p1, p2);
             }
         });
 
@@ -69,6 +89,7 @@ public class UserInterface extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 System.out.println("Loading game!");
+                FileManager.loadGame(board, p1, p2, dataPanel, gameBoardPanel);
             }
         });
 
@@ -80,6 +101,7 @@ public class UserInterface extends JFrame {
             }
         });
 
+        mainMenu.add(newGame);
         mainMenu.add(save);
         mainMenu.add(load);
         mainMenu.add(exit);

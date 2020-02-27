@@ -26,10 +26,6 @@ public class GameUtils {
     }
 
     /**
-     *  PLAYER
-     */
-    public static final Time SPEED_CHESS_TIME = new Time(5,0,0);
-    /**
      * Piece
      */
     public static ArrayList<Piece> PIECES_ONBOARD = new ArrayList<>();

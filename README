@@ -14,5 +14,5 @@ TODO:
     - ErrorMsg GUI popup
 
 - Redo promotion GUI to data panel
-- Save file
-- Load file
+
+- GameStatus -> Save File && Load File
