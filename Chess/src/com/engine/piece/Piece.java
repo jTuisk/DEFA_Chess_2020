@@ -248,6 +248,7 @@ public abstract class Piece {
         board.getTile(GameUtils.SELECTED_PIECE.getPosition()).setPiece(null);
         GameUtils.SELECTED_PIECE.setPiecePosition(destCoords);
         this.firstMove = false;
+        GameUtils.LAST_MOVED_PIECE = this;
         GameUtils.CHANGE_PLAYER_TURN();
     }
 

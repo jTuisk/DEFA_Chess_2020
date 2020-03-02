@@ -14,11 +14,13 @@ import com.engine.ui.UserInterface;
 public class Game {
 
     public static void main(String[] args){
+        GameUtils.GAME_STATUS = GameStatus.INITIALIZING_GAME;
         Player p1 = new Player(Alliance.WHITE);
         Player p2 = new Player(Alliance.BLACK);
         Board board = new Board(p1, p2);
         System.out.println(board.toString());
         UserInterface ui = new UserInterface(board, p1, p2);
-
+        GameUtils.GAME_STATUS = GameStatus.PROMOTING_PAWN;
+        //GameUtils.GAME_STATUS = GameStatus.WHITE_TURN;
     }
 }

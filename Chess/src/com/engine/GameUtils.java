@@ -13,10 +13,11 @@ public class GameUtils {
     /**
      * GAME
      */
+    public static GameStatus GAME_STATUS = null;
+    public static Piece LAST_MOVED_PIECE = null;
     public static Alliance PLAYER_TURN = Alliance.WHITE;
     public static void CHANGE_PLAYER_TURN(){
         PLAYER_TURN = PLAYER_TURN.isWhite() ? Alliance.BLACK : Alliance.WHITE;
-
     }
 
     public static Piece SELECTED_PIECE  = null;

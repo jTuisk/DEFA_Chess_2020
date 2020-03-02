@@ -2,6 +2,7 @@ package com.engine.piece;
 
 
 import com.engine.Alliance;
+import com.engine.GameStatus;
 import com.engine.GameUtils;
 import com.engine.PieceType;
 import com.engine.board.Board;
@@ -165,11 +166,11 @@ public class Pawn extends Piece {
         board.getTile(destCoords).setPiece(GameUtils.SELECTED_PIECE);
         board.getTile(GameUtils.SELECTED_PIECE.getPosition()).setPiece(null);
         GameUtils.SELECTED_PIECE.setPiecePosition(destCoords);
-
+        GameUtils.LAST_MOVED_PIECE = this;
         if(this.getAlliance().isWhite()){
             for(int x = 0; x < GameUtils.GAME_BOARD_SIZE_HEIGHT; x++){
                 if(this.getPosition()[0] == 7 && this.getPosition()[1] == x){
-                    UserInterface.showPromotionPanel(this);
+                    GameUtils.GAME_STATUS = GameStatus.PROMOTING_PAWN;
                     break;
                 }
             }
@@ -177,7 +178,7 @@ public class Pawn extends Piece {
         if(this.getAlliance().isBlack()){
             for(int x = 0; x < GameUtils.GAME_BOARD_SIZE_HEIGHT; x++){
                 if(this.getPosition()[0] == 0 && this.getPosition()[1] == x){
-                    UserInterface.showPromotionPanel(this);
+                    GameUtils.GAME_STATUS = GameStatus.PROMOTING_PAWN;
                     break;
                 }
             }
