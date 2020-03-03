@@ -158,6 +158,9 @@ public class Pawn extends Piece {
 
     @Override
     public void finishMove(Board board, int[] destCoords){
+        if(GameUtils.GAME_STATUS != GameStatus.PLAYER_TURN)
+        return;
+
         if(board.getTile(destCoords).getPiece() != null){
             Player enemy = board.getTile(destCoords).getPiece().getPlayer();
             GameUtils.removePieceFromList(board, enemy, destCoords);

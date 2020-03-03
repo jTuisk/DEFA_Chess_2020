@@ -24,14 +24,6 @@ public class Player {
         return this.alliance;
     }
 
-    public boolean isKingAlive(){
-        for(Piece piece : GameUtils.PIECES_ONBOARD){
-            if(piece.getAlliance() == this.alliance && piece.getPieceType() == PieceType.KING)
-                return true;
-        }
-        return false;
-    }
-
     public List<Piece> getLostPieces(){
         return this.lostPieces;
     }

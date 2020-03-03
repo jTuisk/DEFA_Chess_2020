@@ -1,6 +1,7 @@
 package com.engine.board;
 
 import com.engine.Alliance;
+import com.engine.GameStatus;
 import com.engine.GameUtils;
 import com.engine.piece.*;
 import com.engine.player.Player;
@@ -21,8 +22,10 @@ public class Board {
     }
 
     public void restartGame(){
-        GameUtils.PLAYER_TURN = Alliance.WHITE;
+        GameUtils.GAME_STATUS = GameStatus.INITIALIZING_GAME;
         this.gameBoard = defaultBoardSetup();
+        GameUtils.PLAYER_TURN = Alliance.WHITE;
+        GameUtils.GAME_STATUS = GameStatus.PLAYER_TURN;
     }
 
     private Tile[][] defaultBoardSetup(){
@@ -35,7 +38,7 @@ public class Board {
         /**
          * WHITE
          */
-        setup[0][0] = new Tile(new int[]{0,0}, new Rook(Alliance.WHITE, this.p1, new int[]{0,0}));
+        /*setup[0][0] = new Tile(new int[]{0,0}, new Rook(Alliance.WHITE, this.p1, new int[]{0,0}));
         setup[0][1] = new Tile(new int[]{0,1}, new Knight(Alliance.WHITE, this.p1, new int[]{0,1}));
         setup[0][2] = new Tile(new int[]{0,2}, new Bishop(Alliance.WHITE, this.p1, new int[]{0,2}));
         setup[0][3] = new Tile(new int[]{0,3}, new Queen(Alliance.WHITE, this.p1, new int[]{0,3}));
@@ -50,12 +53,18 @@ public class Board {
         setup[1][4] = new Tile(new int[]{1,4}, new Pawn(Alliance.WHITE, this.p1, new int[]{1,4}));
         setup[1][5] = new Tile(new int[]{1,5}, new Pawn(Alliance.WHITE, this.p1, new int[]{1,5}));
         setup[1][6] = new Tile(new int[]{1,6}, new Pawn(Alliance.WHITE, this.p1, new int[]{1,6}));
-        setup[1][7] = new Tile(new int[]{1,7}, new Pawn(Alliance.WHITE, this.p1, new int[]{1,7}));
+        setup[1][7] = new Tile(new int[]{1,7}, new Pawn(Alliance.WHITE, this.p1, new int[]{1,7}));*/
+        setup[1][4] = new Tile(new int[]{1,4}, new Queen(Alliance.WHITE, this.p1, new int[]{1,4}));
+        setup[0][4] = new Tile(new int[]{0,4}, new King(Alliance.WHITE, this.p1, new int[]{0,4}));
+
 
         /**
          * BLACK
          */
-        setup[6][0] = new Tile(new int[]{6,0}, new Pawn(Alliance.BLACK, this.p2, new int[]{6,0}));
+        setup[6][4] = new Tile(new int[]{6,4}, new Queen(Alliance.BLACK, this.p2, new int[]{6,4}));
+        setup[7][4] = new Tile(new int[]{7,4}, new King(Alliance.BLACK, this.p2, new int[]{7,4}));
+        setup[7][5] = new Tile(new int[]{7,5}, new Rook(Alliance.BLACK, this.p2, new int[]{7,5}));
+        /*setup[6][0] = new Tile(new int[]{6,0}, new Pawn(Alliance.BLACK, this.p2, new int[]{6,0}));
         setup[6][1] = new Tile(new int[]{6,1}, new Pawn(Alliance.BLACK, this.p2, new int[]{6,1}));
         setup[6][2] = new Tile(new int[]{6,2}, new Pawn(Alliance.BLACK, this.p2, new int[]{6,2}));
         setup[6][3] = new Tile(new int[]{6,3}, new Pawn(Alliance.BLACK, this.p2, new int[]{6,3}));
@@ -70,7 +79,7 @@ public class Board {
         setup[7][4] = new Tile(new int[]{7,4}, new King(Alliance.BLACK, this.p2, new int[]{7,4}));
         setup[7][5] = new Tile(new int[]{7,5}, new Bishop(Alliance.BLACK, this.p2, new int[]{7,5}));
         setup[7][6] = new Tile(new int[]{7,6}, new Knight(Alliance.BLACK, this.p2, new int[]{7,6}));
-        setup[7][7] = new Tile(new int[]{7,7}, new Rook(Alliance.BLACK, this.p2, new int[]{7,7}));
+        setup[7][7] = new Tile(new int[]{7,7}, new Rook(Alliance.BLACK, this.p2, new int[]{7,7}));*/
 
 
         return setup;

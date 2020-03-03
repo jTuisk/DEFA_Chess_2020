@@ -20,7 +20,6 @@ public class Game {
         Board board = new Board(p1, p2);
         System.out.println(board.toString());
         UserInterface ui = new UserInterface(board, p1, p2);
-        GameUtils.GAME_STATUS = GameStatus.PROMOTING_PAWN;
-        //GameUtils.GAME_STATUS = GameStatus.WHITE_TURN;
+        GameUtils.GAME_STATUS = GameStatus.PLAYER_TURN;
     }
 }

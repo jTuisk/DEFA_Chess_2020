@@ -1,6 +1,7 @@
 package com.engine.piece;
 
 import com.engine.Alliance;
+import com.engine.GameStatus;
 import com.engine.GameUtils;
 import com.engine.PieceType;
 import com.engine.board.Board;
@@ -239,6 +240,9 @@ public abstract class Piece {
     }
 
     public void finishMove(Board board, int[] destCoords){
+        if(GameUtils.GAME_STATUS != GameStatus.PLAYER_TURN)
+            return;
+
         if(board.getTile(destCoords).getPiece() != null){
             Player enemy = board.getTile(destCoords).getPiece().getPlayer();
             GameUtils.removePieceFromList(board, enemy, destCoords);

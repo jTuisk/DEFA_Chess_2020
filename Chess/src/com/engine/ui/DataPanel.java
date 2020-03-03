@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 public class DataPanel extends JPanel{
 
+    private GameBoardPanel gameBoardPanel;
     private Board board;
     private Player p1;
     private Player p2;
@@ -43,7 +44,12 @@ public class DataPanel extends JPanel{
         }
     }
 
+    public void setGameBoardPanel(GameBoardPanel gameBoardPanel){
+        this.gameBoardPanel = gameBoardPanel;
+    }
+
     private void dataPanelSetup(){
+        super.removeAll();
         if(GameUtils.GAME_STATUS == GameStatus.PROMOTING_PAWN)
             setupDataPanel();
 
@@ -68,8 +74,8 @@ public class DataPanel extends JPanel{
         super.setLayout(null);
 
 
-        JLabel header = new JLabel("<html><h1><u>Promote Pawn!</u></h1></html>");
-        header.setBounds(100, 15, 200, 25);
+        JLabel header = new JLabel("<html><h1><u>PromotePawn!</u></h1></html>");
+        header.setBounds(10, 20, 200, 25);
         String[] imgNames = new String[]{"BISHOP", "KNIGHT", "QUEEN", "ROOK"};
 
         for(int i = 0; i < imgNames.length; i++){
@@ -77,7 +83,7 @@ public class DataPanel extends JPanel{
             String imgPath = "img/"+GameUtils.LAST_MOVED_PIECE.getAlliance()+"_"+imgNames[i]+".png";
             temp.setBackground(GameUtils.BOARD_FRAME_COLOR);
             int y = 60+i*75;
-            temp.setBounds(100, y, 60, 60);
+            temp.setBounds(60, y, 60, 60);
             String name = imgNames[i];
             temp.addMouseListener(new MouseListener() {
                 @Override
@@ -99,11 +105,12 @@ public class DataPanel extends JPanel{
                             toPiece = new Queen(piece.getAlliance(), piece.getPlayer(), piece.getPosition());
                             break;
                     }
-                    
-                    //referesh gameboard
                     board.getTile(piece.getPosition()).setPiece(toPiece);
+                    GameUtils.GAME_STATUS = GameStatus.PLAYER_TURN;
+                    dataPanelSetup();
+                    if(gameBoardPanel != null)
+                        gameBoardPanel.refreshTiles(board);
                 }
-
                 @Override
                 public void mousePressed(MouseEvent mouseEvent){}
                 @Override
@@ -124,7 +131,6 @@ public class DataPanel extends JPanel{
         super.add(header);
         super.setLayout(null);
     }
-
 
     private JPanel playerTurnPanel(){
         JPanel playerTurnPanel = new JPanel();

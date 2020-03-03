@@ -30,6 +30,7 @@ public class UserInterface extends JFrame {
         this.p2 = p2;
         this.dataPanel = new DataPanel(board, p1, p2);
         this.gameBoardPanel = new GameBoardPanel(board, dataPanel);
+        this.dataPanel.setGameBoardPanel(this.gameBoardPanel);
 
         /*MENUBAR*/
         super.setJMenuBar(createFileMenuBar());

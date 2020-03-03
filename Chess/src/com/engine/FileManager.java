@@ -124,7 +124,12 @@ public class FileManager {
         }catch(Exception e){
 
         }
+        //Player Turn
+        try{
+            GameUtils.GAME_STATUS = GameStatus.getGameStatusByChar(data[10][1].charAt(0));
+        }catch(Exception e){
 
+        }
         dataPanel.refreshDataPanel();
         gameBoardPanel.refreshTiles(board);
         System.out.println(board.toString());
@@ -179,6 +184,8 @@ public class FileManager {
 
         //Player turn
         builder.append(GameUtils.PLAYER_TURN.getAllianceChar()+";");
+        //GameStatus
+        builder.append(GameUtils.GAME_STATUS+";");
 
         return builder.toString();
     }

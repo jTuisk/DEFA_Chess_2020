@@ -1,5 +1,6 @@
 package com.engine.ui;
 
+import com.engine.GameStatus;
 import com.engine.GameUtils;
 import com.engine.PieceType;
 import com.engine.board.Board;
@@ -72,24 +73,28 @@ public class GameBoardPanel extends  JPanel{
         tile.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
-                if(SwingUtilities.isLeftMouseButton(mouseEvent)){
-                    if(GameUtils.SELECTED_PIECE == null){
-                        selectPiece(tile, board, pos);
-                    }else{
-                        if(Piece.canMove(GameUtils.SELECTED_PIECE.getAllAvailableMoves(board), new Piece.Move(board, GameUtils.SELECTED_PIECE, pos))){
-                            GameUtils.SELECTED_PIECE.finishMove(board, pos);
-                            deselectPiece(board);
-                            refreshDataPanel();
+                if(GameUtils.GAME_STATUS == GameStatus.PLAYER_TURN){
+                    if(SwingUtilities.isLeftMouseButton(mouseEvent)){
+                        if(GameUtils.SELECTED_PIECE == null){
+                            selectPiece(tile, board, pos);
                         }else{
-                            if(board.getTile(pos).isEmpty()){
+                            if(Piece.canMove(GameUtils.SELECTED_PIECE.getAllAvailableMoves(board), new Piece.Move(board, GameUtils.SELECTED_PIECE, pos))){
+                                GameUtils.SELECTED_PIECE.finishMove(board, pos);
                                 deselectPiece(board);
+                                refreshDataPanel();
                             }else{
-                                selectPiece(tile, board, pos);
+                                if(board.getTile(pos).isEmpty()){
+                                    deselectPiece(board);
+                                }else{
+                                    selectPiece(tile, board, pos);
+                                }
                             }
                         }
+                    }else{
+                        deselectPiece(board);
                     }
                 }else{
-                    deselectPiece(board);
+                    System.out.println("You have to do what you are doing before moving piece");
                 }
                 refreshTiles(board);
             }
