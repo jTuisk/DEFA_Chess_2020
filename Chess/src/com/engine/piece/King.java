@@ -16,6 +16,7 @@ public class King extends Piece {
     public King(Alliance alliance, Player player, int[] piecePosition) {
         super(alliance, player, piecePosition, PieceType.KING);
     }
+
     protected List<Move> getVerticalMovesDown(Board board, int maxTiles){
         ArrayList<Move> moves = new ArrayList<>();
 

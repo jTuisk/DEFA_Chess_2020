@@ -235,6 +235,14 @@ public abstract class Piece {
         return moves;
     }
 
+    protected boolean kingUnderFireAfterMove(Board board, int[] moveToPos){
+
+        GameUtils.GetAllEnemyMoves(board, this.alliance);
+
+        return false;
+    }
+
+
     public Player getPlayer(){
         return this.player;
     }
