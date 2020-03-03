@@ -94,7 +94,7 @@ public class GameBoardPanel extends  JPanel{
                         deselectPiece(board);
                     }
                 }else{
-                    System.out.println("You have to do what you are doing before moving piece");
+                    JOptionPane.showMessageDialog(null, "You have to promote the pawn before doing anything else.",  "ErrorMsg", JOptionPane.WARNING_MESSAGE);
                 }
                 refreshTiles(board);
             }

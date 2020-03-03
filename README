@@ -8,6 +8,11 @@ TODO:
 - Pawn
     - En Passant -> https://en.wikipedia.org/wiki/En_passant
 
-
 - GUI
-    - ErrorMsg GUI popup
+    - popupMsg
+        - Checkmate
+        - Check
+        - Winner
+        - Draw
+            - JOptionPane.showMessageDialog(null, "msg",  "title", JOptionPane.WARNING_MESSAGE);
+

@@ -56,6 +56,7 @@ public class Board {
         setup[1][7] = new Tile(new int[]{1,7}, new Pawn(Alliance.WHITE, this.p1, new int[]{1,7}));*/
         setup[1][4] = new Tile(new int[]{1,4}, new Queen(Alliance.WHITE, this.p1, new int[]{1,4}));
         setup[0][4] = new Tile(new int[]{0,4}, new King(Alliance.WHITE, this.p1, new int[]{0,4}));
+        setup[6][1] = new Tile(new int[]{6,1}, new Pawn(Alliance.WHITE, this.p1, new int[]{6,1}));
 
 
         /**

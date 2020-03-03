@@ -75,6 +75,7 @@ public class UserInterface extends JFrame {
             public void actionPerformed(ActionEvent actionEvent) {
                 System.out.println("Saving game!");
                 FileManager.saveGame(board, p1, p2);
+                JOptionPane.showMessageDialog(null, "Game saved",  "Game saved", JOptionPane.WARNING_MESSAGE);
             }
         });
 
@@ -83,6 +84,7 @@ public class UserInterface extends JFrame {
             public void actionPerformed(ActionEvent actionEvent) {
                 System.out.println("Loading game!");
                 FileManager.loadGame(board, p1, p2, dataPanel, gameBoardPanel);
+                JOptionPane.showMessageDialog(null, "Game loaded",  "Game loaded", JOptionPane.WARNING_MESSAGE);
             }
         });
 
