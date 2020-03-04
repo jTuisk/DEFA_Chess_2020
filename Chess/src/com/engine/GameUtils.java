@@ -4,6 +4,7 @@ import com.engine.board.Board;
 import com.engine.piece.Piece;
 import com.engine.player.Player;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,6 +27,13 @@ public class GameUtils {
             SELECTED_PIECE = piece;
     }
 
+    public static void gameOver(){
+        String gameOverMsg = "";
+        
+        GAME_STATUS = GameStatus.GAME_OVER;
+        JOptionPane.showMessageDialog(null, "gameOverMsg",  "Game Over!", JOptionPane.WARNING_MESSAGE);
+    }
+
     /**
      * Piece
      */
@@ -36,7 +44,8 @@ public class GameUtils {
         GameUtils.PIECES_ONBOARD.remove(board.getTile(destPos).getPiece());
         System.out.println(player.getLostPieces());
     }
-    public static ArrayList<Piece.Move> GetAllEnemyMoves(Board board, Alliance alliance){
+
+    public static ArrayList<Piece.Move> getAllEnemyMoves(Board board, Alliance alliance){
         ArrayList<Piece.Move> moves = new ArrayList<>();
 
         for(Piece piece : PIECES_ONBOARD){
@@ -46,8 +55,20 @@ public class GameUtils {
                 moves.add(move);
             }
         }
-        System.out.println(moves.toString());
         return moves;
+    }
+
+    public static boolean kingUnderAttack(Board board){
+        for(Piece.Move move : GameUtils.getAllEnemyMoves(board, PLAYER_TURN)){
+            if(board.getTile(move.getDestCoords()).getPiece() == null)
+                continue;
+
+            if(board.getTile(move.getDestCoords()).getPiece().getPieceType() == PieceType.KING && board.getTile(move.getDestCoords()).getPiece().getAlliance() == PLAYER_TURN){
+                System.out.println("king under attack!");
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -68,7 +89,6 @@ public class GameUtils {
     public static final Dimension GUI_FRAME_SIZE = new Dimension(800, 650);
     public static final Dimension BOARD_FRAME_SIZE = new Dimension(600,650);
     public static final Dimension DATA_FRAME_SIZE = new Dimension(200,650);
-    public static final Dimension PAWN_PROMOTION_LABEL_SIZE = new Dimension(400, 200);
     public static final Dimension SINGLE_TILE_SIZE = new Dimension(65,65);
     public static final Color BOARD_FRAME_COLOR = new Color(232, 232, 232);
     public static final Color DARK_TILE_COLOR = new Color(125, 135, 150);

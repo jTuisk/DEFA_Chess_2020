@@ -12,7 +12,7 @@ TODO:
     - popupMsg
         - Checkmate
         - Check
-        - Winner
-        - Draw
+        - Winner //2
+        - Draw //1
             - JOptionPane.showMessageDialog(null, "msg",  "title", JOptionPane.WARNING_MESSAGE);
 

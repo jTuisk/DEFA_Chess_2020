@@ -7,6 +7,7 @@ import com.engine.PieceType;
 import com.engine.board.Board;
 import com.engine.player.Player;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -235,14 +236,6 @@ public abstract class Piece {
         return moves;
     }
 
-    protected boolean kingUnderFireAfterMove(Board board, int[] moveToPos){
-
-        GameUtils.GetAllEnemyMoves(board, this.alliance);
-
-        return false;
-    }
-
-
     public Player getPlayer(){
         return this.player;
     }
@@ -282,6 +275,8 @@ public abstract class Piece {
             this.destCoords = destCoords;
             this.attackedPiece = board.getTile(destCoords).getPiece();
         }
+
+        public Piece getPiece(){return this.piece;}
 
         public int[] getDestCoords(){
             return this.destCoords;
