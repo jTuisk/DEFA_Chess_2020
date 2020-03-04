@@ -90,6 +90,8 @@ public class Board {
         return gameBoard[coords[0]][coords[1]];
     }
 
+    public Player getP1(){return this.p1;}
+    public Player getP2(){return this.p2;}
 
     @Override
     public String toString(){

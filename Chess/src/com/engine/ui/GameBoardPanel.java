@@ -82,7 +82,7 @@ public class GameBoardPanel extends  JPanel{
                                 GameUtils.SELECTED_PIECE.finishMove(board, pos);
                                 deselectPiece(board);
                                 refreshDataPanel();
-                                if(GameUtils.kingUnderAttack(board)){
+                                if(GameUtils.kingUnderAttack(board) != null){
                                     refreshTiles(board);
                                     JOptionPane.showMessageDialog(null, GameUtils.PLAYER_TURN+" King under fire!",  "Check", JOptionPane.WARNING_MESSAGE);
                                 }

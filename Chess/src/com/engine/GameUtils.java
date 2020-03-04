@@ -27,11 +27,19 @@ public class GameUtils {
             SELECTED_PIECE = piece;
     }
 
-    public static void gameOver(){
+    public static void gameOver(Board board){
         String gameOverMsg = "";
-        
-        GAME_STATUS = GameStatus.GAME_OVER;
-        JOptionPane.showMessageDialog(null, "gameOverMsg",  "Game Over!", JOptionPane.WARNING_MESSAGE);
+        boolean gameOver = false;
+
+        if(kingUnderAttack(board).getAllAvailableMoves(board).size() < 1){
+            gameOver = true;
+            gameOverMsg = "Player "+kingUnderAttack(board).getAlliance()+" lost!";
+        }
+
+        if(gameOver){
+            GAME_STATUS = GameStatus.GAME_OVER;
+            JOptionPane.showMessageDialog(null, gameOverMsg,  "Game Over!", JOptionPane.WARNING_MESSAGE);
+        }
     }
 
     /**
@@ -58,17 +66,17 @@ public class GameUtils {
         return moves;
     }
 
-    public static boolean kingUnderAttack(Board board){
+    public static Piece kingUnderAttack(Board board){
         for(Piece.Move move : GameUtils.getAllEnemyMoves(board, PLAYER_TURN)){
             if(board.getTile(move.getDestCoords()).getPiece() == null)
                 continue;
 
             if(board.getTile(move.getDestCoords()).getPiece().getPieceType() == PieceType.KING && board.getTile(move.getDestCoords()).getPiece().getAlliance() == PLAYER_TURN){
                 System.out.println("king under attack!");
-                return true;
+                return board.getTile(move.getDestCoords()).getPiece();
             }
         }
-        return false;
+        return null;
     }
 
     /**
