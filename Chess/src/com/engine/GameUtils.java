@@ -17,6 +17,9 @@ public class GameUtils {
     public static final Dimension DATA_FRAME_SIZE = new Dimension(200,650);
     public static final Dimension SINGLE_TILE_SIZE = new Dimension(65,65);
     public static final Color BOARD_FRAME_COLOR = new Color(232, 232, 232);
+    public static final int PLAYER_INNER_CIRCLE_RADIUS = 10;
+    public static final int PLAYER_OUTER_CIRCLE_RADIUS = 12;
+    public static final Color SELECTED_PLAYER_OUTER_CIRCLE_COLOR = new Color(232, 232, 232);
     public static final Color DARK_TILE_COLOR = new Color(125, 135, 150);
     public static final Color LIGHT_TILE_COLOR = new Color(232, 235, 239);
     public static final Color MOVABLE_TILE_BORDER_COLOR = new Color(22, 204, 71);

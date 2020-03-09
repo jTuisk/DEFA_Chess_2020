@@ -12,6 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
@@ -95,19 +96,19 @@ public class DataPanel extends JPanel{
                     switch(name){
                         case "BISHOP":
                             toPiece = new Bishop(board, piece.getAlliance(), piece.getPlayer(), piece.getPosition());
-                            board.kingUnderAttack();
+                            piece.getPlayer().kingUnderAttack();
                             break;
                         case "KNIGHT":
                             toPiece = new Knight(board, piece.getAlliance(), piece.getPlayer(), piece.getPosition());
-                            board.kingUnderAttack();
+                            piece.getPlayer().kingUnderAttack();
                             break;
                         case "ROOK":
                             toPiece = new Rook(board, piece.getAlliance(), piece.getPlayer(), piece.getPosition());
-                            board.kingUnderAttack();
+                            piece.getPlayer().kingUnderAttack();
                             break;
                         default: // case "QUEEN":
                             toPiece = new Queen(board, piece.getAlliance(), piece.getPlayer(), piece.getPosition());
-                            board.kingUnderAttack();
+                            piece.getPlayer().kingUnderAttack();
                             break;
                     }
                     board.getTile(piece.getPosition()).setPiece(toPiece);

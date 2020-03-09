@@ -243,7 +243,7 @@ public abstract class Piece {
         return moves;
     }
 
-   public void finishMove(int[] destPos){
+    public void finishMove(int[] destPos){
         if( this.board.getGameStatus() != GameStatus.PLAYER_TURN ||
             this.board.getPlayerTurn() != this.alliance)
             return;
@@ -252,6 +252,7 @@ public abstract class Piece {
             Player enemy = board.getTile(destPos).getPiece().getPlayer();
             this.board.removePieceFromList(enemy, destPos);
         }
+
        this.board.getPiecesOnBoard().remove(board.getTile(destPos).getPiece());
        this.board.getTile(destPos).setPiece(this.board.getSelectedPiece());
        this.board.getTile(this.board.getSelectedPiece().getPosition()).setPiece(null);
@@ -299,4 +300,4 @@ public abstract class Piece {
             return piece+": "+ Arrays.toString(destPos);
         }
     }
-}
+    }

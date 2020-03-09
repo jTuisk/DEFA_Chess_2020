@@ -16,34 +16,47 @@ public class Board {
     private Tile[][] currentGameBoard;
     private Player p1;
     private Player p2;
-    private GameStatus gameStatus = null;
-    private Piece lastMovedPiece = null;
-    private Alliance playerTurn = null;
-    private Piece selectedPiece  = null;
+    private GameStatus gameStatus;
+    private Piece lastMovedPiece;
+    private Alliance playerTurn;
+    private Piece selectedPiece;
     private UserInterface userInterface;
     private boolean userInterfaceVisible;
-    private ArrayList<Piece> piecesOnBoard = new ArrayList<>();
+    private ArrayList<Piece> piecesOnBoard;
+    private Board futureBoard;
 
     public Board(boolean UI){
         this.gameStatus = GameStatus.INITIALIZING_GAME;
-        this.p1 = new Player(Alliance.WHITE);
-        this.p2 = new Player(Alliance.BLACK);
+        this.p1 = new Player(this, Alliance.WHITE);
+        this.p2 = new Player(this, Alliance.BLACK);
+        this.p1.setEnemyPlayer(this.p2);
+        this.p2.setEnemyPlayer(this.p1);
+        this.piecesOnBoard = new ArrayList<>();
         this.currentGameBoard = defaultBoardSetup();
         this.playerTurn = Alliance.WHITE;
         this.gameStatus = GameStatus.PLAYER_TURN;
-        this.userInterface = new UserInterface(this, p1, p2, UI);
         this.userInterfaceVisible = UI;
+        this.userInterface = new UserInterface(this, p1, p2, UI);
+        if(UI)
+            futureBoard = new Board(false);
+        else
+            futureBoard = null;
     }
 
     public void restartGame(){
         this.gameStatus = GameStatus.INITIALIZING_GAME;
         this.currentGameBoard = defaultBoardSetup();
-        this.p1 = new Player(Alliance.WHITE);
-        this.p2 = new Player(Alliance.BLACK);
+        this.p1 = new Player(this, Alliance.WHITE);
+        this.p2 = new Player(this, Alliance.BLACK);
+        this.p1.setEnemyPlayer(this.p2);
+        this.p2.setEnemyPlayer(this.p1);
         this.playerTurn = Alliance.WHITE;
         this.gameStatus = GameStatus.PLAYER_TURN;
         this.userInterface = new UserInterface(this, p1, p2, userInterfaceVisible);
+        futureBoard = new Board(false);
     }
+
+    public Board getFutureBoard(){return this.futureBoard;}
 
     public Player getPlayer1(){return this.p1;}
     public Player getPlayer2(){return this.p2;}
@@ -78,40 +91,6 @@ public class Board {
         player.addLostPiece(getTile(destPos).getPiece());
         this.piecesOnBoard.remove(getTile(destPos).getPiece());
     }
-
-    public int kingUnderAttack(){
-        for(Piece.Move move : getAllEnemyMoves(playerTurn)){
-            if(getTile(move.getDestCoords()).getPiece() == null)
-                continue;
-
-            Piece piece = getTile(move.getDestCoords()).getPiece();
-
-            if(piece.getPieceType() == PieceType.KING && piece.getAlliance() == playerTurn){
-                if(getTile(move.getDestCoords()).getPiece().getAllAvailableMoves().size() < 1){
-                    JOptionPane.showMessageDialog(null, "Checkmate! Player "+this.playerTurn.getEnemy()+" won!", "Checkmate", JOptionPane.WARNING_MESSAGE);
-                    this.gameStatus = GameStatus.GAME_OVER;
-                    return 2;
-                } else{
-                    JOptionPane.showMessageDialog(null, "Check! Player "+this.playerTurn+" king is under attack!", "Check", JOptionPane.WARNING_MESSAGE);
-                    return 1;
-                }
-            }
-        }
-        return 0;
-    }
-
-    public ArrayList<Piece.Move> getAllEnemyMoves(Alliance alliance){
-        ArrayList<Piece.Move> moves = new ArrayList<>();
-
-        for(Piece piece : this.piecesOnBoard){
-            if(piece.getAlliance() == alliance ||piece.getPieceType() == PieceType.KING)
-                continue;
-            moves.addAll(piece.getAllAvailableMoves());
-        }
-
-        return moves;
-    }
-
 
     private Tile[][] defaultBoardSetup(){
         Tile[][] setup = new Tile[GameUtils.GAME_BOARD_SIZE_HEIGHT][GameUtils.GAME_BOARD_SIZE_WIDTH];

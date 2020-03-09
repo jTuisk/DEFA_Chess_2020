@@ -75,9 +75,7 @@ public class GameBoardPanel extends  JPanel{
                             } else {
                                 if (Piece.canMove(board.getSelectedPiece().getAllAvailableMoves(), new Piece.Move(board, board.getSelectedPiece(), pos))) {
                                     board.getSelectedPiece().finishMove(pos);
-                                    deselectPiece();
                                     refreshTiles();
-                                    board.kingUnderAttack();
                                 } else {
                                     if (board.getTile(pos).isEmpty()) {
                                         deselectPiece();
