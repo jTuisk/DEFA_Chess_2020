@@ -38,26 +38,26 @@ public class FileManager {
         return data;
     }
 
-    private static Piece getPieceByChar(char c, Alliance alliance, Player player, int[] pos){
+    private static Piece getPieceByChar(Board board, char c, Alliance alliance, Player player, int[] pos){
         Piece piece = null;
         switch(c){
             case 'K':
-                piece = new King(alliance, player, pos);
+                piece = new King(board, alliance, player, pos);
                     break;
             case 'Q':
-                piece = new Queen(alliance, player, pos);
+                piece = new Queen(board, alliance, player, pos);
                 break;
             case 'N':
-                piece = new Knight(alliance, player, pos);
+                piece = new Knight(board, alliance, player, pos);
                 break;
             case 'B':
-                piece = new Bishop(alliance, player, pos);
+                piece = new Bishop(board, alliance, player, pos);
                 break;
             case 'R':
-                piece = new Rook(alliance, player, pos);
+                piece = new Rook(board, alliance, player, pos);
                 break;
             case 'P':
-                piece = new Pawn(alliance, player, pos);
+                piece = new Pawn(board, alliance, player, pos);
                 break;
         }
         return piece;
@@ -82,7 +82,7 @@ public class FileManager {
                 char allianceChar = data[x][y].charAt(1);
                 char playerChar = data[x][y].charAt(2);
                 Player player = playerChar == '0' ? p1 : p2;
-                board.getTile(pos).setPiece(getPieceByChar(pieceChar, getAllianceByChar(allianceChar), player, pos));
+                board.getTile(pos).setPiece(getPieceByChar(board, pieceChar, getAllianceByChar(allianceChar), player, pos));
             }
         }
         //Lost pieces
@@ -101,7 +101,7 @@ public class FileManager {
                 char allianceChar = s.charAt(1);
                 char playerChar = s.charAt(2);
                 int[] pos = new int[]{0,0};
-                p1.addLostPiece(getPieceByChar(pieceChar, getAllianceByChar(allianceChar), p1, pos));
+                p1.addLostPiece(getPieceByChar(board, pieceChar, getAllianceByChar(allianceChar), p1, pos));
             }
             for(String s : p2_lostPiecesArray){
                 if(s.length() != 3)
@@ -111,7 +111,7 @@ public class FileManager {
                 char allianceChar = s.charAt(1);
                 char playerChar = s.charAt(2);
                 int[] pos = new int[]{0,0};
-                p2.addLostPiece(getPieceByChar(pieceChar, getAllianceByChar(allianceChar), p2, pos));
+                p2.addLostPiece(getPieceByChar(board, pieceChar, getAllianceByChar(allianceChar), p2, pos));
             }
 
         }catch(Exception e){
@@ -120,19 +120,17 @@ public class FileManager {
 
         //Player Turn
         try{
-            GameUtils.PLAYER_TURN = getAllianceByChar(data[10][0].charAt(0));
+            board.setPlayerTurn(getAllianceByChar(data[10][0].charAt(0)));
         }catch(Exception e){
 
         }
         //Player Turn
         try{
-            GameUtils.GAME_STATUS = GameStatus.getGameStatusByChar(data[10][1].charAt(0));
+            board.setGameStatus(GameStatus.getGameStatusByChar(data[10][1].charAt(0)));
         }catch(Exception e){
 
         }
-        dataPanel.refreshDataPanel();
-        gameBoardPanel.refreshTiles(board);
-        System.out.println(board.toString());
+        board.refreshUI();
     }
 
     public static void saveGame(Board board, Player p1, Player p2){
@@ -183,9 +181,9 @@ public class FileManager {
         builder.append("\n");
 
         //Player turn
-        builder.append(GameUtils.PLAYER_TURN.getAllianceChar()+";");
+        builder.append(board.getPlayerTurn().getAllianceChar()+";");
         //GameStatus
-        builder.append(GameUtils.GAME_STATUS+";");
+        builder.append(board.getGameStatus()+";");
 
         return builder.toString();
     }

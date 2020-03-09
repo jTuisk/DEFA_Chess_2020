@@ -1,95 +1,13 @@
 package com.engine;
-
-import com.engine.board.Board;
-import com.engine.piece.Piece;
-import com.engine.player.Player;
-
-import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class GameUtils {
-
-    /**
-     * GAME
-     */
-    public static GameStatus GAME_STATUS = null;
-    public static Piece LAST_MOVED_PIECE = null;
-    public static Alliance PLAYER_TURN = Alliance.WHITE;
-    public static void CHANGE_PLAYER_TURN(){
-        PLAYER_TURN = PLAYER_TURN.isWhite() ? Alliance.BLACK : Alliance.WHITE;
-    }
-
-    public static Piece SELECTED_PIECE  = null;
-    public static void selectPiece(Piece piece){
-        if(piece != null && piece.getAlliance() == PLAYER_TURN)
-            SELECTED_PIECE = piece;
-    }
-
-    public static void gameOver(Board board){
-        String gameOverMsg = "";
-        boolean gameOver = false;
-
-        if(kingUnderAttack(board).getAllAvailableMoves(board).size() < 1){
-            gameOver = true;
-            gameOverMsg = "Player "+kingUnderAttack(board).getAlliance()+" lost!";
-        }
-
-        if(gameOver){
-            GAME_STATUS = GameStatus.GAME_OVER;
-            JOptionPane.showMessageDialog(null, gameOverMsg,  "Game Over!", JOptionPane.WARNING_MESSAGE);
-        }
-    }
-
-    /**
-     * Piece
-     */
-    public static ArrayList<Piece> PIECES_ONBOARD = new ArrayList<>();
-
-    public static void removePieceFromList(Board board, Player player, int[] destPos){
-        player.addLostPiece(board.getTile(destPos).getPiece());
-        GameUtils.PIECES_ONBOARD.remove(board.getTile(destPos).getPiece());
-        System.out.println(player.getLostPieces());
-    }
-
-    public static ArrayList<Piece.Move> getAllEnemyMoves(Board board, Alliance alliance){
-        ArrayList<Piece.Move> moves = new ArrayList<>();
-
-        for(Piece piece : PIECES_ONBOARD){
-            if(piece.getAlliance() == alliance)
-                continue;
-            for(Piece.Move move : piece.getAllAvailableMoves(board)){
-                moves.add(move);
-            }
-        }
-        return moves;
-    }
-
-    public static Piece kingUnderAttack(Board board){
-        for(Piece.Move move : GameUtils.getAllEnemyMoves(board, PLAYER_TURN)){
-            if(board.getTile(move.getDestCoords()).getPiece() == null)
-                continue;
-
-            if(board.getTile(move.getDestCoords()).getPiece().getPieceType() == PieceType.KING && board.getTile(move.getDestCoords()).getPiece().getAlliance() == PLAYER_TURN){
-                System.out.println("king under attack!");
-                return board.getTile(move.getDestCoords()).getPiece();
-            }
-        }
-        return null;
-    }
 
     /**
      * GAME BOARD
      */
     public static final int GAME_BOARD_SIZE_WIDTH = 8;
     public static final int GAME_BOARD_SIZE_HEIGHT = 8;
-
-    public static boolean coordsInGameBoard(int[] coords){
-        if(coords == null || coords.length != 2)
-            return false;
-        return (coords[0] >= 0 && coords[0] < GAME_BOARD_SIZE_HEIGHT && coords[1] >= 0 && coords[1] < GAME_BOARD_SIZE_WIDTH);
-    }
 
     /**
      * GAME GUI

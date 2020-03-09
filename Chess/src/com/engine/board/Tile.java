@@ -6,17 +6,17 @@ import java.util.Arrays;
 
 public class Tile {
 
-    protected final int[] tileCoords;
+    protected final int[] tilePos;
 
     private Piece piece;
 
-    public Tile(int[] tileCoords){
-        this.tileCoords = tileCoords;
+    public Tile(int[] tilePos){
+        this.tilePos = tilePos;
         this.piece = null;
     }
 
-    public Tile(int[] tileCoords, Piece piece){
-        this.tileCoords = tileCoords;
+    public Tile(int[] tilePos, Piece piece){
+        this.tilePos = tilePos;
         this.piece = piece;
     }
 
@@ -25,9 +25,6 @@ public class Tile {
         this.piece = piece;
     }
 
-    public int[] getTileCoords(){
-        return this.tileCoords;
-    }
 
     public boolean isEmpty(){
         return this.piece == null;

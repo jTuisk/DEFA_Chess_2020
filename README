@@ -9,10 +9,29 @@ TODO:
     - En Passant -> https://en.wikipedia.org/wiki/En_passant
 
 - GUI
+    - Player turn
+        - White and black circle. Make circle have "border" line when it is player turn
     - popupMsg
         - Checkmate
         - Check
-        - Winner //2
-        - Draw //1
+        - Winner
+        - Draw
             - JOptionPane.showMessageDialog(null, "msg",  "title", JOptionPane.WARNING_MESSAGE);
 
+
+
+
+Check = Enemy can attack king
+Checkmate = Enemy attack king, King can't move and King alliance can't block enemy attack
+
+Piece can't move away from blocking the king.
+
+King can't attack if enemy is defending that spot.
+
+
+/**
+ * https://www.youtube.com/watch?v=QDFI19lj4OM UNIT TEST
+ * DRAW FUNCTION
+ */
+
+ Deselect SelectedPiece do not work!

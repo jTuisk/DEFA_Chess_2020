@@ -23,14 +23,16 @@ public class UserInterface extends JFrame {
     Player p2;
 
 
-    public UserInterface(Board board, Player p1, Player p2){
+    public UserInterface(Board board, Player p1, Player p2, boolean visible){
         super("DEFA Chess 2020, Made by Janek Tuisk");
+        if(!visible)
+            return;
+
         this.board = board;
         this.p1 = p1;
         this.p2 = p2;
-        this.dataPanel = new DataPanel(board, p1, p2);
-        this.gameBoardPanel = new GameBoardPanel(board, dataPanel);
-        this.dataPanel.setGameBoardPanel(this.gameBoardPanel);
+        this.gameBoardPanel = new GameBoardPanel(board);
+        this.dataPanel = new DataPanel(board, p1, p2, this.gameBoardPanel);
 
         /*MENUBAR*/
         super.setJMenuBar(createFileMenuBar());
@@ -47,8 +49,11 @@ public class UserInterface extends JFrame {
         super.setSize(GameUtils.GUI_FRAME_SIZE);
         super.setLayout(null);
         super.setResizable(false);
-        super.setVisible(true);
+        super.setVisible(visible);
     }
+
+    public DataPanel getDataPanel(){return this.dataPanel;}
+    public GameBoardPanel getGameBoardPanel(){ return this.gameBoardPanel; }
 
     private JMenuBar createFileMenuBar(){
         JMenuBar fileMenuBar = new JMenuBar();
@@ -64,7 +69,7 @@ public class UserInterface extends JFrame {
                 p1.clearLostPieces();
                 p2.clearLostPieces();
                 board.restartGame();
-                gameBoardPanel.refreshTiles(board);
+                gameBoardPanel.refreshTiles();
                 dataPanel.refreshDataPanel();
                 System.out.println("Starting new game!");
             }

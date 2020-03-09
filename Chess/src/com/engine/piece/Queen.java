@@ -11,36 +11,36 @@ import java.util.List;
 
 public class Queen extends Piece {
 
-    public Queen(Alliance alliance, Player player, int[] piecePosition) {
-        super(alliance, player, piecePosition, PieceType.QUEEN);
+    public Queen(Board board, Alliance alliance, Player player, int[] piecePosition) {
+        super(board, alliance, player, piecePosition, PieceType.QUEEN);
     }
 
     @Override
-    public List<Move> getAllAvailableMoves(Board board){
+    public List<Move> getAllAvailableMoves(){
         ArrayList<Move> moves = new ArrayList<>();
 
-        for(Move move : this.getDiagonalMovesRightDown(board, GameUtils.GAME_BOARD_SIZE_HEIGHT)){
+        for(Move move : this.getDiagonalMovesRightDown(GameUtils.GAME_BOARD_SIZE_HEIGHT)){
             moves.add(move);
         }
-        for(Move move : this.getDiagonalMovesLeftDown(board, GameUtils.GAME_BOARD_SIZE_HEIGHT)){
+        for(Move move : this.getDiagonalMovesLeftDown( GameUtils.GAME_BOARD_SIZE_HEIGHT)){
             moves.add(move);
         }
-        for(Move move : this.getDiagonalMovesLeftUp(board, GameUtils.GAME_BOARD_SIZE_HEIGHT)){
+        for(Move move : this.getDiagonalMovesLeftUp(GameUtils.GAME_BOARD_SIZE_HEIGHT)){
             moves.add(move);
         }
-        for(Move move : this.getDiagonalMovesRightUp(board, GameUtils.GAME_BOARD_SIZE_HEIGHT)){
+        for(Move move : this.getDiagonalMovesRightUp(GameUtils.GAME_BOARD_SIZE_HEIGHT)){
             moves.add(move);
         }
-        for(Move move : this.getVerticalMovesUp(board, GameUtils.GAME_BOARD_SIZE_HEIGHT)){
+        for(Move move : this.getVerticalMovesUp(GameUtils.GAME_BOARD_SIZE_HEIGHT)){
             moves.add(move);
         }
-        for(Move move : this.getVerticalMovesDown(board, GameUtils.GAME_BOARD_SIZE_HEIGHT)){
+        for(Move move : this.getVerticalMovesDown(GameUtils.GAME_BOARD_SIZE_HEIGHT)){
             moves.add(move);
         }
-        for(Move move : this.getHorizontalMovesLeft(board, GameUtils.GAME_BOARD_SIZE_WIDTH)){
+        for(Move move : this.getHorizontalMovesLeft(GameUtils.GAME_BOARD_SIZE_WIDTH)){
             moves.add(move);
         }
-        for(Move move : this.getHorizontalMovesRight(board, GameUtils.GAME_BOARD_SIZE_WIDTH)){
+        for(Move move : this.getHorizontalMovesRight(GameUtils.GAME_BOARD_SIZE_WIDTH)){
             moves.add(move);
         }
         return moves;

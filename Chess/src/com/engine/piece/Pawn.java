@@ -14,23 +14,18 @@ import java.util.List;
 
 public class Pawn extends Piece {
 
-    public Pawn(Alliance alliance, Player player, int[] piecePosition) {
-        super(alliance, player, piecePosition, PieceType.PAWN);
-    }
-
-
-    public void promotePawn(Board board, Piece toPiece){
-        board.getTile(this.getPosition()).setPiece(toPiece);
+    public Pawn(Board board,Alliance alliance, Player player, int[] piecePosition) {
+        super(board, alliance, player, piecePosition, PieceType.PAWN);
     }
 
     @Override
-    protected List<Move> getHorizontalMovesRight(Board board, int maxTiles){
+    protected List<Move> getHorizontalMovesRight(int maxTiles){
         ArrayList<Move> moves = new ArrayList<>();
 
         for(int x = 1; ((this.piecePosition[0]+x)-GameUtils.GAME_BOARD_SIZE_WIDTH) < 0; x++){
             int[] destinationPosition = new int[]{this.piecePosition[0]+x, this.piecePosition[1]};
 
-            if(!GameUtils.coordsInGameBoard(destinationPosition) || moves.size() >= maxTiles )
+            if(!this.board.posInGameBoard(destinationPosition) || moves.size() >= maxTiles )
                 break;
 
             Piece pieceAtDestination = board.getTile(destinationPosition).getPiece();
@@ -44,13 +39,13 @@ public class Pawn extends Piece {
     }
 
     @Override
-    protected List<Move> getHorizontalMovesLeft(Board board, int maxTiles){
+    protected List<Move> getHorizontalMovesLeft( int maxTiles){
         ArrayList<Move> moves = new ArrayList<>();
 
         for(int x = 1; (this.piecePosition[0]-x) > -1; x++){
             int[] destinationPosition = new int[]{this.piecePosition[0]-x, this.piecePosition[1]};
 
-            if(!GameUtils.coordsInGameBoard(destinationPosition) || moves.size() >= maxTiles)
+            if(!this.board.posInGameBoard(destinationPosition) || moves.size() >= maxTiles)
                 break;
 
             Piece pieceAtDestination = board.getTile(destinationPosition).getPiece();
@@ -64,12 +59,12 @@ public class Pawn extends Piece {
     }
 
     @Override
-    protected List<Move> getDiagonalMovesRightDown(Board board, int maxTiles){
+    protected List<Move> getDiagonalMovesRightDown(int maxTiles){
         ArrayList<Move> moves = new ArrayList<>();
         int[] destinationPosition = new int[]{this.piecePosition[0]+1, this.piecePosition[1]+1};
 
 
-        if (!GameUtils.coordsInGameBoard(destinationPosition))
+        if (!this.board.posInGameBoard(destinationPosition))
             return moves;
 
         Piece pieceAtDestination = board.getTile(destinationPosition).getPiece();
@@ -80,11 +75,11 @@ public class Pawn extends Piece {
     }
 
     @Override
-    protected List<Move> getDiagonalMovesLeftUp(Board board, int maxTiles){
+    protected List<Move> getDiagonalMovesLeftUp(int maxTiles){
         ArrayList<Move> moves = new ArrayList<>();
         int[] destinationPosition = new int[]{this.piecePosition[0]-1, this.piecePosition[1]-1};
 
-        if (!GameUtils.coordsInGameBoard(destinationPosition))
+        if (!this.board.posInGameBoard(destinationPosition))
             return moves;
 
         Piece pieceAtDestination = board.getTile(destinationPosition).getPiece();
@@ -95,11 +90,11 @@ public class Pawn extends Piece {
     }
 
     @Override
-    protected List<Move> getDiagonalMovesRightUp(Board board, int maxTiles){
+    protected List<Move> getDiagonalMovesRightUp(int maxTiles){
         ArrayList<Move> moves = new ArrayList<>();
         int[] destinationPosition = new int[]{this.piecePosition[0] + 1, this.piecePosition[1] - 1};
 
-        if (!GameUtils.coordsInGameBoard(destinationPosition))
+        if (!this.board.posInGameBoard(destinationPosition))
             return moves;
 
         Piece pieceAtDestination = board.getTile(destinationPosition).getPiece();
@@ -110,12 +105,12 @@ public class Pawn extends Piece {
     }
 
     @Override
-    protected List<Move> getDiagonalMovesLeftDown(Board board, int maxTiles) {
+    protected List<Move> getDiagonalMovesLeftDown(int maxTiles) {
         ArrayList<Move> moves = new ArrayList<>();
 
         int[] destinationPosition = new int[]{this.piecePosition[0] - 1, this.piecePosition[1] + 1};
 
-        if (!GameUtils.coordsInGameBoard(destinationPosition))
+        if (!this.board.posInGameBoard(destinationPosition))
             return moves;
 
         Piece pieceAtDestination = board.getTile(destinationPosition).getPiece();
@@ -127,28 +122,28 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public List<Move> getAllAvailableMoves(Board board) {
+    public List<Move> getAllAvailableMoves() {
         ArrayList<Move> moves = new ArrayList<>();
         int maxTiles = this.firstMove ? 2 : 1;
         if(this.getAlliance().isWhite()){
-            for(Move move : this.getDiagonalMovesRightDown(board, 1)){
+            for(Move move : this.getDiagonalMovesRightDown(1)){
                 moves.add(move);
             }
-            for(Move move : this.getDiagonalMovesRightUp(board, 1)){
+            for(Move move : this.getDiagonalMovesRightUp(1)){
                 moves.add(move);
             }
-            for(Move move : this.getHorizontalMovesRight(board, maxTiles)){
+            for(Move move : this.getHorizontalMovesRight(maxTiles)){
                 moves.add(move);
             }
         }
         if(this.getAlliance().isBlack()){
-            for(Move move : this.getDiagonalMovesLeftDown(board, 1)){
+            for(Move move : this.getDiagonalMovesLeftDown(1)){
                 moves.add(move);
             }
-            for(Move move : this.getDiagonalMovesLeftUp(board, 1)){
+            for(Move move : this.getDiagonalMovesLeftUp(1)){
                 moves.add(move);
             }
-            for(Move move : this.getHorizontalMovesLeft(board, maxTiles)){
+            for(Move move : this.getHorizontalMovesLeft(maxTiles)){
                 moves.add(move);
             }
         }
@@ -157,23 +152,24 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public void finishMove(Board board, int[] destCoords){
-        if(GameUtils.GAME_STATUS != GameStatus.PLAYER_TURN)
-        return;
+    public void finishMove(int[] destPos){
+        if( this.board.getGameStatus() != GameStatus.PLAYER_TURN ||
+                this.board.getPlayerTurn() != this.alliance)
+            return;
 
-        if(board.getTile(destCoords).getPiece() != null){
-            Player enemy = board.getTile(destCoords).getPiece().getPlayer();
-            GameUtils.removePieceFromList(board, enemy, destCoords);
+        if(board.getTile(destPos).getPiece() != null){
+            Player enemy = board.getTile(destPos).getPiece().getPlayer();
+            this.board.removePieceFromList(enemy, destPos);
         }
-        GameUtils.PIECES_ONBOARD.remove(board.getTile(destCoords).getPiece());
-        board.getTile(destCoords).setPiece(GameUtils.SELECTED_PIECE);
-        board.getTile(GameUtils.SELECTED_PIECE.getPosition()).setPiece(null);
-        GameUtils.SELECTED_PIECE.setPiecePosition(destCoords);
-        GameUtils.LAST_MOVED_PIECE = this;
+        this.board.getPiecesOnBoard().remove(board.getTile(destPos).getPiece());
+        board.getTile(destPos).setPiece(this.board.getSelectedPiece());
+        board.getTile(this.board.getSelectedPiece().getPosition()).setPiece(null);
+        this.board.getSelectedPiece().setPiecePosition(destPos);
+        this.board.setLastMovedPiece(this);
         if(this.getAlliance().isWhite()){
             for(int x = 0; x < GameUtils.GAME_BOARD_SIZE_HEIGHT; x++){
                 if(this.getPosition()[0] == 7 && this.getPosition()[1] == x){
-                    GameUtils.GAME_STATUS = GameStatus.PROMOTING_PAWN;
+                    this.board.setGameStatus(GameStatus.PROMOTING_PAWN);
                     break;
                 }
             }
@@ -181,14 +177,14 @@ public class Pawn extends Piece {
         if(this.getAlliance().isBlack()){
             for(int x = 0; x < GameUtils.GAME_BOARD_SIZE_HEIGHT; x++){
                 if(this.getPosition()[0] == 0 && this.getPosition()[1] == x){
-                    GameUtils.GAME_STATUS = GameStatus.PROMOTING_PAWN;
+                    this.board.setGameStatus(GameStatus.PROMOTING_PAWN);
                     break;
                 }
             }
         }
+        this.board.setSelectPiece(null);
+        this.board.changePlayerTurn();
         this.firstMove = false;
-        GameUtils.CHANGE_PLAYER_TURN();
+        this.board.refreshUI();
     }
-
-
 }

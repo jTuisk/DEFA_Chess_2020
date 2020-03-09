@@ -18,4 +18,10 @@ public enum Alliance {
     }
 
     public char getAllianceChar(){return this.allianceChar;}
+
+    public Alliance getEnemy(){
+        if(this == BLACK)
+            return WHITE;
+        return BLACK;
+    }
 }

@@ -24,17 +24,22 @@ public class DataPanel extends JPanel{
     private Player p2;
 
 
-    public DataPanel(Board board, Player p1, Player p2){
+    public DataPanel(Board board, Player p1, Player p2, GameBoardPanel gameBoardPanel){
         super();
+        this.gameBoardPanel = gameBoardPanel;
         this.p1 = p1;
         this.p2 = p2;
         this.board = board;
         setupDataPanel();
     }
 
+    public void refreshDataPanel(){
+        setupDataPanel();
+    }
+
     private void setupDataPanel(){
         super.removeAll();
-        switch(GameUtils.GAME_STATUS){
+        switch(this.board.getGameStatus()){
             case PROMOTING_PAWN:
                 pawnPromotionPanelSetup();
                     break;
@@ -44,13 +49,9 @@ public class DataPanel extends JPanel{
         }
     }
 
-    public void setGameBoardPanel(GameBoardPanel gameBoardPanel){
-        this.gameBoardPanel = gameBoardPanel;
-    }
-
     private void dataPanelSetup(){
         super.removeAll();
-        if(GameUtils.GAME_STATUS == GameStatus.PROMOTING_PAWN)
+        if(this.board.getGameStatus() == GameStatus.PROMOTING_PAWN)
             setupDataPanel();
 
         super.setBounds(GameUtils.BOARD_FRAME_SIZE.width, 0, GameUtils.DATA_FRAME_SIZE.width, GameUtils.DATA_FRAME_SIZE.height);
@@ -64,7 +65,7 @@ public class DataPanel extends JPanel{
     }
 
     private void pawnPromotionPanelSetup(){
-        if(GameUtils.GAME_STATUS != GameStatus.PROMOTING_PAWN)
+        if(this.board.getGameStatus() != GameStatus.PROMOTING_PAWN)
             setupDataPanel();
 
         super.setBounds(GameUtils.BOARD_FRAME_SIZE.width, 0, GameUtils.DATA_FRAME_SIZE.width, GameUtils.DATA_FRAME_SIZE.height);
@@ -80,7 +81,7 @@ public class DataPanel extends JPanel{
 
         for(int i = 0; i < imgNames.length; i++){
             JPanel temp = new JPanel();
-            String imgPath = "img/"+GameUtils.LAST_MOVED_PIECE.getAlliance()+"_"+imgNames[i]+".png";
+            String imgPath = "img/"+this.board.getLastMovedPiece().getAlliance()+"_"+imgNames[i]+".png";
             temp.setBackground(GameUtils.BOARD_FRAME_COLOR);
             int y = 60+i*75;
             temp.setBounds(60, y, 60, 60);
@@ -90,26 +91,30 @@ public class DataPanel extends JPanel{
                 public void mouseClicked(MouseEvent mouseEvent) {
                     System.out.println(name);
                     Piece toPiece;
-                    Piece piece = GameUtils.LAST_MOVED_PIECE;
+                    Piece piece = board.getLastMovedPiece();
                     switch(name){
                         case "BISHOP":
-                            toPiece = new Bishop(piece.getAlliance(), piece.getPlayer(), piece.getPosition());
+                            toPiece = new Bishop(board, piece.getAlliance(), piece.getPlayer(), piece.getPosition());
+                            board.kingUnderAttack();
                             break;
                         case "KNIGHT":
-                            toPiece = new Knight(piece.getAlliance(), piece.getPlayer(), piece.getPosition());
+                            toPiece = new Knight(board, piece.getAlliance(), piece.getPlayer(), piece.getPosition());
+                            board.kingUnderAttack();
                             break;
                         case "ROOK":
-                            toPiece = new Rook(piece.getAlliance(), piece.getPlayer(), piece.getPosition());
+                            toPiece = new Rook(board, piece.getAlliance(), piece.getPlayer(), piece.getPosition());
+                            board.kingUnderAttack();
                             break;
                         default: // case "QUEEN":
-                            toPiece = new Queen(piece.getAlliance(), piece.getPlayer(), piece.getPosition());
+                            toPiece = new Queen(board, piece.getAlliance(), piece.getPlayer(), piece.getPosition());
+                            board.kingUnderAttack();
                             break;
                     }
                     board.getTile(piece.getPosition()).setPiece(toPiece);
-                    GameUtils.GAME_STATUS = GameStatus.PLAYER_TURN;
+                    board.setGameStatus(GameStatus.PLAYER_TURN);
                     dataPanelSetup();
                     if(gameBoardPanel != null)
-                        gameBoardPanel.refreshTiles(board);
+                        gameBoardPanel.refreshTiles();
                 }
                 @Override
                 public void mousePressed(MouseEvent mouseEvent){}
@@ -142,7 +147,7 @@ public class DataPanel extends JPanel{
 
         JPanel colorBox = new JPanel();
         colorBox.setBounds(45, 25, 60, 40);
-        colorBox.setBackground(GameUtils.PLAYER_TURN.isWhite()? Color.WHITE : Color.BLACK);
+        colorBox.setBackground(this.board.getPlayerTurn().isWhite()? Color.WHITE : Color.BLACK);
 
         playerTurnPanel.add(text);
         playerTurnPanel.add(colorBox);
@@ -205,11 +210,5 @@ public class DataPanel extends JPanel{
             }
         }
         return listOfPieces;
-    }
-
-
-
-    public void refreshDataPanel(){
-        setupDataPanel();
     }
 }

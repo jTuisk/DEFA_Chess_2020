@@ -11,24 +11,24 @@ import java.util.List;
 
 public class Bishop extends Piece{
 
-    public Bishop(Alliance alliance, Player player, int[] piecePosition) {
-        super(alliance, player, piecePosition, PieceType.BISHOP);
+    public Bishop(Board board, Alliance alliance, Player player, int[] piecePosition) {
+        super(board, alliance, player, piecePosition, PieceType.BISHOP);
     }
 
     @Override
-    public List<Move> getAllAvailableMoves(Board board){
+    public List<Move> getAllAvailableMoves(){
         ArrayList<Move> moves = new ArrayList<>();
 
-        for(Move move : this.getDiagonalMovesRightDown(board, GameUtils.GAME_BOARD_SIZE_HEIGHT)){
+        for(Move move : this.getDiagonalMovesRightDown(GameUtils.GAME_BOARD_SIZE_HEIGHT)){
             moves.add(move);
         }
-        for(Move move : this.getDiagonalMovesLeftDown(board, GameUtils.GAME_BOARD_SIZE_HEIGHT)){
+        for(Move move : this.getDiagonalMovesLeftDown(GameUtils.GAME_BOARD_SIZE_HEIGHT)){
             moves.add(move);
         }
-        for(Move move : this.getDiagonalMovesLeftUp(board, GameUtils.GAME_BOARD_SIZE_HEIGHT)){
+        for(Move move : this.getDiagonalMovesLeftUp(GameUtils.GAME_BOARD_SIZE_HEIGHT)){
             moves.add(move);
         }
-        for(Move move : this.getDiagonalMovesRightUp(board, GameUtils.GAME_BOARD_SIZE_HEIGHT)){
+        for(Move move : this.getDiagonalMovesRightUp(GameUtils.GAME_BOARD_SIZE_HEIGHT)){
             moves.add(move);
         }
         return moves;

@@ -13,36 +13,36 @@ public class King extends Piece {
 
     //Castling - https://simple.wikipedia.org/wiki/Castling
 
-    public King(Alliance alliance, Player player, int[] piecePosition) {
-        super(alliance, player, piecePosition, PieceType.KING);
+    public King(Board board, Alliance alliance, Player player, int[] piecePosition) {
+        super(board, alliance, player, piecePosition, PieceType.KING);
     }
 
     @Override
-    public List<Move> getAllAvailableMoves(Board board){
+    public List<Move> getAllAvailableMoves(){
         ArrayList<Move> moves = new ArrayList<>();
 
-        for(Move move : this.getDiagonalMovesRightDown(board, 1)){
+        for(Move move : this.getDiagonalMovesRightDown(1)){
                 moves.add(move);
         }
-        for(Move move : this.getDiagonalMovesLeftDown(board, 1)){
+        for(Move move : this.getDiagonalMovesLeftDown(1)){
                 moves.add(move);
         }
-        for(Move move : this.getDiagonalMovesLeftUp(board, 1)){
+        for(Move move : this.getDiagonalMovesLeftUp(1)){
                 moves.add(move);
         }
-        for(Move move : this.getDiagonalMovesRightUp(board, 1)){
+        for(Move move : this.getDiagonalMovesRightUp(1)){
                 moves.add(move);
         }
-        for(Move move : this.getVerticalMovesUp(board, 1)){
+        for(Move move : this.getVerticalMovesUp(1)){
                 moves.add(move);
         }
-        for(Move move : this.getVerticalMovesDown(board, 1)){
+        for(Move move : this.getVerticalMovesDown(1)){
                 moves.add(move);
         }
-        for(Move move : this.getHorizontalMovesLeft(board, 1)){
+        for(Move move : this.getHorizontalMovesLeft(1)){
                 moves.add(move);
         }
-        for(Move move : this.getHorizontalMovesRight(board, 1)){
+        for(Move move : this.getHorizontalMovesRight(1)){
                 moves.add(move);
         }
         return moves;

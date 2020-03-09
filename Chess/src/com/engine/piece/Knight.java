@@ -11,12 +11,12 @@ import java.util.List;
 
 public class Knight extends Piece {
 
-    public Knight(Alliance alliance, Player player, int[] piecePosition) {
-        super(alliance, player, piecePosition, PieceType.KNIGHT);
+    public Knight(Board board, Alliance alliance, Player player, int[] piecePosition) {
+        super(board, alliance, player, piecePosition, PieceType.KNIGHT);
     }
 
     @Override
-    public List<Move> getAllAvailableMoves(Board board) {
+    public List<Move> getAllAvailableMoves() {
         ArrayList<Move> moves = new ArrayList<>();
 
         for(int x = 0; x < GameUtils.GAME_BOARD_SIZE_HEIGHT; x++){
@@ -27,12 +27,12 @@ public class Knight extends Piece {
                 if(piece_x*piece_y != 2)
                     continue;
 
-                Piece pieceOnDestinationTile = board.getTile(new int[] {x,y}).getPiece();
+                Piece pieceOnDestinationTile = this.board.getTile(new int[] {x,y}).getPiece();
 
                 if(pieceOnDestinationTile != null && pieceOnDestinationTile.getAlliance() == this.alliance)
                     continue;
 
-                moves.add(new Move(board, this, new int[]{x,y}));
+                moves.add(new Move(this.board, this, new int[]{x,y}));
             }
         }
         return moves;
