@@ -109,7 +109,7 @@ public class GameBoardPanel extends  JPanel{
         return tile;
     }
 
-    private void deselectPiece(){
+    public void deselectPiece(){
         this.board.setSelectPiece(null);
         resetTileShadows();
     }

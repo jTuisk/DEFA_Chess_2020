@@ -101,7 +101,7 @@ public class FileManager {
                 char allianceChar = s.charAt(1);
                 char playerChar = s.charAt(2);
                 int[] pos = new int[]{0,0};
-                p1.addLostPiece(getPieceByChar(board, pieceChar, getAllianceByChar(allianceChar), p1, pos));
+                p1.removePieceFromPlayer(getPieceByChar(board, pieceChar, getAllianceByChar(allianceChar), p1, pos));
             }
             for(String s : p2_lostPiecesArray){
                 if(s.length() != 3)
@@ -111,7 +111,7 @@ public class FileManager {
                 char allianceChar = s.charAt(1);
                 char playerChar = s.charAt(2);
                 int[] pos = new int[]{0,0};
-                p2.addLostPiece(getPieceByChar(board, pieceChar, getAllianceByChar(allianceChar), p2, pos));
+                p2.removePieceFromPlayer(getPieceByChar(board, pieceChar, getAllianceByChar(allianceChar), p2, pos));
             }
 
         }catch(Exception e){

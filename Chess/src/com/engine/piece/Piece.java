@@ -27,7 +27,7 @@ public abstract class Piece {
         this.pieceType = pieceType;
         this.piecePosition = piecePosition;
         firstMove = true;
-        board.getPiecesOnBoard().add(this);
+        player.addPieceToPlayer(this);
     }
 
     public Player getPlayer(){
@@ -243,24 +243,60 @@ public abstract class Piece {
         return moves;
     }
 
-    public void finishMove(int[] destPos){
-        if( this.board.getGameStatus() != GameStatus.PLAYER_TURN ||
-            this.board.getPlayerTurn() != this.alliance)
-            return;
+    boolean canMove(int[] destPos){
+        if(this.board.getFutureBoard() == null)
+            return true;
 
-        if(board.getTile(destPos).getPiece() != null){
-            Player enemy = board.getTile(destPos).getPiece().getPlayer();
-            this.board.removePieceFromList(enemy, destPos);
+        boolean moveAvailable = true;
+
+        Board f_board = this.board.getFutureBoard();
+        Piece f_currentPiece = f_board.getTile(this.piecePosition).getPiece();
+        Piece f_enemyPiece = null;
+
+        if(f_board.getTile(destPos).getPiece() != null){
+            f_enemyPiece = f_board.getTile(destPos).getPiece();
+            f_currentPiece.getPlayer().getEnemyPlayer().removePieceFromPlayer(f_board.getTile(destPos).getPiece());
         }
 
-       this.board.getPiecesOnBoard().remove(board.getTile(destPos).getPiece());
-       this.board.getTile(destPos).setPiece(this.board.getSelectedPiece());
-       this.board.getTile(this.board.getSelectedPiece().getPosition()).setPiece(null);
-       this.board.getSelectedPiece().setPiecePosition(destPos);
-       this.board.setLastMovedPiece(this);
-       this.board.changePlayerTurn();
-       this.firstMove = false;
-       this.board.refreshUI();
+        f_board.getTile(destPos).setPiece(f_currentPiece);
+        f_currentPiece.setPiecePosition(destPos);
+        f_board.getTile(this.piecePosition).setPiece(null);
+        moveAvailable = !f_currentPiece.getPlayer().kingUnderAttack();
+        f_board.getTile(this.piecePosition).setPiece(f_currentPiece);
+        f_currentPiece.setPiecePosition(this.piecePosition);
+        f_board.getTile(destPos).setPiece(f_enemyPiece);
+        if(f_enemyPiece != null)
+            f_currentPiece.getPlayer().getEnemyPlayer().addPieceToPlayer(f_enemyPiece);
+
+
+
+        return moveAvailable;
+    }
+
+
+    public void finishMove(int[] destPos){
+        if(this.board.getGameStatus() != GameStatus.PLAYER_TURN || this.board.getPlayerTurn() != this.alliance)
+            return;
+
+        Board f_board = this.board.getFutureBoard();
+        Piece f_currentPiece = f_board.getTile(this.piecePosition).getPiece();
+
+        if(this.board.getTile(destPos).getPiece() != null){
+            f_currentPiece.getPlayer().getEnemyPlayer().removePieceFromPlayer(f_board.getTile(destPos).getPiece());
+            this.player.getEnemyPlayer().removePieceFromPlayer(this.board.getTile(destPos).getPiece());
+        }
+
+        f_board.getTile(destPos).setPiece(f_currentPiece);
+        f_board.getTile(this.piecePosition).setPiece(null);
+        f_currentPiece.setPiecePosition(destPos);
+        this.board.getTile(destPos).setPiece(this);
+        this.board.getTile(this.piecePosition).setPiece(null);
+        this.piecePosition = destPos;
+        this.board.setLastMovedPiece(this);
+        this.board.changePlayerTurn();
+        this.firstMove = false;
+        this.board.refreshUI();
+        this.board.checkChessWinCondition(this.player.getEnemyPlayer());
     }
 
     @Override

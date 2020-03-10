@@ -127,24 +127,30 @@ public class Pawn extends Piece {
         int maxTiles = this.firstMove ? 2 : 1;
         if(this.getAlliance().isWhite()){
             for(Move move : this.getDiagonalMovesRightDown(1)){
-                moves.add(move);
+                if(canMove(move.getDestCoords()))
+                    moves.add(move);
             }
             for(Move move : this.getDiagonalMovesRightUp(1)){
+                if(canMove(move.getDestCoords()))
                 moves.add(move);
             }
             for(Move move : this.getHorizontalMovesRight(maxTiles)){
-                moves.add(move);
+                if(canMove(move.getDestCoords()))
+                    moves.add(move);
             }
         }
         if(this.getAlliance().isBlack()){
             for(Move move : this.getDiagonalMovesLeftDown(1)){
-                moves.add(move);
+                if(canMove(move.getDestCoords()))
+                    moves.add(move);
             }
             for(Move move : this.getDiagonalMovesLeftUp(1)){
-                moves.add(move);
+                if(canMove(move.getDestCoords()))
+                    moves.add(move);
             }
             for(Move move : this.getHorizontalMovesLeft(maxTiles)){
-                moves.add(move);
+                if(canMove(move.getDestCoords()))
+                    moves.add(move);
             }
         }
 
@@ -153,19 +159,25 @@ public class Pawn extends Piece {
 
     @Override
     public void finishMove(int[] destPos){
-        if( this.board.getGameStatus() != GameStatus.PLAYER_TURN ||
-                this.board.getPlayerTurn() != this.alliance)
+        if(this.board.getGameStatus() != GameStatus.PLAYER_TURN || this.board.getPlayerTurn() != this.alliance)
             return;
 
-        if(board.getTile(destPos).getPiece() != null){
-            Player enemy = board.getTile(destPos).getPiece().getPlayer();
-            this.board.removePieceFromList(enemy, destPos);
+        Board f_board = this.board.getFutureBoard();
+        Piece f_currentPiece = f_board.getTile(this.piecePosition).getPiece();
+
+        if(this.board.getTile(destPos).getPiece() != null){
+            f_currentPiece.getPlayer().getEnemyPlayer().removePieceFromPlayer(f_board.getTile(destPos).getPiece());
+            this.player.getEnemyPlayer().removePieceFromPlayer(this.board.getTile(destPos).getPiece());
         }
-        this.board.getPiecesOnBoard().remove(board.getTile(destPos).getPiece());
-        board.getTile(destPos).setPiece(this.board.getSelectedPiece());
-        board.getTile(this.board.getSelectedPiece().getPosition()).setPiece(null);
-        this.board.getSelectedPiece().setPiecePosition(destPos);
+
+        f_board.getTile(destPos).setPiece(f_currentPiece);
+        f_currentPiece.setPiecePosition(destPos);
+        f_board.getTile(this.piecePosition).setPiece(null);
+        this.board.getTile(destPos).setPiece(this);
+        this.board.getTile(this.piecePosition).setPiece(null);
+        this.piecePosition = destPos;
         this.board.setLastMovedPiece(this);
+
         if(this.getAlliance().isWhite()){
             for(int x = 0; x < GameUtils.GAME_BOARD_SIZE_HEIGHT; x++){
                 if(this.getPosition()[0] == 7 && this.getPosition()[1] == x){
@@ -186,5 +198,6 @@ public class Pawn extends Piece {
         this.board.changePlayerTurn();
         this.firstMove = false;
         this.board.refreshUI();
+        this.board.checkChessWinCondition(this.player.getEnemyPlayer());
     }
 }

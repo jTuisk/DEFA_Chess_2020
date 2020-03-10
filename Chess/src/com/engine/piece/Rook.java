@@ -23,15 +23,19 @@ public class Rook extends Piece{
         ArrayList<Move> moves = new ArrayList<>();
 
         for(Move move : this.getVerticalMovesUp(GameUtils.GAME_BOARD_SIZE_HEIGHT)){
+            if(canMove(move.getDestCoords()))
             moves.add(move);
         }
         for(Move move : this.getVerticalMovesDown(GameUtils.GAME_BOARD_SIZE_HEIGHT)){
+            if(canMove(move.getDestCoords()))
             moves.add(move);
         }
         for(Move move : this.getHorizontalMovesLeft(GameUtils.GAME_BOARD_SIZE_WIDTH)){
+            if(canMove(move.getDestCoords()))
             moves.add(move);
         }
         for(Move move : this.getHorizontalMovesRight(GameUtils.GAME_BOARD_SIZE_WIDTH)){
+            if(canMove(move.getDestCoords()))
             moves.add(move);
         }
         return moves;

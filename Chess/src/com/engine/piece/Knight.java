@@ -32,7 +32,8 @@ public class Knight extends Piece {
                 if(pieceOnDestinationTile != null && pieceOnDestinationTile.getAlliance() == this.alliance)
                     continue;
 
-                moves.add(new Move(this.board, this, new int[]{x,y}));
+                if(canMove(new int[]{x,y}))
+                    moves.add(new Move(this.board, this, new int[]{x,y}));
             }
         }
         return moves;

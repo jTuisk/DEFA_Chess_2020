@@ -20,28 +20,36 @@ public class Queen extends Piece {
         ArrayList<Move> moves = new ArrayList<>();
 
         for(Move move : this.getDiagonalMovesRightDown(GameUtils.GAME_BOARD_SIZE_HEIGHT)){
-            moves.add(move);
+            if(canMove(move.getDestCoords()))
+                moves.add(move);
         }
         for(Move move : this.getDiagonalMovesLeftDown( GameUtils.GAME_BOARD_SIZE_HEIGHT)){
-            moves.add(move);
+            if(canMove(move.getDestCoords()))
+                moves.add(move);
         }
         for(Move move : this.getDiagonalMovesLeftUp(GameUtils.GAME_BOARD_SIZE_HEIGHT)){
-            moves.add(move);
+            if(canMove(move.getDestCoords()))
+                moves.add(move);
         }
         for(Move move : this.getDiagonalMovesRightUp(GameUtils.GAME_BOARD_SIZE_HEIGHT)){
-            moves.add(move);
+            if(canMove(move.getDestCoords()))
+                moves.add(move);
         }
         for(Move move : this.getVerticalMovesUp(GameUtils.GAME_BOARD_SIZE_HEIGHT)){
-            moves.add(move);
+            if(canMove(move.getDestCoords()))
+                moves.add(move);
         }
         for(Move move : this.getVerticalMovesDown(GameUtils.GAME_BOARD_SIZE_HEIGHT)){
-            moves.add(move);
+            if(canMove(move.getDestCoords()))
+                moves.add(move);
         }
         for(Move move : this.getHorizontalMovesLeft(GameUtils.GAME_BOARD_SIZE_WIDTH)){
-            moves.add(move);
+            if(canMove(move.getDestCoords()))
+                moves.add(move);
         }
         for(Move move : this.getHorizontalMovesRight(GameUtils.GAME_BOARD_SIZE_WIDTH)){
-            moves.add(move);
+            if(canMove(move.getDestCoords()))
+                moves.add(move);
         }
         return moves;
     }

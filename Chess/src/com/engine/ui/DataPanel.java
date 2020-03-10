@@ -90,25 +90,43 @@ public class DataPanel extends JPanel{
             temp.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent mouseEvent) {
-                    System.out.println(name);
                     Piece toPiece;
                     Piece piece = board.getLastMovedPiece();
                     switch(name){
                         case "BISHOP":
+                            piece.getPlayer().removePieceFromPlayer(piece);
                             toPiece = new Bishop(board, piece.getAlliance(), piece.getPlayer(), piece.getPosition());
+                            toPiece.getPlayer().addPieceToPlayer(toPiece);
                             piece.getPlayer().kingUnderAttack();
+                            board.checkChessWinCondition(piece.getPlayer().getEnemyPlayer());
                             break;
                         case "KNIGHT":
+                            piece.getPlayer().removePieceFromPlayer(piece);
                             toPiece = new Knight(board, piece.getAlliance(), piece.getPlayer(), piece.getPosition());
+                            toPiece.getPlayer().addPieceToPlayer(toPiece);
                             piece.getPlayer().kingUnderAttack();
+                            board.checkChessWinCondition(piece.getPlayer().getEnemyPlayer());
                             break;
                         case "ROOK":
                             toPiece = new Rook(board, piece.getAlliance(), piece.getPlayer(), piece.getPosition());
+                            board.getFutureBoard().getTile(piece.getPosition()).setPiece(new Rook(board, piece.getAlliance(), piece.getPlayer(), piece.getPosition()));
                             piece.getPlayer().kingUnderAttack();
+                            board.checkChessWinCondition(piece.getPlayer().getEnemyPlayer());
                             break;
                         default: // case "QUEEN":
+                            //piece.getPlayer().promotePawn(piece, new Queen(board, piece.getAlliance(), piece.getPlayer(), piece.getPosition()),
+                                                               // new Queen(board, piece.getAlliance(), piece.getPlayer(), piece.getPosition()));
+                            //piece.getPlayer().removePieceFromPlayer(piece);
                             toPiece = new Queen(board, piece.getAlliance(), piece.getPlayer(), piece.getPosition());
+                            Piece f_toPiece = new Queen(board, piece.getAlliance(), piece.getPlayer(), piece.getPosition());
+                            int i = piece.getPlayer().getPlayerPieces().indexOf(piece);
+                            int j = board.getFutureBoard().getTile(piece.getPosition()).getPiece().getPlayer().getPlayerPieces().indexOf(board.getFutureBoard().getTile(piece.getPosition()).getPiece());
+                            piece.getPlayer().getPlayerPieces().set(i, toPiece);
+                            //board.getFutureBoard().getTile(piece.getPosition()).getPiece().getPlayer().getPlayerPieces().set(j, f_toPiece);
+                            System.out.println();
+                            toPiece.getPlayer().addPieceToPlayer(toPiece);
                             piece.getPlayer().kingUnderAttack();
+                            board.checkChessWinCondition(piece.getPlayer().getEnemyPlayer());
                             break;
                     }
                     board.getTile(piece.getPosition()).setPiece(toPiece);

@@ -1,9 +1,6 @@
 package com.engine.board;
 
-import com.engine.Alliance;
-import com.engine.GameStatus;
-import com.engine.GameUtils;
-import com.engine.PieceType;
+import com.engine.*;
 import com.engine.piece.*;
 import com.engine.player.Player;
 import com.engine.ui.UserInterface;
@@ -22,7 +19,6 @@ public class Board {
     private Piece selectedPiece;
     private UserInterface userInterface;
     private boolean userInterfaceVisible;
-    private ArrayList<Piece> piecesOnBoard;
     private Board futureBoard;
 
     public Board(boolean UI){
@@ -31,7 +27,6 @@ public class Board {
         this.p2 = new Player(this, Alliance.BLACK);
         this.p1.setEnemyPlayer(this.p2);
         this.p2.setEnemyPlayer(this.p1);
-        this.piecesOnBoard = new ArrayList<>();
         this.currentGameBoard = defaultBoardSetup();
         this.playerTurn = Alliance.WHITE;
         this.gameStatus = GameStatus.PLAYER_TURN;
@@ -52,7 +47,6 @@ public class Board {
         this.p2.setEnemyPlayer(this.p1);
         this.playerTurn = Alliance.WHITE;
         this.gameStatus = GameStatus.PLAYER_TURN;
-        this.userInterface = new UserInterface(this, p1, p2, userInterfaceVisible);
         futureBoard = new Board(false);
     }
 
@@ -80,16 +74,11 @@ public class Board {
         if(piece == null || piece.getAlliance() == playerTurn)
             this.selectedPiece = piece;
     }
-    public ArrayList<Piece> getPiecesOnBoard(){return this.piecesOnBoard;}
 
     public void refreshUI(){
+        this.userInterface.getGameBoardPanel().deselectPiece();
         this.userInterface.getDataPanel().refreshDataPanel();
         this.userInterface.getGameBoardPanel().refreshTiles();
-    }
-
-    public void removePieceFromList(Player player, int[] destPos){
-        player.addLostPiece(getTile(destPos).getPiece());
-        this.piecesOnBoard.remove(getTile(destPos).getPiece());
     }
 
     private Tile[][] defaultBoardSetup(){
@@ -99,10 +88,19 @@ public class Board {
                 setup[x][y] = new Tile(new int[]{x, y});
             }
         }
+        setup[2][4] = new Tile(new int[]{2,4}, new Queen(this, Alliance.WHITE, this.p1, new int[]{2,4}));
+        setup[1][4] = new Tile(new int[]{1,4}, new King(this, Alliance.WHITE, this.p1, new int[]{1,4}));
+        setup[6][2] = new Tile(new int[]{6,2}, new Pawn(this, Alliance.WHITE, this.p1, new int[]{6,2}));
+
+        setup[6][3] = new Tile(new int[]{5,3}, new Queen(this, Alliance.BLACK, this.p2, new int[]{6,3}));
+        setup[6][4] = new Tile(new int[]{6,4}, new Queen(this, Alliance.BLACK, this.p2, new int[]{6,4}));
+        setup[6][5] = new Tile(new int[]{6,5}, new Queen(this, Alliance.BLACK, this.p2, new int[]{6,5}));
+        setup[7][4] = new Tile(new int[]{7,4}, new King(this, Alliance.BLACK, this.p2, new int[]{7,4}));
+
         /**
          * WHITE
          */
-        setup[0][0] = new Tile(new int[]{0,0}, new Rook(this, Alliance.WHITE, this.p1, new int[]{0,0}));
+        /*setup[0][0] = new Tile(new int[]{0,0}, new Rook(this, Alliance.WHITE, this.p1, new int[]{0,0}));
         setup[0][1] = new Tile(new int[]{0,1}, new Knight(this, Alliance.WHITE, this.p1, new int[]{0,1}));
         setup[0][2] = new Tile(new int[]{0,2}, new Bishop(this, Alliance.WHITE, this.p1, new int[]{0,2}));
         setup[0][3] = new Tile(new int[]{0,3}, new Queen(this, Alliance.WHITE, this.p1, new int[]{0,3}));
@@ -123,7 +121,7 @@ public class Board {
         /**
          * BLACK
          */
-        setup[6][0] = new Tile(new int[]{6,0}, new Pawn(this, Alliance.BLACK, this.p2, new int[]{6,0}));
+        /*setup[6][0] = new Tile(new int[]{6,0}, new Pawn(this, Alliance.BLACK, this.p2, new int[]{6,0}));
         setup[6][1] = new Tile(new int[]{6,1}, new Pawn(this, Alliance.BLACK, this.p2, new int[]{6,1}));
         setup[6][2] = new Tile(new int[]{6,2}, new Pawn(this, Alliance.BLACK, this.p2, new int[]{6,2}));
         setup[6][3] = new Tile(new int[]{6,3}, new Pawn(this, Alliance.BLACK, this.p2, new int[]{6,3}));
@@ -138,10 +136,36 @@ public class Board {
         setup[7][4] = new Tile(new int[]{7,4}, new King(this, Alliance.BLACK, this.p2, new int[]{7,4}));
         setup[7][5] = new Tile(new int[]{7,5}, new Bishop(this, Alliance.BLACK, this.p2, new int[]{7,5}));
         setup[7][6] = new Tile(new int[]{7,6}, new Knight(this, Alliance.BLACK, this.p2, new int[]{7,6}));
-        setup[7][7] = new Tile(new int[]{7,7}, new Rook(this, Alliance.BLACK, this.p2, new int[]{7,7}));
+        setup[7][7] = new Tile(new int[]{7,7}, new Rook(this, Alliance.BLACK, this.p2, new int[]{7,7}));*/
 
 
         return setup;
+    }
+
+    public ArrayList<Piece.Move> getAllMoves(){
+        ArrayList<Piece.Move> moves = new ArrayList<>();
+        moves.addAll(this.p1.getAllPlayerMoves());
+        moves.addAll(this.p2.getAllPlayerMoves());
+
+        return moves;
+    }
+
+    public void checkChessWinCondition(Player player){
+        if(player.getPlayerPieces().size() < 2 && player.getEnemyPlayer().getPlayerPieces().size() < 2){
+            JOptionPane.showMessageDialog(null, "Draw!",  "Game Over!", JOptionPane.WARNING_MESSAGE);
+            System.out.println("Draw!");
+            this.gameStatus = GameStatus.GAME_OVER;
+            return;
+        }
+        if(player.kingUnderAttack()){
+            if(player.getAllPlayerMoves().size() < 1){
+                JOptionPane.showMessageDialog(null, "Checkmate! Player "+player.toString()+" lost the game! \n\n Start new game to play again!",  "Game Over!", JOptionPane.WARNING_MESSAGE);
+                System.out.println("Checkmate! Player "+player.toString()+" lost the game!");
+                this.gameStatus = GameStatus.GAME_OVER;
+            }else{
+                JOptionPane.showMessageDialog(null, "Check!",  "Check!", JOptionPane.WARNING_MESSAGE);
+            }
+        }
     }
 
     public boolean posInGameBoard(int[] pos){
@@ -154,9 +178,6 @@ public class Board {
     public Tile getTile(int[] pos){
         return currentGameBoard[pos[0]][pos[1]];
     }
-
-    public Player getP1(){return this.p1;}
-    public Player getP2(){return this.p2;}
 
     @Override
     public String toString(){
