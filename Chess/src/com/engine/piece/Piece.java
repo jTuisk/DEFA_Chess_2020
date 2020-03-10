@@ -243,6 +243,16 @@ public abstract class Piece {
         return moves;
     }
 
+    public void promotePawn(Piece toPiece, Piece f_toPiece){
+        Board f_board = this.board.getFutureBoard();
+        toPiece.getPlayer().removePieceFromPlayer(this.board.getTile(this.piecePosition).getPiece());
+        f_toPiece.getPlayer().removePieceFromPlayer(f_board.getTile(this.piecePosition).getPiece());
+
+        this.board.getTile(toPiece.getPosition()).setPiece(toPiece);
+        f_board.getTile(f_toPiece.getPosition()).setPiece(f_toPiece);
+        this.board.setGameStatus(GameStatus.PLAYER_TURN);
+    }
+
     boolean canMove(int[] destPos){
         if(this.board.getFutureBoard() == null)
             return true;

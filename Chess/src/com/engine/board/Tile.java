@@ -1,6 +1,7 @@
 package com.engine.board;
 
 import com.engine.piece.Piece;
+import com.engine.player.Player;
 
 import java.util.Arrays;
 

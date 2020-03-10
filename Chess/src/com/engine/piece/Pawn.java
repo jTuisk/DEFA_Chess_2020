@@ -156,7 +156,7 @@ public class Pawn extends Piece {
 
         return moves;
     }
-
+    
     @Override
     public void finishMove(int[] destPos){
         if(this.board.getGameStatus() != GameStatus.PLAYER_TURN || this.board.getPlayerTurn() != this.alliance)

@@ -88,10 +88,10 @@ public class GameBoardPanel extends  JPanel{
                             deselectPiece();
                         }
                     } else {
-                        JOptionPane.showMessageDialog(null, "You have to promote the pawn before doing anything else.", "ErrorMsg", JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "You have to promote the pawn before doing anything else.", "Error!", JOptionPane.WARNING_MESSAGE);
                     }
                 }else{
-                    JOptionPane.showMessageDialog(null, "Game is finished. Please do start new game.",  "ErrorMsg", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Game is finished. Please start new game.",  "Error!", JOptionPane.WARNING_MESSAGE);
                 }
                 refreshTiles();
             }

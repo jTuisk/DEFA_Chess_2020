@@ -42,28 +42,15 @@ public class Player {
         return this.playerPieces;
     }
 
-    public void promotePawn(Piece piece, Piece toPiece, Piece f_toPiece){
-        this.board.getFutureBoard().getTile(piece.getPosition()).setPiece(f_toPiece);
-        this.board.getTile(piece.getPosition()).setPiece(toPiece);
-
-
-        this.board.setGameStatus(GameStatus.PLAYER_TURN);
-        //this.board.checkChessWinCondition(piece.getPlayer().getEnemyPlayer());
-
-        /*piece.getPlayer().removePieceFromPlayer(piece);
-        toPiece = new Queen(board, piece.getAlliance(), piece.getPlayer(), piece.getPosition());
-        toPiece.getPlayer().addPieceToPlayer(toPiece);
-        *piece.getPlayer().kingUnderAttack();
-        board.checkChessWinCondition(piece.getPlayer().getEnemyPlayer());*/
-    }
-
     public boolean kingUnderAttack(){
         if(this.board.getFutureBoard() == null){
             System.out.println("f_Player pieces: "+getPlayerPieces().toString());
             System.out.println("f_Enemy pieces: "+enemyPlayer.getPlayerPieces().toString());
+            System.out.println("Player pieces: "+getPlayerPieces().toString());
+            System.out.println("Enemy pieces: "+enemyPlayer.getPlayerPieces().toString());
         }
-        System.out.println("Player pieces: "+getPlayerPieces().toString());
-        System.out.println("Enemy pieces: "+enemyPlayer.getPlayerPieces().toString());
+        System.out.println();
+        System.out.println();
         for(Piece.Move  move : this.enemyPlayer.getAllPlayerMoves()){
             Piece piece = this.board.getTile(move.getDestCoords()).getPiece();
             if (piece == null)
