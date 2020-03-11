@@ -37,6 +37,11 @@ public class Player {
         this.lostPieces.add(piece);
         this.playerPieces.remove(piece);
     }
+    public void removePieceFromPlayer(Piece piece, boolean promote){
+        if(!promote)
+            this.lostPieces.add(piece);
+        this.playerPieces.remove(piece);
+    }
 
     public ArrayList<Piece> getPlayerPieces(){
         return this.playerPieces;
@@ -72,6 +77,11 @@ public class Player {
         return moves;
     }
 
+    public void clearPiecesLists(){
+        this.playerPieces.clear();
+        this.lostPieces.clear();
+    }
+
     public Alliance getAlliance() {
         return this.alliance;
     }
@@ -79,8 +89,6 @@ public class Player {
     public List<Piece> getLostPieces(){
         return this.lostPieces;
     }
-
-    public void clearLostPieces(){ this.lostPieces = new ArrayList<>();}
 
     @Override
     public String toString(){

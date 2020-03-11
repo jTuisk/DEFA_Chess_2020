@@ -19,20 +19,16 @@ public class UserInterface extends JFrame {
     GameBoardPanel gameBoardPanel;
     DataPanel dataPanel;
     Board board;
-    Player p1;
-    Player p2;
 
 
-    public UserInterface(Board board, Player p1, Player p2, boolean visible){
+    public UserInterface(Board board, boolean visible){
         super("DEFA Chess 2020, Made by Janek Tuisk");
         if(!visible)
             return;
 
         this.board = board;
-        this.p1 = p1;
-        this.p2 = p2;
         this.gameBoardPanel = new GameBoardPanel(board);
-        this.dataPanel = new DataPanel(board, p1, p2, this.gameBoardPanel);
+        this.dataPanel = new DataPanel(board, this.gameBoardPanel);
 
         /*MENUBAR*/
         super.setJMenuBar(createFileMenuBar());
@@ -52,6 +48,7 @@ public class UserInterface extends JFrame {
         super.setVisible(visible);
     }
 
+
     public DataPanel getDataPanel(){return this.dataPanel;}
     public GameBoardPanel getGameBoardPanel(){ return this.gameBoardPanel; }
 
@@ -66,11 +63,7 @@ public class UserInterface extends JFrame {
         newGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                p1.clearLostPieces();
-                p2.clearLostPieces();
                 board.restartGame();
-                gameBoardPanel.refreshTiles();
-                dataPanel.refreshDataPanel();
                 System.out.println("Starting new game!");
             }
         });
@@ -79,7 +72,7 @@ public class UserInterface extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 System.out.println("Saving game!");
-                FileManager.saveGame(board, p1, p2);
+                FileManager.saveGame(board, board.getPlayer1(), board.getPlayer2());
                 JOptionPane.showMessageDialog(null, "Game saved",  "Game saved", JOptionPane.WARNING_MESSAGE);
             }
         });
@@ -88,7 +81,7 @@ public class UserInterface extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 System.out.println("Loading game!");
-                FileManager.loadGame(board, p1, p2, dataPanel, gameBoardPanel);
+                FileManager.loadGame(board, dataPanel, gameBoardPanel);
                 JOptionPane.showMessageDialog(null, "Game loaded",  "Game loaded", JOptionPane.WARNING_MESSAGE);
             }
         });

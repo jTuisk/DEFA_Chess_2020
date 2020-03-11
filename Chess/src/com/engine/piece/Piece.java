@@ -245,8 +245,8 @@ public abstract class Piece {
 
     public void promotePawn(Piece toPiece, Piece f_toPiece){
         Board f_board = this.board.getFutureBoard();
-        toPiece.getPlayer().removePieceFromPlayer(this.board.getTile(this.piecePosition).getPiece());
-        f_toPiece.getPlayer().removePieceFromPlayer(f_board.getTile(this.piecePosition).getPiece());
+        toPiece.getPlayer().removePieceFromPlayer(this.board.getTile(this.piecePosition).getPiece(), true);
+        f_toPiece.getPlayer().removePieceFromPlayer(f_board.getTile(this.piecePosition).getPiece(), true);
 
         this.board.getTile(toPiece.getPosition()).setPiece(toPiece);
         f_board.getTile(f_toPiece.getPosition()).setPiece(f_toPiece);

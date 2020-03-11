@@ -20,15 +20,10 @@ public class DataPanel extends JPanel{
 
     private GameBoardPanel gameBoardPanel;
     private Board board;
-    private Player p1;
-    private Player p2;
 
-
-    public DataPanel(Board board, Player p1, Player p2, GameBoardPanel gameBoardPanel){
+    public DataPanel(Board board, GameBoardPanel gameBoardPanel){
         super();
         this.gameBoardPanel = gameBoardPanel;
-        this.p1 = p1;
-        this.p2 = p2;
         this.board = board;
         setupDataPanel();
     }
@@ -60,8 +55,8 @@ public class DataPanel extends JPanel{
 
         super.setLayout(null);
         super.add(playerTurnPanel());
-        super.add(playerPanel(90, this.p1, "PLAYER: WHITE"));
-        super.add(playerPanel(310, this.p2, "PLAYER: BLACK"));
+        super.add(playerPanel(90, this.board.getPlayer1(), "PLAYER: WHITE"));
+        super.add(playerPanel(310, this.board.getPlayer2(), "PLAYER: BLACK"));
     }
 
     private void pawnPromotionPanelSetup(){
@@ -117,41 +112,6 @@ public class DataPanel extends JPanel{
                         board.checkChessWinCondition(piece.getPlayer().getEnemyPlayer());
                     }
                 }
-                /*
-                @Override
-                public void mouseClicked(MouseEvent mouseEvent) {
-                    Piece piece = board.getLastMovedPiece();
-                    switch(name){
-                        case "BISHOP":
-                            piece.getPlayer().removePieceFromPlayer(piece);
-                            piece = new Bishop(board, piece.getAlliance(), piece.getPlayer(), piece.getPosition());
-                            piece.getPlayer().addPieceToPlayer(piece);
-                            break;
-                        case "KNIGHT":
-                            piece.getPlayer().removePieceFromPlayer(piece);
-                            piece = new Knight(board, piece.getAlliance(), piece.getPlayer(), piece.getPosition());
-                            piece.getPlayer().addPieceToPlayer(piece);
-                            break;
-                        case "ROOK":
-                            piece.getPlayer().removePieceFromPlayer(piece);
-                            piece = new Rook(board, piece.getAlliance(), piece.getPlayer(), piece.getPosition());
-                            piece.getPlayer().addPieceToPlayer(piece);
-                            break;
-                        default: // case "QUEEN":
-                            piece.getPlayer().removePieceFromPlayer(piece);
-                            piece = new Queen(board, piece.getAlliance(), piece.getPlayer(), piece.getPosition());
-                            piece.getPlayer().addPieceToPlayer(piece);
-                            break;
-                    }
-                    //board.getFutureBoard().getTile(piece.getPosition()).setPiece(piece);
-                    board.getTile(piece.getPosition()).setPiece(piece);
-                    board.setGameStatus(GameStatus.PLAYER_TURN);
-                    dataPanelSetup();
-                    if(gameBoardPanel != null)
-                        gameBoardPanel.refreshTiles();
-
-                    board.checkChessWinCondition(piece.getPlayer().getEnemyPlayer());
-                }*/
                 @Override
                 public void mousePressed(MouseEvent mouseEvent){}
                 @Override

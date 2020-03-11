@@ -31,7 +31,7 @@ public class Board {
         this.playerTurn = Alliance.WHITE;
         this.gameStatus = GameStatus.PLAYER_TURN;
         this.userInterfaceVisible = UI;
-        this.userInterface = new UserInterface(this, p1, p2, UI);
+        this.userInterface = new UserInterface(this, UI);
         if(UI)
             futureBoard = new Board(false);
         else
@@ -40,14 +40,18 @@ public class Board {
 
     public void restartGame(){
         this.gameStatus = GameStatus.INITIALIZING_GAME;
-        this.currentGameBoard = defaultBoardSetup();
         this.p1 = new Player(this, Alliance.WHITE);
         this.p2 = new Player(this, Alliance.BLACK);
         this.p1.setEnemyPlayer(this.p2);
         this.p2.setEnemyPlayer(this.p1);
+        this.currentGameBoard = defaultBoardSetup();
         this.playerTurn = Alliance.WHITE;
         this.gameStatus = GameStatus.PLAYER_TURN;
         futureBoard = new Board(false);
+        refreshUI();
+    }
+    public void setGameBoard(Tile[][] tiles){
+        this.currentGameBoard = tiles;
     }
 
     public Board getFutureBoard(){return this.futureBoard;}
@@ -88,19 +92,10 @@ public class Board {
                 setup[x][y] = new Tile(new int[]{x, y});
             }
         }
-        setup[2][4] = new Tile(new int[]{2,4}, new Queen(this, Alliance.WHITE, this.p1, new int[]{2,4}));
-        setup[1][4] = new Tile(new int[]{1,4}, new King(this, Alliance.WHITE, this.p1, new int[]{1,4}));
-        setup[6][2] = new Tile(new int[]{6,2}, new Pawn(this, Alliance.WHITE, this.p1, new int[]{6,2}));
-
-        setup[6][3] = new Tile(new int[]{5,3}, new Queen(this, Alliance.BLACK, this.p2, new int[]{6,3}));
-        setup[6][4] = new Tile(new int[]{6,4}, new Queen(this, Alliance.BLACK, this.p2, new int[]{6,4}));
-        setup[6][5] = new Tile(new int[]{6,5}, new Queen(this, Alliance.BLACK, this.p2, new int[]{6,5}));
-        setup[7][4] = new Tile(new int[]{7,4}, new King(this, Alliance.BLACK, this.p2, new int[]{7,4}));
-
         /**
          * WHITE
          */
-        /*setup[0][0] = new Tile(new int[]{0,0}, new Rook(this, Alliance.WHITE, this.p1, new int[]{0,0}));
+        setup[0][0] = new Tile(new int[]{0,0}, new Rook(this, Alliance.WHITE, this.p1, new int[]{0,0}));
         setup[0][1] = new Tile(new int[]{0,1}, new Knight(this, Alliance.WHITE, this.p1, new int[]{0,1}));
         setup[0][2] = new Tile(new int[]{0,2}, new Bishop(this, Alliance.WHITE, this.p1, new int[]{0,2}));
         setup[0][3] = new Tile(new int[]{0,3}, new Queen(this, Alliance.WHITE, this.p1, new int[]{0,3}));
@@ -121,7 +116,7 @@ public class Board {
         /**
          * BLACK
          */
-        /*setup[6][0] = new Tile(new int[]{6,0}, new Pawn(this, Alliance.BLACK, this.p2, new int[]{6,0}));
+        setup[6][0] = new Tile(new int[]{6,0}, new Pawn(this, Alliance.BLACK, this.p2, new int[]{6,0}));
         setup[6][1] = new Tile(new int[]{6,1}, new Pawn(this, Alliance.BLACK, this.p2, new int[]{6,1}));
         setup[6][2] = new Tile(new int[]{6,2}, new Pawn(this, Alliance.BLACK, this.p2, new int[]{6,2}));
         setup[6][3] = new Tile(new int[]{6,3}, new Pawn(this, Alliance.BLACK, this.p2, new int[]{6,3}));
@@ -136,18 +131,10 @@ public class Board {
         setup[7][4] = new Tile(new int[]{7,4}, new King(this, Alliance.BLACK, this.p2, new int[]{7,4}));
         setup[7][5] = new Tile(new int[]{7,5}, new Bishop(this, Alliance.BLACK, this.p2, new int[]{7,5}));
         setup[7][6] = new Tile(new int[]{7,6}, new Knight(this, Alliance.BLACK, this.p2, new int[]{7,6}));
-        setup[7][7] = new Tile(new int[]{7,7}, new Rook(this, Alliance.BLACK, this.p2, new int[]{7,7}));*/
+        setup[7][7] = new Tile(new int[]{7,7}, new Rook(this, Alliance.BLACK, this.p2, new int[]{7,7}));
 
 
         return setup;
-    }
-
-    public ArrayList<Piece.Move> getAllMoves(){
-        ArrayList<Piece.Move> moves = new ArrayList<>();
-        moves.addAll(this.p1.getAllPlayerMoves());
-        moves.addAll(this.p2.getAllPlayerMoves());
-
-        return moves;
     }
 
     public void checkChessWinCondition(Player player){
