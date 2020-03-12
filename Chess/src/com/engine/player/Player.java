@@ -1,7 +1,6 @@
 package com.engine.player;
 
 import com.engine.Alliance;
-import com.engine.GameStatus;
 import com.engine.PieceType;
 import com.engine.board.Board;
 import com.engine.piece.Piece;
@@ -13,7 +12,7 @@ public class Player {
 
     private final Board board;
     private final Alliance alliance;
-    private ArrayList<Piece> playerPieces;
+    private List<Piece> playerPieces;
     private List<Piece> lostPieces;
     private Player enemyPlayer;
 
@@ -35,24 +34,32 @@ public class Player {
 
     public void removePieceFromPlayer(Piece piece){
         this.lostPieces.add(piece);
-        this.playerPieces.remove(piece);
+        if(this.playerPieces.contains(piece))
+            this.playerPieces.remove(piece);
     }
+
     public void removePieceFromPlayer(Piece piece, boolean promote){
         if(!promote)
             this.lostPieces.add(piece);
         this.playerPieces.remove(piece);
     }
 
-    public ArrayList<Piece> getPlayerPieces(){
+    public void setLostPieces(List<Piece> lostPieces){
+        this.lostPieces = lostPieces;
+    }
+
+    public void setPlayerPieces(List<Piece> playerPieces){
+        this.playerPieces = playerPieces;
+    }
+
+    public List<Piece> getPlayerPieces(){
         return this.playerPieces;
     }
 
     public boolean kingUnderAttack(){
         if(this.board.getFutureBoard() == null){
-            System.out.println("f_Player pieces: "+getPlayerPieces().toString());
-            System.out.println("f_Enemy pieces: "+enemyPlayer.getPlayerPieces().toString());
-            System.out.println("Player pieces: "+getPlayerPieces().toString());
-            System.out.println("Enemy pieces: "+enemyPlayer.getPlayerPieces().toString());
+            System.out.println("f_Player pieces: "+getPlayerPieces().toString()+" "+getPlayerPieces().size());
+            System.out.println("f_Enemy pieces: "+enemyPlayer.getPlayerPieces().toString()+" "+getPlayerPieces().size());
         }
         System.out.println();
         System.out.println();
@@ -75,11 +82,6 @@ public class Player {
         }
 
         return moves;
-    }
-
-    public void clearPiecesLists(){
-        this.playerPieces.clear();
-        this.lostPieces.clear();
     }
 
     public Alliance getAlliance() {

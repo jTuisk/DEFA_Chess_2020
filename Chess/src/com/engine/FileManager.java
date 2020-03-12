@@ -1,13 +1,12 @@
 package com.engine;
 
 import com.engine.board.Board;
-import com.engine.board.Tile;
 import com.engine.piece.*;
 import com.engine.player.Player;
-import com.engine.ui.DataPanel;
-import com.engine.ui.GameBoardPanel;
 
+import javax.swing.*;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -38,27 +37,27 @@ public class FileManager {
         return data;
     }
 
-    private static Piece getPieceByChar(Board board, char c, Alliance alliance, Player player, int[] pos){
+    private static Piece getPieceByChar(Board board, char c, Alliance alliance, Player player, int[] pos, boolean firstMove){
         Piece piece = null;
         switch(c){
             case 'K':
-                piece = new King(board, alliance, player, pos);
+                piece = new King(board, alliance, player, pos, firstMove);
                     break;
             case 'Q':
-                piece = new Queen(board, alliance, player, pos);
-                break;
+                piece = new Queen(board, alliance, player, pos, firstMove);
+                    break;
             case 'N':
-                piece = new Knight(board, alliance, player, pos);
-                break;
+                piece = new Knight(board, alliance, player, pos, firstMove);
+                    break;
             case 'B':
-                piece = new Bishop(board, alliance, player, pos);
-                break;
+                piece = new Bishop(board, alliance, player, pos, firstMove);
+                    break;
             case 'R':
-                piece = new Rook(board, alliance, player, pos);
-                break;
+                piece = new Rook(board, alliance, player, pos, firstMove);
+                    break;
             case 'P':
-                piece = new Pawn(board, alliance, player, pos);
-                break;
+                piece = new Pawn(board, alliance, player, pos, firstMove);
+                    break;
         }
         return piece;
     }
@@ -67,100 +66,123 @@ public class FileManager {
         return Alliance.WHITE.getAllianceChar() == c ? Alliance.WHITE : Alliance.BLACK;
     }
 
-    public static void loadGame(Board board, DataPanel dataPanel, GameBoardPanel gameBoardPanel){
-        String[][] data = loadFileData();
+    private static boolean charToBoolean(char c){
+        return c == '1';
+    }
 
-        board.getPlayer1().clearPiecesLists();
-        board.getPlayer2().clearPiecesLists();
-        board.getFutureBoard().getPlayer1().clearPiecesLists();
-        board.getFutureBoard().getPlayer2().clearPiecesLists();
+    public static void loadGame(Board board){
+        String[][] loadedData = loadFileData();
 
-        //Tile[][] newBoard = new Tile[GameUtils.GAME_BOARD_SIZE_HEIGHT][GameUtils.GAME_BOARD_SIZE_WIDTH];
-        //Tile[][] f_newBoard = new Tile[GameUtils.GAME_BOARD_SIZE_HEIGHT][GameUtils.GAME_BOARD_SIZE_WIDTH];
+        Board f_board = board.getFutureBoard();
 
-        //Game board
-        for(int x = 0; x < GameUtils.GAME_BOARD_SIZE_HEIGHT; x++){
-            for(int y = 0; y < GameUtils.GAME_BOARD_SIZE_WIDTH; y++){
-                int[] pos = new int[]{x,y};
-                if(data[x][y].length() != 3){
-                    //newBoard[x][y] = null;
-                    //f_newBoard[x][y] = null;
-                    //board.getTile(pos).setPiece(null);
-                    continue;
+        GameStatus loadedGameStatus = null;
+        Alliance loadedPlayerTurn = null;
+
+        board.getPlayer1().getPlayerPieces().clear();
+        board.getPlayer1().getLostPieces().clear();
+        board.getPlayer2().getPlayerPieces().clear();
+        board.getPlayer2().getLostPieces().clear();
+
+        ArrayList<Piece> loadedLostPiecesPlayer1 = new ArrayList<>();
+        ArrayList<Piece> loadedLostPiecesPlayer2 = new ArrayList<>();
+
+        //Game board tiles
+        try{
+            for(int x = 0; x < GameUtils.GAME_BOARD_SIZE_HEIGHT; x++){
+                for(int y = 0; y < GameUtils.GAME_BOARD_SIZE_WIDTH; y++){
+                    int[] tilePos = new int[]{x,y};
+
+
+                    if(loadedData[x][y].length() != 4){
+                        board.getTile(tilePos).setPiece(null);
+                        f_board.getTile(tilePos).setPiece(null);
+                        continue;
+                    }
+                    char pieceChar = loadedData[x][y].charAt(0);
+                    char allianceChar = loadedData[x][y].charAt(1);
+                    char playerChar = loadedData[x][y].charAt(2);
+                    char pieceFirstMoveChar = loadedData[x][y].charAt(3);
+
+                    Player player = playerChar == '0' ? board.getPlayer1() : board.getPlayer2();
+                    Player f_player =  playerChar == '0' ? f_board.getPlayer1() : f_board.getPlayer2();
+
+                    Piece piece = getPieceByChar(board, pieceChar, getAllianceByChar(allianceChar), player, tilePos, charToBoolean(pieceFirstMoveChar));
+                    Piece f_piece = getPieceByChar(f_board, pieceChar, getAllianceByChar(allianceChar), f_player, tilePos, charToBoolean(pieceFirstMoveChar));
+
+                    board.getTile(tilePos).setPiece(piece);
+                    f_board.getTile(tilePos).setPiece(f_piece);
                 }
-                char pieceChar = data[x][y].charAt(0);
-                char allianceChar = data[x][y].charAt(1);
-                char playerChar = data[x][y].charAt(2);
-
-                //Board f_board = board.getFutureBoard();
-                //Player player = playerChar == '0' ? board.getPlayer1() : board.getPlayer2();
-                //Player f_player =  playerChar == '0' ? f_board.getPlayer1() : f_board.getPlayer2();
-
-
-
-                //setup[0][0] = new Tile(new int[]{0,0}, new Rook(this, Alliance.WHITE, this.p1, new int[]{0,0}));
-
-                //Piece piece = getPieceByChar(board, pieceChar, getAllianceByChar(allianceChar), player, pos);
-                //Piece f_piece = getPieceByChar(board.getFutureBoard(), pieceChar, getAllianceByChar(allianceChar), f_player, pos);
-
-                //newBoard[x][y] = new Tile(pos, piece);
-                //f_newBoard[x][y] = new Tile(pos, f_piece);
-
-                //board.getTile(pos).setPiece(piece);
-                //board.getFutureBoard().getTile(pos).setPiece(f_piece);
             }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Error loading game! Please make sure you have valid save game",  "Error!", JOptionPane.WARNING_MESSAGE);
+            System.out.println(e.getMessage());
+            return;
         }
 
-        //board.setGameBoard(newBoard);
-        //board.getFutureBoard().setGameBoard(f_newBoard);
         //Lost pieces
         try{
-            String[] p1_lostPiecesArray = data[8][0].split(",");
-            String[] p2_lostPiecesArray = data[9][0].split(",");
+            String[] player1_lostPiecesArray = loadedData[8][0].split(","); //save to same string?
+            String[] player2_lostPiecesArray = loadedData[9][0].split(",");
 
-            for(String s : p1_lostPiecesArray){
-                if(s.length() != 3)
-                    continue;
-
-                char pieceChar = s.charAt(0);
-                char allianceChar = s.charAt(1);
-                char playerChar = s.charAt(2);
-                int[] pos = new int[]{0,0};
-                Piece piece = getPieceByChar(board, pieceChar, getAllianceByChar(allianceChar), board.getPlayer1(), pos);
-                Piece f_piece = getPieceByChar(board.getFutureBoard(), pieceChar, getAllianceByChar(allianceChar), board.getFutureBoard().getPlayer1(), pos);
-                board.getPlayer1().removePieceFromPlayer(piece);
-                board.getFutureBoard().getPlayer1().removePieceFromPlayer(f_piece);
-            }
-            for(String s : p2_lostPiecesArray){
-                if(s.length() != 3)
-                    continue;
-
-                char pieceChar = s.charAt(0);
-                char allianceChar = s.charAt(1);
-                char playerChar = s.charAt(2);
-                int[] pos = new int[]{0,0};
-                Piece piece = getPieceByChar(board, pieceChar, getAllianceByChar(allianceChar), board.getPlayer2(), pos);
-                Piece f_piece = getPieceByChar(board.getFutureBoard(), pieceChar, getAllianceByChar(allianceChar), board.getFutureBoard().getPlayer2(), pos);
-                board.getPlayer2().removePieceFromPlayer(piece);
-                board.getFutureBoard().getPlayer2().removePieceFromPlayer(f_piece);
+            for(String pieceString : player1_lostPiecesArray){
+                if(pieceString.length() != 4)
+                    continue;;
+                char pieceChar = pieceString.charAt(0);
+                char allianceChar = pieceString.charAt(1);
+                char playerChar = pieceString.charAt(2);
+                char pieceFirstMoveChar = pieceString.charAt(3);
+                int[] piecePos = new int[] {0,0};
+                Piece piece = getPieceByChar(board, pieceChar, getAllianceByChar(allianceChar), board.getPlayer1(), piecePos, charToBoolean(pieceFirstMoveChar));
+                loadedLostPiecesPlayer1.add(piece);
             }
 
+            for(String pieceString : player2_lostPiecesArray){
+                if(pieceString.length() != 4)
+                    continue;;
+                char pieceChar = pieceString.charAt(0);
+                char allianceChar = pieceString.charAt(1);
+                char playerChar = pieceString.charAt(2);
+                char pieceFirstMoveChar = pieceString.charAt(3);
+                int[] piecePos = new int[] {0,0};
+
+                Piece piece = getPieceByChar(board, pieceChar, getAllianceByChar(allianceChar), board.getPlayer2(), piecePos, charToBoolean(pieceFirstMoveChar));
+                loadedLostPiecesPlayer2.add(piece);
+            }
         }catch(Exception e){
-
+            System.out.println("Loading game error! - Lost pieces");
+            System.out.println(e.getMessage());
+            return;
         }
-
         //Player Turn
         try{
-            board.setPlayerTurn(getAllianceByChar(data[10][0].charAt(0)));
+           loadedPlayerTurn =getAllianceByChar(loadedData[10][0].charAt(0));
         }catch(Exception e){
-
+            System.out.println("Loading game error! - Player turn");
+            System.out.println(e.getMessage());
+            return;
         }
         //Game Status
         try{
-            board.setGameStatus(GameStatus.getGameStatusByChar(data[10][1].charAt(0)));
+            loadedGameStatus = GameStatus.getGameStatusByChar(loadedData[10][1].charAt(0));
         }catch(Exception e){
-
+            System.out.println("Loading game error! - Game status");
+            System.out.println(e.getMessage());
+            return;
         }
+
+        board.getPlayer1().setLostPieces(loadedLostPiecesPlayer1);
+        board.getPlayer2().setLostPieces(loadedLostPiecesPlayer2);
+        f_board.getPlayer1().setLostPieces(loadedLostPiecesPlayer1);
+        f_board.getPlayer2().setLostPieces(loadedLostPiecesPlayer2);
+        board.recalculatePlayerPieces();
+        f_board.recalculatePlayerPieces();
+        board.setGameStatus(loadedGameStatus);
+        board.setPlayerTurn(loadedPlayerTurn);
+
+        System.out.println(board.getPlayer1().getPlayerPieces().toString());
+        System.out.println(f_board.getPlayer1().getPlayerPieces().toString());
+        System.out.println(board.getPlayer2().getPlayerPieces().toString());
+        System.out.println(f_board.getPlayer2().getPlayerPieces().toString());
         board.refreshUI();
     }
 
@@ -223,35 +245,7 @@ public class FileManager {
         String pieceChar = piece.toString();
         char allianceChar = piece.getAlliance().getAllianceChar();
         char playerChar = allianceChar == 'W' ? '0' : '1';
-        return (pieceChar+allianceChar+playerChar);
+        char firstMoveChar = piece.getFirstMove() ? '1' : '0';
+        return (pieceChar+allianceChar+playerChar+firstMoveChar);
     }
 }
-
-/*
-
-KW0;KB1;;;;;;QW0;
- ; ; ; ; ; ; ; ;
- ; ; ; ; ; ; ; ;
- ; ; ; ; ; ; ; ;
- ; ; ; ; ; ; ; ;
- ; ; ; ; ; ; ; ;
- ; ; ; ; ; ; ; ;
- ; ; ; ; ; ; ; ;
- ;PW0,PW0,PW0,KW0,NW0;
- ;KB1,PB1,PB1,KB1,NB1;
-B;
-
-
-RW0;NW0;BW0;QW0;KW0;BW0;NW0;RW0;
-PW0;PW0;PW0; ;PW0;PW0;PW0;PW0;
- ; ; ; ; ; ; ; ;
- ; ; ; ; ; ; ; ;
- ; ; ; ;PW0; ; ; ;
- ; ; ; ; ; ; ; ;
-PB1;PB1;PB1;PB1; ;PB1;PB1;PB1;
-RB1;NB1;BB1;QB1;KB1;BB1;NB1;RB1;
- ; ;
-PB1, ;
-B;
-
- */

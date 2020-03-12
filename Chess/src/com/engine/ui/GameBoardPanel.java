@@ -132,16 +132,19 @@ public class GameBoardPanel extends  JPanel{
 
     private void assignTilePieceIcon(JPanel tile, int[] pos){
         tile.removeAll();
-        Piece piece = this.board.getTile(pos).getPiece();
-        if(piece != null){
-            String imgPath = "img/";
-            imgPath += piece.getAlliance().isWhite() ? "WHITE_" : "BLACK_";
-            try {
-                BufferedImage image = ImageIO.read(new File(imgPath + piece.getPieceType().getImgFileString()));
-                tile.add(new JLabel(new ImageIcon(image)));
-            }catch (Exception e){
-                System.out.println("IMG NOT FOUND!");
-            }
+        if(this.board.getTile(pos) != null){
+            Piece piece = this.board.getTile(pos).getPiece();
+            if(piece != null){
+                String imgPath = "img/";
+                imgPath += piece.getAlliance().isWhite() ? "WHITE_" : "BLACK_";
+                try {
+                    BufferedImage image = ImageIO.read(new File(imgPath + piece.getPieceType().getImgFileString()));
+                    tile.add(new JLabel(new ImageIcon(image)));
+                }catch (Exception e){
+                    System.out.println("IMG NOT FOUND!");
+                }
+            }else
+                tile.removeAll();
         }else
             tile.removeAll();
     }

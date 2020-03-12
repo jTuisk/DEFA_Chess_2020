@@ -17,6 +17,10 @@ public class Rook extends Piece{
     public Rook(Board board, Alliance alliance, Player player, int[] piecePosition) {
         super(board, alliance, player, piecePosition, PieceType.ROOK);
     }
+    public Rook(Board board, Alliance alliance, Player player, int[] piecePosition, boolean firstMove) {
+        super(board, alliance, player, piecePosition, PieceType.ROOK);
+        this.firstMove = firstMove;
+    }
 
     @Override
     public List<Move> getAllAvailableMoves(){
@@ -24,19 +28,19 @@ public class Rook extends Piece{
 
         for(Move move : this.getVerticalMovesUp(GameUtils.GAME_BOARD_SIZE_HEIGHT)){
             if(canMove(move.getDestCoords()))
-            moves.add(move);
+                moves.add(move);
         }
         for(Move move : this.getVerticalMovesDown(GameUtils.GAME_BOARD_SIZE_HEIGHT)){
             if(canMove(move.getDestCoords()))
-            moves.add(move);
+                moves.add(move);
         }
         for(Move move : this.getHorizontalMovesLeft(GameUtils.GAME_BOARD_SIZE_WIDTH)){
             if(canMove(move.getDestCoords()))
-            moves.add(move);
+                moves.add(move);
         }
         for(Move move : this.getHorizontalMovesRight(GameUtils.GAME_BOARD_SIZE_WIDTH)){
             if(canMove(move.getDestCoords()))
-            moves.add(move);
+                moves.add(move);
         }
         return moves;
     }

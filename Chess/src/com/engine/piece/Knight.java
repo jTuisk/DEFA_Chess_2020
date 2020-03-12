@@ -14,6 +14,10 @@ public class Knight extends Piece {
     public Knight(Board board, Alliance alliance, Player player, int[] piecePosition) {
         super(board, alliance, player, piecePosition, PieceType.KNIGHT);
     }
+    public Knight(Board board, Alliance alliance, Player player, int[] piecePosition, boolean firstMove) {
+        super(board, alliance, player, piecePosition, PieceType.KNIGHT);
+        this.firstMove = firstMove;
+    }
 
     @Override
     public List<Move> getAllAvailableMoves() {

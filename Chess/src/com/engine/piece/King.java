@@ -1,7 +1,6 @@
 package com.engine.piece;
 
 import com.engine.Alliance;
-import com.engine.GameUtils;
 import com.engine.PieceType;
 import com.engine.board.Board;
 import com.engine.player.Player;
@@ -15,6 +14,10 @@ public class King extends Piece {
 
     public King(Board board, Alliance alliance, Player player, int[] piecePosition) {
         super(board, alliance, player, piecePosition, PieceType.KING);
+    }
+    public King(Board board, Alliance alliance, Player player, int[] piecePosition, boolean firstMove) {
+        super(board, alliance, player, piecePosition, PieceType.KING);
+        this.firstMove = firstMove;
     }
 
     @Override

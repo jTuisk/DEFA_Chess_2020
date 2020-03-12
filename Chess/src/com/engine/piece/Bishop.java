@@ -14,6 +14,10 @@ public class Bishop extends Piece{
     public Bishop(Board board, Alliance alliance, Player player, int[] piecePosition) {
         super(board, alliance, player, piecePosition, PieceType.BISHOP);
     }
+    public Bishop(Board board, Alliance alliance, Player player, int[] piecePosition, boolean firstMove) {
+        super(board, alliance, player, piecePosition, PieceType.BISHOP);
+        this.firstMove = firstMove;
+    }
 
     @Override
     public List<Move> getAllAvailableMoves(){

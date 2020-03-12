@@ -15,6 +15,11 @@ public class Queen extends Piece {
         super(board, alliance, player, piecePosition, PieceType.QUEEN);
     }
 
+    public Queen(Board board, Alliance alliance, Player player, int[] piecePosition, boolean firstMove) {
+        super(board, alliance, player, piecePosition, PieceType.QUEEN);
+        this.firstMove = firstMove;
+    }
+
     @Override
     public List<Move> getAllAvailableMoves(){
         ArrayList<Move> moves = new ArrayList<>();

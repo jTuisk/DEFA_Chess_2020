@@ -7,7 +7,6 @@ import com.engine.GameUtils;
 import com.engine.PieceType;
 import com.engine.board.Board;
 import com.engine.player.Player;
-import com.engine.ui.UserInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +17,10 @@ public class Pawn extends Piece {
         super(board, alliance, player, piecePosition, PieceType.PAWN);
     }
 
+    public Pawn(Board board,Alliance alliance, Player player, int[] piecePosition, boolean firstMove) {
+        super(board, alliance, player, piecePosition, PieceType.PAWN);
+        this.firstMove = firstMove;
+    }
     @Override
     protected List<Move> getHorizontalMovesRight(int maxTiles){
         ArrayList<Move> moves = new ArrayList<>();

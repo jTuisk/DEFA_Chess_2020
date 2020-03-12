@@ -6,6 +6,6 @@ public class Game {
 
     public static void main(String[] args){
         Board board = new Board(true);
-        System.out.println(board.toString());
+        System.out.println("Game is ready to play!");
     }
 }

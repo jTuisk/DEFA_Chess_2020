@@ -34,6 +34,10 @@ public abstract class Piece {
         return this.player;
     }
 
+    public boolean getFirstMove(){
+        return this.firstMove;
+    }
+
     public static boolean canMove(List<Move> moves, Move destinationMove){
         for(Move move : moves){
             if(move.equals(destinationMove))
@@ -282,7 +286,6 @@ public abstract class Piece {
 
         return moveAvailable;
     }
-
 
     public void finishMove(int[] destPos){
         if(this.board.getGameStatus() != GameStatus.PLAYER_TURN || this.board.getPlayerTurn() != this.alliance)

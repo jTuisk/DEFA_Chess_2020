@@ -3,16 +3,11 @@ package com.engine.ui;
 import com.engine.FileManager;
 import com.engine.GameUtils;
 import com.engine.board.Board;
-import com.engine.piece.Piece;
-import com.engine.player.Player;
 
 import javax.swing.*;
-import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class UserInterface extends JFrame {
 
@@ -81,7 +76,7 @@ public class UserInterface extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 System.out.println("Loading game!");
-                FileManager.loadGame(board, dataPanel, gameBoardPanel);
+                FileManager.loadGame(board);
                 JOptionPane.showMessageDialog(null, "Game loaded",  "Game loaded", JOptionPane.WARNING_MESSAGE);
             }
         });
