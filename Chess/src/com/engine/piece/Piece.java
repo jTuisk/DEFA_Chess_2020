@@ -261,7 +261,7 @@ public abstract class Piece {
         if(this.board.getFutureBoard() == null)
             return true;
 
-        boolean moveAvailable = true;
+        boolean moveAvailable;
 
         Board f_board = this.board.getFutureBoard();
         Piece f_currentPiece = f_board.getTile(this.piecePosition).getPiece();
@@ -348,5 +348,5 @@ public abstract class Piece {
         public String toString(){
             return piece+": "+ Arrays.toString(destPos);
         }
-    }
+        }
     }

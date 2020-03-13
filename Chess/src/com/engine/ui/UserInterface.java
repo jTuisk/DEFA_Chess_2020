@@ -77,7 +77,6 @@ public class UserInterface extends JFrame {
             public void actionPerformed(ActionEvent actionEvent) {
                 System.out.println("Loading game!");
                 FileManager.loadGame(board);
-                JOptionPane.showMessageDialog(null, "Game loaded",  "Game loaded", JOptionPane.WARNING_MESSAGE);
             }
         });
 

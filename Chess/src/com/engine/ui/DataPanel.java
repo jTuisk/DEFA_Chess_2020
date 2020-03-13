@@ -19,12 +19,14 @@ import java.util.ArrayList;
 public class DataPanel extends JPanel{
 
     private GameBoardPanel gameBoardPanel;
+    private PlayerTurnPanel playerTurnPanel;
     private Board board;
 
     public DataPanel(Board board, GameBoardPanel gameBoardPanel){
         super();
         this.gameBoardPanel = gameBoardPanel;
         this.board = board;
+        this.playerTurnPanel = new PlayerTurnPanel(this.board,50, 40 , 90, 40, 20,28);
         setupDataPanel();
     }
 
@@ -54,7 +56,7 @@ public class DataPanel extends JPanel{
         super.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, GameUtils.SELECTED_TILE_COLOR));
 
         super.setLayout(null);
-        super.add(playerTurnPanel());
+        super.add(this.playerTurnPanel);
         super.add(playerPanel(90, this.board.getPlayer1(), "PLAYER: WHITE"));
         super.add(playerPanel(310, this.board.getPlayer2(), "PLAYER: BLACK"));
     }

@@ -77,6 +77,7 @@ public class FileManager {
 
         GameStatus loadedGameStatus = null;
         Alliance loadedPlayerTurn = null;
+        int[] lastMovedPiecePosition = new int[2];
 
         board.getPlayer1().getPlayerPieces().clear();
         board.getPlayer1().getLostPieces().clear();
@@ -170,20 +171,35 @@ public class FileManager {
             return;
         }
 
+        //Last moved piece
+        try{
+            System.out.println();
+            lastMovedPiecePosition[0] = Integer.valueOf(""+loadedData[10][2].charAt(0));
+            lastMovedPiecePosition[1] = Integer.valueOf(""+loadedData[10][2].charAt(1));
+        }catch(Exception e){
+            lastMovedPiecePosition = null;
+            System.out.println("Loading game error! - Last moved piece");
+            System.out.println(e.getMessage());
+            return;
+        }
+
+
         board.getPlayer1().setLostPieces(loadedLostPiecesPlayer1);
         board.getPlayer2().setLostPieces(loadedLostPiecesPlayer2);
         f_board.getPlayer1().setLostPieces(loadedLostPiecesPlayer1);
         f_board.getPlayer2().setLostPieces(loadedLostPiecesPlayer2);
         board.recalculatePlayerPieces();
         f_board.recalculatePlayerPieces();
+        Piece lastMovedPiece = board.getTile(lastMovedPiecePosition).getPiece();
+        Piece f_lastMovedPiece = f_board.getTile(lastMovedPiecePosition).getPiece();
+        board.setLastMovedPiece(lastMovedPiece);
+        f_board.setLastMovedPiece(f_lastMovedPiece);
         board.setGameStatus(loadedGameStatus);
         board.setPlayerTurn(loadedPlayerTurn);
 
-        System.out.println(board.getPlayer1().getPlayerPieces().toString());
-        System.out.println(f_board.getPlayer1().getPlayerPieces().toString());
-        System.out.println(board.getPlayer2().getPlayerPieces().toString());
-        System.out.println(f_board.getPlayer2().getPlayerPieces().toString());
+        System.out.println(board.getLastMovedPiece());
         board.refreshUI();
+        JOptionPane.showMessageDialog(null, "Game loaded",  "Game loaded", JOptionPane.WARNING_MESSAGE);
     }
 
     public static void saveGame(Board board, Player p1, Player p2){
@@ -235,8 +251,10 @@ public class FileManager {
 
         //Player turn
         builder.append(board.getPlayerTurn().getAllianceChar()+";");
-        //GameStatus
+        //Game status
         builder.append(board.getGameStatus()+";");
+        //Last moved piece
+        builder.append(board.getLastMovedPiece().getPosition()[0]+""+board.getLastMovedPiece().getPosition()[1]+";");
 
         return builder.toString();
     }
