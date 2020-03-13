@@ -71,11 +71,14 @@
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
   <component name="RecentsManager">
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="com.engine" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Logmaster - Janek\Desktop\Janek\DEFA_Chess_2020" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Logmaster - Janek\Desktop\Janek\DEFA_Chess_2020" />
+    </key>
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.engine" />
     </key>
   </component>
   <component name="RunDashboard">
